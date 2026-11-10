@@ -7,6 +7,12 @@ let etapa = 0;
 let toqueX = null;
 
 document.body.classList.add(direto ? "direct" : "embedded");
+
+function ajustarEscala() {
+  document.documentElement.style.setProperty("--escala", Math.min(innerWidth / 1920, innerHeight / 1080));
+}
+addEventListener("resize", ajustarEscala);
+ajustarEscala();
 window.__timelines = window.__timelines || {};
 
 if (window.gsap) {
@@ -55,6 +61,43 @@ function atualizarEtapas(slide) {
   for (const linha of slide.querySelectorAll("[data-code-step]")) {
     linha.classList.toggle("code-active", linha.dataset.codeStep.split(" ").map(Number).includes(Math.max(1, etapa)));
   }
+  animarCopia(slide);
+}
+
+let copiaTimer = null;
+
+// Mostra o "volte D, copie N" do LZ77: o ponteiro "lê" fica D casas atrás do "escreve" e os dois andam juntos.
+function animarCopia(slide) {
+  clearTimeout(copiaTimer);
+  const grade = slide.querySelector("[data-copia]");
+  if (!grade) return;
+  const [distancia, tamanho, inicio] = grade.dataset.copia.split(",").map(Number);
+  const celulas = [...grade.querySelectorAll("span")];
+  const [ler, escrever] = grade.querySelectorAll(".ptr");
+  const ativo = etapa >= Number(grade.dataset.copiaPasso);
+  celulas.forEach((celula, i) => {
+    celula.classList.toggle("vazio", ativo && i >= inicio);
+    celula.classList.remove("copiada");
+  });
+  grade.classList.toggle("copiando", ativo);
+  if (!ativo) return;
+  const apontar = (ponteiro, celula) => { ponteiro.style.translate = `${celula.offsetLeft + celula.offsetWidth / 2}px 0`; };
+  const terminar = () => { celulas.slice(inicio).forEach((c) => { c.classList.remove("vazio"); c.classList.add("copiada"); }); grade.classList.remove("copiando"); };
+  if (reduzirMovimento) return terminar();
+  let passo = 0;
+  const andar = () => {
+    if (passo === tamanho) return grade.classList.remove("copiando");
+    const destino = inicio + passo;
+    apontar(ler, celulas[destino - distancia]);
+    apontar(escrever, celulas[destino]);
+    copiaTimer = setTimeout(() => {
+      celulas[destino].classList.remove("vazio");
+      celulas[destino].classList.add("copiada");
+      passo += 1;
+      copiaTimer = setTimeout(andar, 350);
+    }, 450);
+  };
+  andar();
 }
 
 function animarEntrada(slide) {

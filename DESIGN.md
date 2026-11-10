@@ -27,3 +27,8 @@ Apresentação 16:9 com hierarquia tipográfica forte, superfícies sem efeitos 
 - A linha ativa do código e o estado gráfico mudam juntos.
 - Linhas da árvore são desenhadas na direção da execução; bytes surgem em sequência.
 - A grade técnica de fundo é baixa em contraste e não compete com o conteúdo.
+
+## Canvas e animações didáticas
+
+- Acima de 900 px de largura, o slide é desenhado em 1920×1080 e escalado inteiro para caber na tela (unidades `cqw` relativas ao `#deck`); abaixo disso, layout fluido de celular.
+- Cópia do LZ77: ponteiros **lê** (amarelo) e **escreve** (verde) andam juntos sobre as casas; casas não guardadas no arquivo aparecem tracejadas.
