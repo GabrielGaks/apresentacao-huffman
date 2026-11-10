@@ -8,11 +8,11 @@ Tempo: 26 a 29 minutos (o professor pede de 20 a 30), mais perguntas. Em cada sl
 |---|---|---|---|
 | Pessoa 1 | 1 a 5 | O problema, onde é usado, a ideia e os quatro passos | 5 min |
 | Pessoa 2 | 6 a 9 | Huffman em ação: o código com BANANA | 6 min |
-| Pessoa 3 | 10 a 13 | O limite do Huffman, o LZ77 em ação e os dois juntos | 6 min |
-| Pessoa 4 | 14 a 17 | O programa e os resultados | 4 a 5 min |
-| Pessoa 5 | 18 a 20 | Demonstração ao vivo, conclusão e perguntas | 5 a 7 min |
+| Gabriel Aguiar | 10 a 13 | O limite do Huffman, o LZ77 em ação e os dois juntos | 6 min |
+| Pessoa 3 | 14 a 17 | O programa e os resultados | 4 a 5 min |
+| Pessoa 4 | 18 a 20 | Demonstração ao vivo, conclusão e perguntas | 5 a 7 min |
 
-As falas estão como Pessoa 1 a 5, na ordem em que cada um fala.
+Gabriel Aguiar aparece com o nome; os demais estão como Pessoa 1 a 4, na ordem em que falam.
 
 Atalhos: → / Espaço avança, ← volta, **F** tela cheia.
 
@@ -105,7 +105,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ---
 
-## Pessoa 3 (slides 10 a 13)
+## Gabriel Aguiar (slides 10 a 13)
 
 **Slide 10: O limite do Huffman** (avance 2 vezes)
 
@@ -149,7 +149,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ---
 
-## Pessoa 4 (slides 14 a 17)
+## Pessoa 3 (slides 14 a 17)
 
 **Slide 14: Arquitetura**
 
@@ -179,7 +179,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ---
 
-## Pessoa 5 (slides 18 a 20)
+## Pessoa 4 (slides 18 a 20)
 
 **Slide 18: Demonstração ao vivo**
 
