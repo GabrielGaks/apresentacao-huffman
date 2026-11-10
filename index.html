@@ -52,7 +52,7 @@
       "sceneId": "passos",
       "startTime": 32,
       "endTime": 40,
-      "notes": "Arthur Vieira. Avance quatro vezes, um passo por vez. Contar a frequência de cada byte. Colocar todos numa fila do menor para o maior. Juntar os dois menores num nó pai, devolver à fila e repetir até sobrar um só nó, a raiz. Percorrer a árvore: ir para a esquerda vale 0, para a direita vale 1. Agora vamos ver isso acontecendo no nosso código. Passe para Davi Conde.",
+      "notes": "Arthur Vieira. Avance quatro vezes, um passo por vez. Contar a frequência de cada byte. Colocar todos numa fila do menor para o maior. Juntar os dois menores num nó pai, devolver à fila e repetir até sobrar um só nó, a raiz. Percorrer a árvore: ir para a esquerda vale 0, para a direita vale 1. Agora vamos ver isso acontecendo no nosso código. Passe para Gabriel Aguiar.",
       "fragments": [
         33.5,
         35.0,
@@ -64,7 +64,7 @@
       "sceneId": "huffman-ideia",
       "startTime": 40,
       "endTime": 48,
-      "notes": "Davi Conde. Avance quatro vezes. Mostre os bytes de BANANA entrando no laço, o cursor percorrendo a palavra, os três contadores e o vetor final. A linha destacada é a linha executada em huffman.py. O programa conta bytes, não letras, por isso acentos e quebras de linha funcionam.",
+      "notes": "Gabriel Aguiar. Avance quatro vezes. Mostre os bytes de BANANA entrando no laço, o cursor percorrendo a palavra, os três contadores e o vetor final. A linha destacada é a linha executada em huffman.py. O programa conta bytes, não letras, por isso acentos e quebras de linha funcionam.",
       "fragments": [
         41.5,
         43.0,
@@ -76,7 +76,7 @@
       "sceneId": "huffman-arvore",
       "startTime": 48,
       "endTime": 56,
-      "notes": "Davi Conde. Avance quatro vezes. A fila começa em B1, N2, A3; B e N formam Σ3; A3 e Σ3 formam a raiz Σ6; a travessia atribui A=0, B=10 e N=11. Leia o fluxo final de 9 bits.",
+      "notes": "Gabriel Aguiar. Avance quatro vezes. A fila começa em B1, N2, A3; B e N formam Σ3; A3 e Σ3 formam a raiz Σ6; a travessia atribui A=0, B=10 e N=11. Leia o fluxo final de 9 bits.",
       "fragments": [
         49.5,
         51.0,
@@ -88,7 +88,7 @@
       "sceneId": "formato-huf",
       "startTime": 56,
       "endTime": 64,
-      "notes": "Davi Conde. Avance duas vezes. Os 9 bits são agrupados em bytes: 9B e 00, com 7 bits de preenchimento. Depois mostre o arquivo completo: assinatura HUF1, tamanho original, a árvore e a carga. A árvore precisa ir junto, senão ninguém consegue descompactar. Por isso BANANA fica com 24 bytes: em textos tão pequenos, o cabeçalho pesa mais que a economia.",
+      "notes": "Gabriel Aguiar. Avance duas vezes. Os 9 bits são agrupados em bytes: 9B e 00, com 7 bits de preenchimento. Depois mostre o arquivo completo: assinatura HUF1, tamanho original, a árvore e a carga. A árvore precisa ir junto, senão ninguém consegue descompactar. Por isso BANANA fica com 24 bytes: em textos tão pequenos, o cabeçalho pesa mais que a economia.",
       "fragments": [
         57.5,
         59.0
@@ -98,7 +98,7 @@
       "sceneId": "decodificar",
       "startTime": 64,
       "endTime": 72,
-      "notes": "Davi Conde. Avance quatro vezes. Para descompactar, o código lê a árvore do arquivo e percorre os bits: 0 desce para a esquerda, 1 para a direita. Ao chegar numa folha, escreve a letra e volta para a raiz. 10 vira B, 0 vira A, 11 vira N, e assim até BANANA. O tamanho original guardado no cabeçalho diz quando parar e os bits de preenchimento são ignorados. O programa também valida assinatura, árvore e tamanho antes de confiar no arquivo.",
+      "notes": "Gabriel Aguiar. Avance quatro vezes. Para descompactar, o código lê a árvore do arquivo e percorre os bits: 0 desce para a esquerda, 1 para a direita. Ao chegar numa folha, escreve a letra e volta para a raiz. 10 vira B, 0 vira A, 11 vira N, e assim até BANANA. O tamanho original guardado no cabeçalho diz quando parar e os bits de preenchimento são ignorados. O programa também valida assinatura, árvore e tamanho antes de confiar no arquivo. Passe para Davi Conde.",
       "fragments": [
         65.5,
         67.0,
@@ -110,13 +110,13 @@
       "sceneId": "lz77-ideia",
       "startTime": 72,
       "endTime": 80,
-      "notes": "Gabriel Aguiar. O Huffman não depende do LZ77: são duas técnicas diferentes e o projeto combina as duas, como o ZIP. LZ77 (Lempel e Ziv, 1977): se um trecho já apareceu, aponta para trás. ABCABCABC vira A, B, C e \"volte 3, copie 6\". Huffman aproveita letras frequentes; LZ77 aproveita sequências repetidas."
+      "notes": "Davi Conde. O Huffman não depende do LZ77: são duas técnicas diferentes e o projeto combina as duas, como o ZIP. LZ77 (Lempel e Ziv, 1977): se um trecho já apareceu, aponta para trás. ABCABCABC vira A, B, C e \"volte 3, copie 6\". Huffman aproveita letras frequentes; LZ77 aproveita sequências repetidas."
     },
     {
       "sceneId": "lz77-tokens",
       "startTime": 80,
       "endTime": 88,
-      "notes": "Gabriel Aguiar. Avance quatro vezes. Linha destacada = linha executando em lz77_compactar. Para A, B e C o rfind não acha nada antes: vão como literais. Em i = 3, rfind acha ABC na posição 0. O while compara letra por letra e estende até 6 (máximo 18). Como 6 ≥ 3, vira referência: distância 3, tamanho 6, e i pula 6 posições.",
+      "notes": "Davi Conde. Avance quatro vezes. Linha destacada = linha executando em lz77_compactar. Para A, B e C o rfind não acha nada antes: vão como literais. Em i = 3, rfind acha ABC na posição 0. O while compara letra por letra e estende até 6 (máximo 18). Como 6 ≥ 3, vira referência: distância 3, tamanho 6, e i pula 6 posições.",
       "fragments": [
         81.5,
         83.0,
@@ -128,7 +128,7 @@
       "sceneId": "lz77-bytes",
       "startTime": 88,
       "endTime": 96,
-      "notes": "Gabriel Aguiar. Avance quatro vezes. A cada 8 peças o código grava um byte de controle: bit 0 = literal, bit 1 = referência. Aqui 10 = 0001 0000, só a quarta é referência. Literais saem direto. A referência ocupa 2 bytes, 00 33: 12 bits de distância (até 4095) e 4 bits de tamanho menos 3 (3 a 18). Na volta, o for copia saida[-distancia] seis vezes: a cópia lê o que acabou de escrever.",
+      "notes": "Davi Conde. Avance quatro vezes. A cada 8 peças o código grava um byte de controle: bit 0 = literal, bit 1 = referência. Aqui 10 = 0001 0000, só a quarta é referência. Literais saem direto. A referência ocupa 2 bytes, 00 33: 12 bits de distância (até 4095) e 4 bits de tamanho menos 3 (3 a 18). Na volta, o for copia saida[-distancia] seis vezes: a cópia lê o que acabou de escrever.",
       "fragments": [
         89.5,
         91.0,
@@ -140,7 +140,7 @@
       "sceneId": "combinacao",
       "startTime": 96,
       "endTime": 104,
-      "notes": "Gabriel Aguiar. A função compactar_com_lz77 tem três linhas: roda o LZ77, entrega os tokens para o mesmo compactar do Huffman e grava a assinatura HUF2 com o tamanho original. Na volta, ordem contrária. A árvore desse modo é dos bytes dos tokens. Nem sempre vence: texto curto pode crescer. Passe para Mateus Pastorre."
+      "notes": "Davi Conde. A função compactar_com_lz77 tem três linhas: roda o LZ77, entrega os tokens para o mesmo compactar do Huffman e grava a assinatura HUF2 com o tamanho original. Na volta, ordem contrária. A árvore desse modo é dos bytes dos tokens. Nem sempre vence: texto curto pode crescer. Passe para Mateus Pastorre."
     },
     {
       "sceneId": "arquitetura",
@@ -158,7 +158,7 @@
       "sceneId": "interacao-svg",
       "startTime": 120,
       "endTime": 128,
-      "notes": "Mateus Pastorre. Explique arrastar, zoom, ajustar e exportar. SVG é vetorial e mantém nitidez. Passe para Mateus Pastorre. Passe para Thiago Gama."
+      "notes": "Mateus Pastorre. Explique arrastar, zoom, ajustar e exportar. SVG é vetorial e mantém nitidez. Passe para Thiago Gama."
     },
     {
       "sceneId": "resultados",
@@ -214,14 +214,14 @@
       <div class="clip slide-inner" data-start="32" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Resumo do algoritmo</p><h2>Quatro passos, do texto aos bits.</h2></header><ol class="demo-steps four"><li data-step="1"><b>Contar</b><span>quantas vezes cada byte aparece</span></li><li data-step="2"><b>Enfileirar</b><span>do menos ao mais frequente</span></li><li data-step="3"><b>Combinar</b><span>une os dois menores até sobrar a raiz</span></li><li data-step="4"><b>Codificar</b><span>esquerda vale 0, direita vale 1</span></li></ol><p class="bottom-claim" data-anim>A seguir, o mesmo processo executando com <strong>BANANA</strong>.</p></div>
     </section>
 
-    <section class="slide" data-scene-id="huffman-ideia" data-start="40" data-duration="8" data-width="1920" data-height="1080" data-person="Davi Conde" data-title="BANANA vira frequências">
+    <section class="slide" data-scene-id="huffman-ideia" data-start="40" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="BANANA vira frequências">
       <div class="clip slide-inner" data-start="40" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Execução 01 · contar</p><h2>Antes da árvore, o código conta seis bytes.</h2></header><div class="execution-lab"><pre class="code-panel execution-code" data-anim><code><span data-code-step="1">frequencias = [0] * 256</span>
 <span data-code-step="2">for byte in dados:</span>
 <span data-code-step="3">    frequencias[byte] += 1</span>
 <span data-code-step="4">return frequencias</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>huffman.py:41</code><span>entrada UTF-8</span></div><div class="byte-word" data-step="1"><span data-pop data-hex="42">B</span><span data-pop data-hex="41">A</span><span data-pop data-hex="4E">N</span><span data-pop data-hex="41">A</span><span data-pop data-hex="4E">N</span><span data-pop data-hex="41">A</span></div><div class="scan-pass" data-step="2"><span class="scan-cursor"></span><code>42 → 41 → 4E → 41 → 4E → 41</code></div><div class="frequency-bins" data-step="3"><article data-pop><small>byte 41</small><b>A</b><strong>3</strong><i style="--count:3"></i></article><article data-pop><small>byte 42</small><b>B</b><strong>1</strong><i style="--count:1"></i></article><article data-pop><small>byte 4E</small><b>N</b><strong>2</strong><i style="--count:2"></i></article></div><p class="state-output" data-step="4"><span>saída</span><code>{ A: 3, B: 1, N: 2 }</code></p></div></div></div>
     </section>
 
-    <section class="slide" data-scene-id="huffman-arvore" data-start="48" data-duration="8" data-width="1920" data-height="1080" data-person="Davi Conde" data-title="A árvore completa de BANANA">
+    <section class="slide" data-scene-id="huffman-arvore" data-start="48" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="A árvore completa de BANANA">
       <div class="clip slide-inner" data-start="48" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Execução 02 · combinar</p><h2>Unir os menores produz o caminho de cada byte.</h2></header><div class="code-visual"><pre class="code-panel tree-code" data-anim><code><span data-code-step="1">nos.sort(key=lambda no: (no.frequencia, no.ordem))
 esquerdo = nos.pop(0)
 direito = nos.pop(0)</span>
@@ -233,11 +233,11 @@ visitar(no.direito, caminho + "1")</span>
 <span data-code-step="4">codigos = { A: "0", B: "10", N: "11" }</span></code></pre><div class="tree-stage" data-anim><div class="queue-history"><span data-step="1"><small>fila</small>B1 · N2 · A3</span><span data-step="2"><small>nova fila</small>A3 · Σ3</span><span data-step="3"><small>raiz</small>Σ6</span></div><svg class="banana-tree" viewBox="0 0 760 430" role="img" aria-label="Árvore de Huffman completa para BANANA"><g class="tree-layer" data-step="1"><circle cx="225" cy="335" r="40"/><text x="225" y="343">A:3</text><circle cx="515" cy="355" r="40"/><text x="515" y="363">B:1</text><circle cx="680" cy="355" r="40"/><text x="680" y="363">N:2</text></g><g class="tree-layer" data-step="2"><line pathLength="1" x1="600" y1="205" x2="515" y2="313"/><line pathLength="1" x1="600" y1="205" x2="680" y2="313"/><text class="edge" x="545" y="268">0</text><text class="edge" x="654" y="268">1</text><circle class="node-internal" cx="600" cy="180" r="42"/><text x="600" y="188">Σ3</text></g><g class="tree-layer" data-step="3"><line pathLength="1" x1="405" y1="78" x2="225" y2="293"/><line pathLength="1" x1="405" y1="78" x2="600" y2="138"/><text class="edge" x="292" y="183">0</text><text class="edge" x="510" y="104">1</text><circle class="node-root" cx="405" cy="68" r="45"/><text x="405" y="76">Σ6</text></g></svg><p class="encoded" data-step="4"><b>BANANA</b><code>10 0 11 0 11 0</code><strong>9 bits úteis</strong></p></div></div></div>
     </section>
 
-    <section class="slide" data-scene-id="formato-huf" data-start="56" data-duration="8" data-width="1920" data-height="1080" data-person="Davi Conde" data-title="O arquivo compactado">
+    <section class="slide" data-scene-id="formato-huf" data-start="56" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="O arquivo compactado">
       <div class="clip slide-inner" data-start="56" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Execução 03 · empacotar</p><h2>Os 9 bits de BANANA viram um arquivo de 24 bytes.</h2></header><div class="payload-lab" data-step="1"><div class="useful-stream"><span>códigos</span><code>10│0│11│0│11│0</code><i>→</i><code class="joined">100110110</code></div><div class="packed-bytes"><article data-pop><small>byte 1</small><b>10011011</b><strong>9B</strong></article><article data-pop><small>byte 2</small><b>0<span>0000000</span></b><strong>00</strong></article><p><em>9 úteis</em><em>7 de preenchimento</em></p></div></div><div class="banana-file" data-step="2"><div class="file-segment signature" data-pop><b>HUF1</b><span>4 B</span></div><div class="file-segment" data-pop><b>tamanho 6</b><span>8 B</span></div><div class="file-segment" data-pop><b>tam. árvore</b><span>2 B</span></div><div class="file-segment tree-data" data-pop><b>árvore</b><span>8 B</span></div><div class="file-segment payload" data-pop><b>9B 00</b><span>2 B</span></div><strong class="file-total">24 B</strong></div><p class="file-proof" data-step="2"><code>48 55 46 31 00 00 00 00 00 00 00 06 00 08 … 9B 00</code><span>arquivo compacto real em hexadecimal</span></p></div>
     </section>
 
-    <section class="slide" data-scene-id="decodificar" data-start="64" data-duration="8" data-width="1920" data-height="1080" data-person="Davi Conde" data-title="Decodificar os bits">
+    <section class="slide" data-scene-id="decodificar" data-start="64" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="Decodificar os bits">
       <div class="clip slide-inner" data-start="64" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Execução 04 · decodificar</p><h2>Cada bit é uma curva. Cada folha, uma letra.</h2></header><div class="execution-lab"><pre class="code-panel execution-code tree-code" data-anim><code>atual = raiz
 for bit in bits:
 <span data-code-step="1">    atual = (atual.direito if bit
@@ -245,11 +245,11 @@ for bit in bits:
         saida.append(atual.simbolo)</span><span data-code-step="3">        atual = raiz</span><span data-code-step="4">return bytes(saida)</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>huffman.py:229</code><span>carga 9B 00</span></div><div class="decode-bits"><span>10</span><span>0</span><span>11</span><span>0</span><span>11</span><span>0</span><span class="pad">0000000</span></div><div class="decode-out"><article data-step="1" data-pop><small>1 → 0</small><b>B</b></article><article data-step="2" data-pop><small>0</small><b>A</b></article><article data-step="3" data-pop><small>1 → 1</small><b>N</b></article><article data-step="4" data-pop><small>0</small><b>A</b></article><article data-step="4" data-pop><small>1 → 1</small><b>N</b></article><article data-step="4" data-pop><small>0</small><b>A</b></article></div><p class="state-output" data-step="4"><span>saída</span><code>BANANA ✓ 6 bytes, 7 bits de sobra ignorados</code></p></div></div></div>
     </section>
 
-    <section class="slide" data-scene-id="lz77-ideia" data-start="72" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="A ideia do LZ77">
+    <section class="slide" data-scene-id="lz77-ideia" data-start="72" data-duration="8" data-width="1920" data-height="1080" data-person="Davi Conde" data-title="A ideia do LZ77">
       <div class="clip slide-inner" data-start="72" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">LZ77</p><h2>Repetiu? Aponte para trás.</h2></header><div class="repeat-demo" data-anim><div class="sequence"><span>A</span><span>B</span><span>C</span><span class="repeat">A</span><span class="repeat">B</span><span class="repeat">C</span><span class="repeat">A</span><span class="repeat">B</span><span class="repeat">C</span></div><div class="reference-line"><b>distância 3</b><i></i><b>comprimento 6</b></div></div><div class="contrast-pair" data-anim><p><strong>Huffman</strong><span>frequência de bytes</span></p><p><strong>LZ77</strong><span>sequências repetidas</span></p></div></div>
     </section>
 
-    <section class="slide" data-scene-id="lz77-tokens" data-start="80" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 executando">
+    <section class="slide" data-scene-id="lz77-tokens" data-start="80" data-duration="8" data-width="1920" data-height="1080" data-person="Davi Conde" data-title="LZ77 executando">
       <div class="clip slide-inner" data-start="80" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Execução 05 · LZ77</p><h2>Achou o trecho antes? Vira referência.</h2></header><div class="execution-lab"><pre class="code-panel execution-code tree-code" data-anim><code>trecho = dados[i:i + 3]
 <span data-code-step="2">candidato = dados.rfind(trecho, inicio, i)</span><span data-code-step="3">while (tamanho &lt; 18 and
        dados[candidato + tamanho]
@@ -261,7 +261,7 @@ for bit in bits:
     i += 1</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>lz77_compactar</code><span>entrada ABCABCABC</span></div><div class="lz-grid"><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><i class="lz-bar" data-step="1" style="grid-column: 1 / 4">3 literais</i><i class="lz-bar ref" data-step="3" style="grid-column: 4 / 10">6 letras iguais às de 3 posições antes</i></div><p class="lz-note" data-step="2"><code>i = 3</code> rfind("ABC") encontra o trecho na posição <b>0</b></p><div class="lz-tokens"><b data-step="1" data-pop>A</b><b data-step="1" data-pop>B</b><b data-step="1" data-pop>C</b><b class="ref" data-step="4" data-pop>volte 3 · copie 6</b></div><p class="state-output" data-step="4"><span>tokens</span><code>9 letras → 3 literais + 1 referência</code></p></div></div></div>
     </section>
 
-    <section class="slide" data-scene-id="lz77-bytes" data-start="88" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 de volta">
+    <section class="slide" data-scene-id="lz77-bytes" data-start="88" data-duration="8" data-width="1920" data-height="1080" data-person="Davi Conde" data-title="LZ77 de volta">
       <div class="clip slide-inner" data-start="88" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Execução 06 · LZ77 de volta</p><h2>Um byte de controle diz o que é cada peça.</h2></header><div class="execution-lab"><pre class="code-panel execution-code tree-code" data-anim><code><span data-code-step="1">flags = tokens[i]</span><span data-code-step="3">if flags &amp; (1 &lt;&lt; (7 - bit)):
     distancia = ((tokens[i] &lt;&lt; 4)
                  | (tokens[i + 1] &gt;&gt; 4))
@@ -270,7 +270,7 @@ for bit in bits:
 <span data-code-step="2">    saida.append(tokens[i])</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>lz77_descompactar</code><span>6 bytes</span></div><div class="lz-bytes"><p class="ctrl"><b>10</b><small>controle</small></p><p><b>41</b><small>A</small></p><p><b>42</b><small>B</small></p><p><b>43</b><small>C</small></p><p class="ref"><b>00 33</b><small>referência</small></p></div><p class="lz-note" data-step="1"><code>10</code> = 0001 0000: só a <b>4ª peça</b> é referência</p><p class="lz-note" data-step="3"><code>00 33</code> → distância <b>3</b>, tamanho 3 + 3 = <b>6</b></p><div class="lz-grid out"><span data-step="2" data-pop>A</span><span data-step="2" data-pop>B</span><span data-step="2" data-pop>C</span><span data-step="4" data-pop>A</span><span data-step="4" data-pop>B</span><span data-step="4" data-pop>C</span><span data-step="4" data-pop>A</span><span data-step="4" data-pop>B</span><span data-step="4" data-pop>C</span></div><p class="state-output" data-step="4"><span>saída</span><code>ABCABCABC ✓ 6 bytes viraram 9</code></p></div></div></div>
     </section>
 
-    <section class="slide" data-scene-id="combinacao" data-start="96" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 mais Huffman">
+    <section class="slide" data-scene-id="combinacao" data-start="96" data-duration="8" data-width="1920" data-height="1080" data-person="Davi Conde" data-title="LZ77 mais Huffman">
       <div class="clip slide-inner" data-start="96" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Duas técnicas em sequência</p><h2>Primeiro repetição. Depois frequência.</h2></header><div class="pipeline compact-pipe" data-anim><div><b>Texto</b><span>bytes originais</span></div><i>→</i><div><b>LZ77</b><span>tokens</span></div><i>→</i><div><b>Huffman</b><span>bits</span></div><i>→</i><div class="accent-box"><b>.huf</b><span>HUF2</span></div></div><pre class="code-panel combo-code" data-anim><code>def compactar_com_lz77(dados):
     tokens, literais, referencias = lz77_compactar(dados)
     huf_interno, raiz, frequencias, cabecalho = compactar(tokens)

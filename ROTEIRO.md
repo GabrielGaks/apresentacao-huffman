@@ -7,8 +7,8 @@ Tempo: 26 a 29 minutos (o professor pede de 20 a 30), mais perguntas. Em cada sl
 | Quem | Slides | Parte | Tempo |
 |---|---|---|---|
 | Arthur Vieira | 1 a 5 | O problema, onde é usado, a ideia e o resumo do algoritmo | 5 min |
-| Davi Conde | 6 a 9 | Simulação completa com BANANA | 6 min |
-| Gabriel Aguiar | 10 a 13 | O que é LZ77, o código dele executando e a combinação com Huffman | 6 min |
+| Gabriel Aguiar | 6 a 9 | Simulação completa com BANANA | 6 min |
+| Davi Conde | 10 a 13 | O que é LZ77, o código dele executando e a combinação com Huffman | 6 min |
 | Mateus Pastorre | 14 a 16 | Nosso programa e a árvore em SVG | 3 min |
 | Thiago Gama | 17 a 20 | Resultados, demonstração, conclusão e perguntas | 6 a 8 min |
 
@@ -26,7 +26,7 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as not
 
 **Slide 1: Huffman por dentro**
 
-> Boa noite. Somos Arthur Prates, Arthur Vieira, Davi Conde, Gabriel Aguiar, Mateus Pastorre e Thiago Gama. A pergunta do nosso trabalho é: como guardar a mesma informação usando menos espaço e, depois, recuperar tudo sem perder nada? Vamos mostrar o problema, a ideia do Huffman, o algoritmo funcionando passo a passo e o nosso programa ao vivo.
+> Boa noite. Somos Arthur Prates, Arthur Vieira, Gabriel Aguiar, Davi Conde, Mateus Pastorre e Thiago Gama. A pergunta do nosso trabalho é: como guardar a mesma informação usando menos espaço e, depois, recuperar tudo sem perder nada? Vamos mostrar o problema, a ideia do Huffman, o algoritmo funcionando passo a passo e o nosso programa ao vivo.
 
 **Slide 2: O problema** (avance 2 vezes)
 
@@ -42,7 +42,7 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as not
 
 **Slide 4: A ideia em uma frase** (avance 2 vezes)
 
-> David Huffman criou o método em 1952, ainda aluno no MIT, num trabalho da disciplina de Robert Fano. A ideia lembra o código Morse: a letra mais usada ganha o sinal mais curto.
+> Gabrield Huffman criou o método em 1952, ainda aluno no MIT, num trabalho da disciplina de Robert Fano. A ideia lembra o código Morse: a letra mais usada ganha o sinal mais curto.
 
 > Com tamanho fixo, BANANA gasta 48 bits. Dando 0 para o A, 10 para o B e 11 para o N, cai para 9 bits.
 
@@ -52,11 +52,11 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as not
 
 > Como o algoritmo chega nesses códigos? Em quatro passos. Primeiro, conta quantas vezes cada byte aparece. Segundo, coloca todos numa fila, do menos ao mais frequente. Terceiro, junta os dois menores num nó pai, devolve à fila e repete até sobrar um só nó, a raiz. Esse é o ponto que liga o trabalho à disciplina: o resultado é uma árvore binária. Quarto, percorre a árvore: esquerda vale 0, direita vale 1.
 
-> Passagem: "O Davi vai mostrar isso executando no nosso código, com BANANA."
+> Passagem: "O Gabriel vai mostrar isso executando no nosso código, com BANANA."
 
 ---
 
-## Davi Conde (slides 6 a 9)
+## Gabriel Aguiar (slides 6 a 9)
 
 **Slide 6: Contar** (avance 4 vezes)
 
@@ -82,11 +82,11 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as not
 
 > O tamanho guardado no cabeçalho diz quando parar, e os bits de preenchimento são ignorados. Antes de confiar no arquivo, o programa valida assinatura, árvore e tamanho.
 
-> Passagem: "O Huffman aproveita a frequência. O Gabriel vai mostrar uma técnica que aproveita repetições."
+> Passagem: "O Huffman aproveita a frequência. O Davi vai mostrar uma técnica que aproveita repetições."
 
 ---
 
-## Gabriel Aguiar (slides 10 a 13)
+## Davi Conde (slides 10 a 13)
 
 **Slide 10: Repetiu? Aponte para trás**
 
@@ -120,7 +120,7 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as not
 
 **Slide 13: Primeiro repetição, depois frequência**
 
-> E como aplicamos as duas juntas? A função `compactar_com_lz77` tem três linhas. Primeiro roda o LZ77. Depois entrega os tokens para o mesmo `compactar` do Huffman que o Davi mostrou, porque os tokens também são bytes, e alguns aparecem mais que outros. Por fim, grava a assinatura HUF2 com o tamanho original. Na volta, a ordem se inverte: primeiro Huffman, depois LZ77.
+> E como aplicamos as duas juntas? A função `compactar_com_lz77` tem três linhas. Primeiro roda o LZ77. Depois entrega os tokens para o mesmo `compactar` do Huffman que o Gabriel mostrou, porque os tokens também são bytes, e alguns aparecem mais que outros. Por fim, grava a assinatura HUF2 com o tamanho original. Na volta, a ordem se inverte: primeiro Huffman, depois LZ77.
 
 > Por isso, nesse modo, a árvore que o programa mostra é dos bytes dos tokens, não das letras. E combinar nem sempre ganha: em texto curto, as marcações extras podem até aumentar o arquivo.
 
@@ -152,7 +152,7 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as not
 
 > A taxa de compactação é: tamanho original menos compactado, dividido pelo original, vezes cem. Positivo é economia.
 
-> BANANA tem 6 bytes e o arquivo final, 24: menos 300%. Cresceu por causa do cabeçalho, como o Davi mostrou.
+> BANANA tem 6 bytes e o arquivo final, 24: menos 300%. Cresceu por causa do cabeçalho, como o Gabriel mostrou.
 
 > Em ABRACADABRA repetido 200 vezes, 2.400 bytes viram 731 com Huffman e 133 com LZ77 mais Huffman: 94,46% de economia.
 
