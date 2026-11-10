@@ -151,15 +151,17 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 **Slide 14: Arquitetura**
 
-> Tudo o que vimos até aqui roda dentro do nosso programa, que tem três partes. A interface, em HTML, CSS e JavaScript, escolhe o arquivo e mostra os resultados. O app.py é o servidor local, que valida e responde às requisições. O huffman.py tem o Huffman e o LZ77, implementados por nós, sem biblioteca pronta de compactação.
+> Tudo o que vimos até aqui, a BANANA e o ABCABCABC, roda dentro do nosso programa. Ele tem três partes. A interface, feita em HTML, CSS e JavaScript, é onde o usuário escolhe o TXT e vê os resultados. O app.py é o servidor local: recebe o arquivo, valida e chama os algoritmos. E o huffman.py é o coração: tem o Huffman e o LZ77 que acabamos de ver, escritos por nós, sem biblioteca pronta de compactação.
 
 **Slide 15: Python monta, JSON leva, SVG desenha**
 
-> E a árvore que vimos sendo montada com a BANANA aparece na tela assim: ela nasce como objetos `No` no Python. A função `arvore_para_dicionario` é recursiva: se o nó é folha, devolve símbolo e frequência; se não, chama a si mesma para o filho esquerdo e para o direito. O resultado vira JSON, o servidor envia, e o JavaScript desenha em SVG. No desenho, esquerda continua sendo 0 e direita, 1: é a mesma árvore que o algoritmo usou.
+> E a árvore que o Gabriel montou com a BANANA aparece na tela assim. Ela nasce como objetos `No` no Python, mas o navegador não entende objetos Python. Por isso a função `arvore_para_dicionario` converte a árvore de forma recursiva: se o nó é folha, devolve o símbolo e a frequência; se não, chama a si mesma para o filho esquerdo e para o direito. É a mesma lógica da árvore: cada nó resolve os seus dois filhos.
+
+> O resultado vira JSON, o servidor envia, e o JavaScript desenha em SVG. A esquerda continua sendo 0 e a direita, 1: na tela, o A fica à esquerda com código 0, e B e N embaixo do nó de peso 3, exatamente como na BANANA.
 
 **Slide 16: Árvore explorável**
 
-> Como uma árvore de um texto grande tem muitos nós, dá para arrastar, dar zoom sem perder nitidez, ajustar o enquadramento e exportar a árvore inteira em SVG.
+> Na BANANA a árvore tem 5 nós, mas um texto de verdade gera centenas. Por isso ela é explorável: dá para arrastar, dar zoom sem perder nitidez, porque SVG é vetorial, reenquadrar com o Ajustar e exportar a árvore inteira. O programa também mostra o passo a passo da construção, com a mesma fila que vimos na BANANA.
 
 > Passagem: "Falta a pergunta mais importante: quanto tudo isso economiza de verdade?"
 
