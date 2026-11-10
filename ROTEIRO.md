@@ -6,11 +6,13 @@ Tempo: 26 a 29 minutos (o professor pede de 20 a 30), mais perguntas. Em cada sl
 
 | Quem | Slides | Parte | Tempo |
 |---|---|---|---|
-| Arthur Vieira | 1 a 5 | O problema, onde é usado, a ideia e o resumo do algoritmo | 5 min |
+| Pessoa 1 | 1 a 5 | O problema, onde é usado, a ideia e o resumo do algoritmo | 5 min |
 | Gabriel Aguiar | 6 a 9 | Simulação completa com BANANA | 6 min |
-| Davi Conde | 10 a 13 | O que é LZ77, o código dele executando e a combinação com Huffman | 6 min |
-| Mateus Pastorre | 14 a 16 | Nosso programa e a árvore em SVG | 3 min |
-| Thiago Gama | 17 a 20 | Resultados, demonstração, conclusão e perguntas | 6 a 8 min |
+| Pessoa 2 | 10 a 13 | O que é LZ77, o código dele executando e a combinação com Huffman | 6 min |
+| Pessoa 3 | 14 a 16 | Nosso programa e a árvore em SVG | 3 min |
+| Pessoa 4 | 17 a 20 | Resultados, demonstração, conclusão e perguntas | 6 a 8 min |
+
+Gabriel Aguiar mantém o nome; os demais aparecem como Pessoa 1 a 4, na ordem em que falam.
 
 Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as notas de fala.
 
@@ -22,11 +24,11 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as not
 
 ---
 
-## Arthur Vieira (slides 1 a 5)
+## Pessoa 1 (slides 1 a 5)
 
 **Slide 1: Huffman por dentro**
 
-> Boa noite. Somos Arthur Prates, Arthur Vieira, Gabriel Aguiar, Davi Conde, Mateus Pastorre e Thiago Gama. A pergunta do nosso trabalho é: como guardar a mesma informação usando menos espaço e, depois, recuperar tudo sem perder nada? Vamos mostrar o problema, a ideia do Huffman, o algoritmo funcionando passo a passo e o nosso programa ao vivo.
+> Boa noite. Somos o grupo (diga os nomes dos integrantes). A pergunta do nosso trabalho é: como guardar a mesma informação usando menos espaço e, depois, recuperar tudo sem perder nada? Vamos mostrar o problema, a ideia do Huffman, o algoritmo funcionando passo a passo e o nosso programa ao vivo.
 
 **Slide 2: O problema** (avance 2 vezes)
 
@@ -82,11 +84,11 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as not
 
 > O tamanho guardado no cabeçalho diz quando parar, e os bits de preenchimento são ignorados. Antes de confiar no arquivo, o programa valida assinatura, árvore e tamanho.
 
-> Passagem: "O Huffman aproveita a frequência. O Davi vai mostrar uma técnica que aproveita repetições."
+> Passagem: "O Huffman aproveita a frequência. A Pessoa 2 vai mostrar uma técnica que aproveita repetições."
 
 ---
 
-## Davi Conde (slides 10 a 13)
+## Pessoa 2 (slides 10 a 13)
 
 **Slide 10: Repetiu? Aponte para trás**
 
@@ -124,11 +126,11 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as not
 
 > Por isso, nesse modo, a árvore que o programa mostra é dos bytes dos tokens, não das letras. E combinar nem sempre ganha: em texto curto, as marcações extras podem até aumentar o arquivo.
 
-> Passagem: "O Mateus vai mostrar como isso virou um programa."
+> Passagem: "A Pessoa 3 vai mostrar como isso virou um programa."
 
 ---
 
-## Mateus Pastorre (slides 14 a 16)
+## Pessoa 3 (slides 14 a 16)
 
 **Slide 14: Arquitetura**
 
@@ -142,11 +144,11 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as not
 
 > Como uma árvore de um texto grande tem muitos nós, dá para arrastar, dar zoom sem perder nitidez, ajustar o enquadramento e exportar a árvore inteira em SVG.
 
-> Passagem: "O Thiago vai mostrar os números e o programa funcionando."
+> Passagem: "A Pessoa 4 vai mostrar os números e o programa funcionando."
 
 ---
 
-## Thiago Gama (slides 17 a 20)
+## Pessoa 4 (slides 17 a 20)
 
 **Slide 17: Resultados reais** (avance 2 vezes)
 
