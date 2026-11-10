@@ -114,7 +114,8 @@
         81.5,
         83.0,
         84.5,
-        86.0
+        86.0,
+        87.5
       ]
     },
     {
@@ -234,15 +235,15 @@ for bit in bits:
     </section>
 
     <section class="slide" data-scene-id="lz77-tokens" data-start="80" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 executando">
-      <div class="clip slide-inner" data-start="80" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">LZ77 em ação · compactar</p><h2>Achou o trecho antes? Vira referência.</h2></header><div class="execution-lab"><pre class="code-panel execution-code tree-code" data-anim><code>trecho = dados[i:i + 3]
-<span data-code-step="2">candidato = dados.rfind(trecho, inicio, i)</span><span data-code-step="3">while (tamanho &lt; 18 and
+      <div class="clip slide-inner" data-start="80" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">LZ77 em ação · compactar</p><h2>Achou o trecho antes? Vira referência.</h2></header><div class="execution-lab"><pre class="code-panel execution-code tree-code" data-anim><code><span data-code-step="1 3">trecho = dados[i:i + 3]
+candidato = dados.rfind(trecho, inicio, i)</span><span data-code-step="4">while (tamanho &lt; 18 and
        dados[candidato + tamanho]
        == dados[i + tamanho]):
     tamanho += 1</span>if melhor_tamanho &gt;= 3:
-<span data-code-step="4">    distancia = i - melhor_pos
+<span data-code-step="5">    distancia = i - melhor_pos
     i += melhor_tamanho</span>else:
-<span data-code-step="1">    saida.append(dados[i])
-    i += 1</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>lz77_compactar</code><span>entrada ABCABCABC</span></div><div class="lz-grid"><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><i class="lz-bar" data-step="1" style="grid-column: 1 / 4">3 literais</i><i class="lz-bar ref" data-step="3" style="grid-column: 4 / 10">6 letras iguais às de 3 posições antes</i></div><p class="lz-note" data-step="2"><code>i = 3</code> rfind("ABC") encontra o trecho na posição <b>0</b></p><div class="lz-tokens"><b data-step="1" data-pop>A</b><b data-step="1" data-pop>B</b><b data-step="1" data-pop>C</b><b class="ref" data-step="4" data-pop>volte 3 · copie 6</b></div><p class="state-output" data-step="4"><span>tokens</span><code>9 letras → 3 literais + 1 referência</code></p></div></div></div>
+<span data-code-step="2">    saida.append(dados[i])
+    i += 1</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>lz77_compactar</code><span>entrada ABCABCABC</span></div><div class="lz-grid"><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><i class="lz-bar" data-step="2" style="grid-column: 1 / 4">3 literais</i><i class="lz-bar ref" data-step="4" style="grid-column: 4 / 10">6 letras iguais às de 3 posições antes</i></div><p class="lz-note" data-step="1"><code>i = 0</code> rfind("ABC") procura antes da posição 0 e não acha nada: <b>−1</b></p><p class="lz-note" data-step="3"><code>i = 3</code> rfind("ABC") encontra o trecho na posição <b>0</b></p><div class="lz-tokens"><b data-step="2" data-pop>A</b><b data-step="2" data-pop>B</b><b data-step="2" data-pop>C</b><b class="ref" data-step="5" data-pop>volte 3 · copie 6</b></div><p class="state-output" data-step="5"><span>tokens</span><code>9 letras → 3 literais + 1 referência</code></p></div></div></div>
     </section>
 
     <section class="slide" data-scene-id="lz77-bytes" data-start="88" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 de volta">

@@ -126,15 +126,17 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > Ou seja: Huffman explora frequência; LZ77 explora repetição. Vamos ver o LZ77 rodando no nosso código.
 
-**Slide 11: LZ77 executando** (avance 4 vezes; a linha destacada é a que está rodando em `lz77_compactar`)
+**Slide 11: LZ77 executando** (avance 5 vezes; a linha destacada é a que está rodando em `lz77_compactar`)
 
-> 1. O laço anda pelo texto com um índice i. Em cada posição, ele pega os próximos 3 bytes e procura esse trecho antes, com `rfind`. Para A, B e C não existe nada antes, então cai no else: `saida.append(dados[i])` grava o byte como está, um literal, e i anda uma casa.
+> 1. O laço anda pelo texto com um índice i. Em cada posição, pega os próximos 3 bytes e procura esse trecho antes, com `rfind`. Em i igual a 0 não existe nada antes: o `rfind` devolve −1, ou seja, não achou.
 
-> 2. Em i igual a 3, o trecho é ABC. O `rfind` procura da direita para a esquerda, só dentro da janela de 4.095 bytes, e encontra ABC na posição 0.
+> 2. Como não achou, cai no else: `saida.append(dados[i])` grava o byte como está, um literal, e i anda uma casa. O mesmo acontece com B e C.
 
-> 3. Achar 3 letras é o mínimo. O while compara as próximas letras uma por uma, enquanto forem iguais e até no máximo 18, e aumenta o tamanho. Aqui as 6 letras restantes batem com as de 3 posições antes. Repare que a cópia pode passar por cima de onde ela mesma começou: é isso que permite 3 letras virarem 6.
+> 3. Em i igual a 3, o trecho é ABC. Agora o `rfind`, que procura da direita para a esquerda dentro da janela de 4.095 bytes, encontra ABC na posição 0.
 
-> 4. Como o tamanho é pelo menos 3, vira referência: distância é i menos a posição achada, 3, e tamanho 6. O i pula 6 casas de uma vez. Nove letras viraram 3 literais e 1 referência. O código ainda testa até 8 candidatos por posição e fica com o maior.
+> 4. Achar 3 letras é o mínimo. O while compara as próximas letras uma por uma, enquanto forem iguais e até no máximo 18, e aumenta o tamanho. Aqui as 6 letras restantes batem com as de 3 posições antes, por causa da cópia sobreposta que vimos no slide anterior.
+
+> 5. Como o tamanho é pelo menos 3, vira referência: distância é i menos a posição achada, 3, e tamanho 6. O i pula 6 casas de uma vez. Nove letras viraram 3 literais e 1 referência. O código ainda testa até 8 candidatos por posição e fica com o maior.
 
 > Ponte para o slide 12: "O texto virou literais e referências. Mas, na volta, como o programa sabe o que é cada peça?"
 

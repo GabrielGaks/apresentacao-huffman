@@ -53,7 +53,7 @@ function atualizarEtapas(slide) {
     if (window.gsap) gsap.set(item, { opacity: visivel ? 1 : 0, y: 0 });
   }
   for (const linha of slide.querySelectorAll("[data-code-step]")) {
-    linha.classList.toggle("code-active", Number(linha.dataset.codeStep) === Math.max(1, etapa));
+    linha.classList.toggle("code-active", linha.dataset.codeStep.split(" ").map(Number).includes(Math.max(1, etapa)));
   }
 }
 
