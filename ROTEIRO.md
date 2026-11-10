@@ -8,7 +8,7 @@ Tempo: 25 a 28 minutos, mais perguntas. Em cada slide, "avance N vezes" quer diz
 |---|---|---|---|
 | Arthur Vieira | 1 a 5 | O problema, onde é usado, a ideia e o resumo do algoritmo | 5 min |
 | Davi Conde | 6 a 9 | Simulação completa com BANANA | 6 min |
-| Gabriel Aguiar | 10 a 12 | LZ77 e a combinação | 4 min |
+| Gabriel Aguiar | 10 a 12 | O que é LZ77 e como combinamos com Huffman | 4 a 5 min |
 | Mateus Pastorre | 13 a 16 | Nosso programa e a árvore em SVG | 4 min |
 | Thiago Gama | 17 a 20 | Resultados, demonstração, conclusão e perguntas | 6 a 8 min |
 
@@ -90,17 +90,25 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as not
 
 **Slide 10: Repetiu? Aponte para trás**
 
-> O LZ77 procura sequências que já apareceram. Em ABCABCABC, depois do primeiro ABC, o resto vira uma referência: volte três posições e copie seis bytes. Em vez de guardar o texto de novo, guardamos só dois números.
+> Até aqui vimos o Huffman sozinho. Agora um ponto importante: o Huffman não depende do LZ77. São duas técnicas diferentes, e o nosso projeto escolheu combinar as duas, como o enunciado sugeria e como o ZIP faz.
+
+> O LZ77 foi criado em 1977 por Lempel e Ziv. A ideia é: se um trecho já apareceu antes, em vez de escrever de novo, a gente aponta para trás. Em ABCABCABC, gravamos A, B e C normalmente, e o resto vira "volte 3 posições e copie 6". Nove letras viram três letras e dois números.
+
+> Repare na diferença embaixo do slide: o Huffman aproveita letras que aparecem muito; o LZ77 aproveita sequências que se repetem. Um não substitui o outro.
 
 **Slide 11: Literais e referências** (avance 2 vezes)
 
-> Sem repetição útil, o byte é salvo como literal. Com repetição, vira uma referência. No nosso código, a busca olha até 4.095 bytes para trás, aceita repetições de 3 a 18 bytes e examina até oito candidatos por posição. Esses limites mantêm a busca rápida.
+> Depois do LZ77, o texto vira uma lista de peças, que chamamos de tokens. Existem dois tipos. O literal é o byte do jeito que está, usado quando não há repetição. A referência é o par "quanto voltar, quanto copiar".
+
+> No nosso código, a busca olha até 4.095 bytes para trás e aceita repetições de 3 a 18 bytes. Menos de 3 não compensa, porque a referência já ocupa 2 bytes. E examinamos no máximo 8 candidatos por posição, para a busca não ficar lenta.
 
 **Slide 12: Primeiro repetição, depois frequência**
 
-> No modo combinado, o texto vira tokens LZ77 e depois o Huffman compacta esses tokens. É o mesmo princípio do DEFLATE, do ZIP. Na volta, a ordem se inverte: primeiro Huffman, depois LZ77.
+> E como aplicamos as duas juntas? Em sequência. Primeiro o LZ77 tira as repetições do texto. O que sobra, os literais e as referências, ainda é uma sequência de bytes, e alguns aparecem bem mais que outros. Aí entra o Huffman, dando códigos curtos para os mais frequentes. Na descompactação, desfazemos na ordem contrária: primeiro o Huffman, depois o LZ77.
 
-> Por isso a árvore mostrada nesse modo representa os bytes dos tokens, não as letras. E a combinação nem sempre vence: referências e cabeçalhos também ocupam espaço.
+> Por isso, no modo combinado, a árvore que o programa mostra é das peças do LZ77, não das letras originais.
+
+> E combinar nem sempre ganha. Em texto com muita repetição, a economia sobe muito, como o Thiago vai mostrar. Em texto curto, as marcações extras podem até aumentar o arquivo.
 
 > Passagem: "O Mateus vai mostrar como isso virou um programa."
 
