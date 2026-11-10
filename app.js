@@ -49,9 +49,8 @@ function sincronizarCenaPorTempo(tempo) {
 }
 
 function totalEtapas(slide) {
-  const grade = slide.querySelector("[data-copia]");
-  const copia = grade ? Number(grade.dataset.copiaPasso) + Number(grade.dataset.copia.split(",")[1]) : 0;
-  return Math.max(copia, ...[...slide.querySelectorAll("[data-step]")].map((item) => Number(item.dataset.step)));
+  const demo = slide.querySelector("[data-lz-demo]");
+  return Math.max(demo ? Number(demo.dataset.etapas) : 0, ...[...slide.querySelectorAll("[data-step]")].map((item) => Number(item.dataset.step)));
 }
 
 function atualizarEtapas(slide) {
@@ -63,27 +62,50 @@ function atualizarEtapas(slide) {
   for (const linha of slide.querySelectorAll("[data-code-step]")) {
     linha.classList.toggle("code-active", linha.dataset.codeStep.split(" ").map(Number).includes(Math.max(1, etapa)));
   }
-  mostrarCopia(slide);
+  mostrarLz(slide);
 }
 
-// Mostra o "volte D, copie N" do LZ77, uma cópia por avanço: o ponteiro "lê" fica D casas atrás do "escreve".
-function mostrarCopia(slide) {
-  const grade = slide.querySelector("[data-copia]");
+// Slide 10: o LZ77 compactando (compara) e abrindo o arquivo (copia), um passo por clique.
+// Cada passo: [estado das 10 casas, ponteiros [anterior, atual] ou null, texto].
+// g = guardada como está, o = trecho que já tinha aparecido, i = coberta pela instrução, x = diferente, v = ainda vazia.
+const PASSOS_LZ = [
+  ["..........", null, "ABCABCABCX: o bloco ABC se repete e o X, no fim, quebra a repetição."],
+  ["..........", null, "ABCABCABCX: o bloco ABC se repete e o X, no fim, quebra a repetição."],
+  ["ggg.......", null, "Lê da esquerda para a direita. A, B e C ainda não tinham aparecido: guarda como estão."],
+  ["oooiii....", null, "Casa 3: as próximas 3 letras, ABC, já apareceram 3 casas antes. <b>Volte 3, copie 3</b>."],
+  ["oooiiii...", [3, 6], "Ainda não grava. Compara a próxima: A = A. <b>Volte 3, copie 4</b>."],
+  ["oooiiiii..", [4, 7], "B = B. <b>Volte 3, copie 5</b>."],
+  ["oooiiiiii.", [5, 8], "C = C. <b>Volte 3, copie 6</b>."],
+  ["oooiiiiiix", [6, 9], "X ≠ A: a repetição quebrou. Só agora grava uma instrução: <b>volte 3, copie 6</b>."],
+  ["gggiiiiiig", null, "O X não se repete: guarda como está. Arquivo: A, B, C, <b>volte 3, copie 6</b>, X."],
+  ["gggvvvvvvv", [0, 3], "A, B e C já estão lá. Para a instrução, <b>lê</b> fica 3 casas atrás de <b>escreve</b>."],
+  ...[1, 2, 3, 4, 5, 6].map((k) => [
+    "ggg" + "i".repeat(k) + "v".repeat(7 - k),
+    k < 6 ? [k, 3 + k] : null,
+    k < 6 ? `Copiou ${"ABCABC"[k - 1]} (${k} de 6). Os dois andam uma casa.` : "Copiou 6 de 6: instrução cumprida.",
+  ]),
+  ["gggiiiiiig", null, "Depois da instrução vem o X, guardado como está. <b>ABCABCABCX</b> de volta ✓"],
+];
+const CLASSE_CASA = { g: "guardada", o: "origem", i: "copiada", x: "diferente", v: "vazio" };
+
+function mostrarLz(slide) {
+  const grade = slide.querySelector("[data-lz-demo]");
   if (!grade) return;
-  const [distancia, tamanho, inicio] = grade.dataset.copia.split(",").map(Number);
+  const [casas, ponteiros, texto] = PASSOS_LZ[Math.min(etapa, PASSOS_LZ.length - 1)];
   const celulas = [...grade.querySelectorAll("span")];
-  const [ler, escrever] = grade.querySelectorAll(".ptr");
-  const ativo = etapa >= Number(grade.dataset.copiaPasso);
-  const copiadas = ativo ? Math.min(etapa - Number(grade.dataset.copiaPasso), tamanho) : 0;
   celulas.forEach((celula, i) => {
-    celula.classList.toggle("vazio", ativo && i >= inicio + copiadas);
-    celula.classList.toggle("copiada", ativo && i >= inicio && i < inicio + copiadas);
+    for (const classe of Object.values(CLASSE_CASA)) celula.classList.toggle(classe, CLASSE_CASA[casas[i]] === classe);
   });
-  grade.classList.toggle("copiando", ativo && copiadas < tamanho);
-  if (!ativo || copiadas === tamanho) return;
+  const abrindo = etapa >= 9;
+  slide.querySelector(".lz-status").innerHTML = `<code>${etapa < 2 ? "exemplo" : abrindo ? "abrindo o arquivo" : "LZ77 compactando"}</code> ${texto}`;
+  const [anterior, atual] = grade.querySelectorAll(".ptr");
+  anterior.textContent = abrindo ? "lê" : "anterior";
+  atual.textContent = abrindo ? "escreve" : "atual";
+  grade.classList.toggle("copiando", Boolean(ponteiros));
+  if (!ponteiros) return;
   const apontar = (ponteiro, celula) => { ponteiro.style.translate = `${celula.offsetLeft + celula.offsetWidth / 2}px 0`; };
-  apontar(ler, celulas[inicio + copiadas - distancia]);
-  apontar(escrever, celulas[inicio + copiadas]);
+  apontar(anterior, celulas[ponteiros[0]]);
+  apontar(atual, celulas[ponteiros[1]]);
 }
 
 function animarEntrada(slide) {

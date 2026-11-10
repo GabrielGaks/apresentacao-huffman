@@ -114,19 +114,37 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ## Gabriel Aguiar (slides 10 a 13)
 
-**Slide 10: O limite do Huffman** (avance 9 vezes: 2 para as caixas, 1 para os ponteiros aparecerem e 6 para as cópias, uma por clique)
+**Slide 10: O limite do Huffman** (avance 16 vezes, um passo por clique; a caixa verde embaixo das letras acompanha cada passo)
 
-> Olhem este texto: ABCABCABC. (avance) Para o Huffman, A, B e C aparecem três vezes cada. Ele dá códigos 0, 10 e 11 e cai para 15 bits, mas continua pagando letra por letra, nove vezes.
+> Olhem este texto: ABC repetido três vezes e um X no final.
 
-> (avance) Só que qualquer pessoa vê que o bloco ABC está se repetindo. O Huffman não enxerga isso: para ele são só letras soltas. É aí que entra o LZ77, aquele do ZIP que citamos no começo. Ele foi criado em 1977 por Lempel e Ziv, e é uma técnica separada: não faz parte do Huffman.
+> (1) O Huffman conta: A, B e C aparecem 3 vezes, X uma vez. Cada letra ganha um código de 2 bits, e o texto cai para 20 bits. Mas ele paga letra por letra, as 10. Ele não percebe que o ABC se repete: para ele são só letras soltas.
 
-> A ideia é: quando um trecho já apareceu, em vez de escrever de novo, a gente grava uma instrução apontando para trás. Aqui, o LZ77 grava A, B e C normalmente. No lugar das seis letras que faltam, grava só: "volte 3 casas e copie 6 letras".
+> É aí que entra o LZ77, aquele do ZIP que citamos no começo. Ele foi criado em 1977 por Lempel e Ziv e é uma técnica separada do Huffman. Ele lê o texto da esquerda para a direita procurando pedaços que já apareceram.
 
-> (avance: aparecem os ponteiros; depois, um clique para cada letra copiada) Quem for ler o arquivo volta 3 casas, encontra o A e vai copiando uma letra por vez: A, B, C. E continua: A, B, C de novo, porque as letras que acabou de copiar também entram na cópia. É como dizer "repita o padrão ABC por mais seis letras". Nove letras viraram três letras e uma instrução.
+> (2) A, B e C nunca apareceram antes, então ele guarda como estão.
 
-> Ou seja: Huffman explora frequência; LZ77 explora repetição. Vamos ver o LZ77 rodando no nosso código.
+> (3) Na casa 3, ele pega as próximas 3 letras, ABC, e procura para trás. Achou, 3 casas antes. Já daria para dizer "volte 3, copie 3".
+
+> (4) Mas ele ainda não grava. Continua comparando, uma letra por vez: o ponteiro "atual" olha a casa 6 e o "anterior" olha a casa 3. A é igual a A? É. Copie 4.
+
+> (5) B igual a B: copie 5. (6) C igual a C: copie 6.
+
+> (7) X é igual a A? Não. A repetição quebrou. Só agora ele grava, e grava uma instrução só: volte 3, copie 6.
+
+> (8) O X não se repete, então é guardado como está. O arquivo fica: A, B, C, a instrução e o X.
+
+> (9) E na hora de abrir o arquivo? A, B e C já estão lá. Para a instrução, o ponteiro "lê" fica 3 casas atrás do "escreve".
+
+> (10 a 15) A cada clique, ele copia a letra de "lê" para "escreve" e os dois andam uma casa. Repare que a partir da quarta cópia ele está copiando letras que ele mesmo acabou de escrever. É assim que voltar 3 casas dá para copiar 6 letras.
+
+> (16) Depois da instrução vem o X. O texto voltou inteiro, e as 6 letras do meio nunca foram guardadas no arquivo, só a instrução.
+
+> Num texto tão pequeno, a instrução ainda custa espaço. A vantagem aparece em texto grande e repetitivo, como vamos ver nos resultados. Ou seja: o Huffman explora frequência; o LZ77 explora repetição. Agora vamos ver isso no código.
 
 **Slide 11: LZ77 executando** (avance 5 vezes; a linha destacada é a que está rodando em `lz77_compactar`)
+
+> É o mesmo ABCABCABCX, agora com o código.
 
 > 1. O laço anda pelo texto com um índice i. Em cada posição, pega os próximos 3 bytes e procura esse trecho antes, com `rfind`. Em i igual a 0 não existe nada antes: o `rfind` devolve −1, ou seja, não achou.
 
@@ -134,23 +152,23 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > 3. Em i igual a 3, o trecho é ABC. Agora o `rfind`, que procura da direita para a esquerda dentro da janela de 4.095 bytes, encontra ABC na posição 0.
 
-> 4. Achar 3 letras é o mínimo. O while compara as próximas letras uma por uma, enquanto forem iguais e até no máximo 18, e aumenta o tamanho. Aqui as 6 letras restantes batem com as de 3 posições antes, por causa da cópia sobreposta que vimos no slide anterior.
+> 4. Achar 3 letras é o mínimo. O while compara as próximas letras uma por uma, enquanto forem iguais e até no máximo 18, e vai aumentando o tamanho. Na casa 9, X é diferente de A, e o while para com tamanho 6. São exatamente os ponteiros "anterior" e "atual" do slide anterior.
 
-> 5. Como o tamanho é pelo menos 3, vira referência: distância é i menos a posição achada, 3, e tamanho 6. O i pula 6 casas de uma vez. Nove letras viraram 3 literais e 1 referência. O código ainda testa até 8 candidatos por posição e fica com o maior.
+> 5. Como o tamanho é pelo menos 3, vira referência: distância é i menos a posição achada, 3, e tamanho 6. O i pula 6 casas de uma vez. Sobra o X, que vira literal. Dez letras viraram 4 literais e 1 referência. O código ainda testa até 8 candidatos por posição e fica com o maior.
 
 > Ponte para o slide 12: "O texto virou literais e referências. Mas, na volta, como o programa sabe o que é cada peça?"
 
 **Slide 12: LZ77 de volta** (avance 4 vezes; código de `lz77_descompactar`)
 
-> Cada peça precisa de uma etiqueta. As peças do ABCABCABC viram estes bytes: 10, 41, 42, 43, 00, 33.
+> Cada peça precisa de uma etiqueta. As peças do ABCABCABCX viram estes bytes: 10, 41, 42, 43, 00, 33, 58.
 
-> 1. O primeiro byte é de controle. Cada bit diz o que é cada uma das próximas 8 peças: 0 é literal, 1 é referência. 10 em hexadecimal é 0001 0000: só a quarta peça é referência. O código testa isso com `flags & (1 << (7 - bit))`.
+> 1. O primeiro byte é de controle. Cada bit diz o que é cada uma das próximas 8 peças: 0 é literal, 1 é referência. 10 em hexadecimal é 0001 0000: só a quarta peça é referência; a quinta, o X, é literal. O código testa isso com `flags & (1 << (7 - bit))`.
 
-> 2. Bit 0: `saida.append(tokens[i])`, copia o byte direto. Saem A, B e C.
+> 2. Bit 0: `saida.append(tokens[i])`, copia o byte direto. Saem A, B e C (e, no fim, o X, que é o byte 58).
 
 > 3. Bit 1: a referência ocupa 2 bytes, 00 e 33. Os 12 primeiros bits são a distância, até 4.095, e os 4 últimos são o tamanho menos 3, por isso o tamanho vai de 3 a 18. Aqui: distância 3, tamanho 3 mais 3, igual a 6. Menos de 3 não compensa, porque a referência já gasta 2 bytes.
 
-> 4. O for copia `saida[-distancia]` seis vezes: sempre a letra 3 posições atrás, inclusive as que acabou de escrever. Volta ABCABCABC. Seis bytes viraram nove.
+> 4. O for copia `saida[-distancia]` seis vezes: sempre a letra 3 posições atrás, inclusive as que acabou de escrever. Depois vem o X. Volta ABCABCABCX: sete bytes viraram dez.
 
 **Slide 13: Primeiro repetição, depois frequência**
 
@@ -158,7 +176,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > Por isso, nesse modo, a árvore que o programa mostra é dos bytes dos tokens, não das letras. E combinar nem sempre ganha: em texto curto, as marcações extras podem até aumentar o arquivo.
 
-> Passagem: "Vimos as duas técnicas com exemplos pequenos, a BANANA e o ABCABCABC. Agora, onde tudo isso roda?"
+> Passagem: "Vimos as duas técnicas com exemplos pequenos, a BANANA e o ABCABCABCX. Agora, onde tudo isso roda?"
 
 ---
 
@@ -166,7 +184,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 **Slide 14: Arquitetura**
 
-> Tudo o que vimos até aqui, a BANANA e o ABCABCABC, roda dentro do nosso programa. Ele tem três partes. A interface, feita em HTML, CSS e JavaScript, é onde o usuário escolhe o TXT e vê os resultados. O app.py é o servidor local: recebe o arquivo, valida e chama os algoritmos. E o huffman.py é o coração: tem o Huffman e o LZ77 que acabamos de ver, escritos por nós, sem biblioteca pronta de compactação.
+> Tudo o que vimos até aqui, a BANANA e o ABCABCABCX, roda dentro do nosso programa. Ele tem três partes. A interface, feita em HTML, CSS e JavaScript, é onde o usuário escolhe o TXT e vê os resultados. O app.py é o servidor local: recebe o arquivo, valida e chama os algoritmos. E o huffman.py é o coração: tem o Huffman e o LZ77 que acabamos de ver, escritos por nós, sem biblioteca pronta de compactação.
 
 **Slide 15: Python monta, JSON leva, SVG desenha**
 
@@ -186,7 +204,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > Lembram da BANANA? 6 bytes viraram 24: menos 300%. Cresceu por causa do cabeçalho com a árvore, que vimos no empacotamento.
 
-> Agora um texto onde trechos inteiros se repetem, como o ABCABCABC: ABRACADABRA repetido 200 vezes. São 2.400 bytes, que viram 731 com Huffman e 133 com LZ77 mais Huffman: 94,46% de economia.
+> Agora um texto onde trechos inteiros se repetem, como o ABCABCABCX: ABRACADABRA repetido 200 vezes. São 2.400 bytes, que viram 731 com Huffman e 133 com LZ77 mais Huffman: 94,46% de economia.
 
 > Passagem: "Esses números são de exemplos que nós escolhemos. O teste de verdade é com um arquivo que não preparamos."
 
