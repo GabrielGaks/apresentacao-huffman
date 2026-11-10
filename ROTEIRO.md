@@ -7,12 +7,13 @@ Tempo: 26 a 29 minutos (o professor pede de 20 a 30), mais perguntas. Em cada sl
 | Quem | Slides | Parte | Tempo |
 |---|---|---|---|
 | Pessoa 1 | 1 a 5 | O problema, onde é usado, a ideia e os quatro passos | 5 min |
-| Pessoa 2 | 6 a 9 | Huffman em ação: o código com BANANA | 6 min |
+| Pessoa 2 | 6 e 7 | Huffman em ação: contar e montar a árvore | 3 min |
+| Pessoa 3 | 8 e 9 | Huffman em ação: empacotar e decodificar | 3 min |
 | Gabriel Aguiar | 10 a 13 | O limite do Huffman, o LZ77 em ação e os dois juntos | 6 min |
-| Pessoa 3 | 14 a 17 | O programa e os resultados | 4 a 5 min |
-| Pessoa 4 | 18 a 20 | Demonstração ao vivo, conclusão e perguntas | 5 a 7 min |
+| Pessoa 4 | 14 a 17 | O programa e os resultados | 4 a 5 min |
+| Pessoa 5 | 18 a 20 | Demonstração ao vivo, conclusão e perguntas | 5 a 7 min |
 
-Gabriel Aguiar aparece com o nome; os demais estão como Pessoa 1 a 4, na ordem em que falam.
+Gabriel Aguiar aparece com o nome; os demais estão como Pessoa 1 a 5, na ordem em que falam.
 
 Atalhos: → / Espaço avança, ← volta, **F** tela cheia.
 
@@ -75,7 +76,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ---
 
-## Pessoa 2 (slides 6 a 9)
+## Pessoa 2 (slides 6 e 7)
 
 **Slide 6: Contar** (avance 4 vezes)
 
@@ -88,6 +89,12 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 > Com as frequências contadas, o segundo passo é montar a árvore. A fila começa com B 1, N 2 e A 3. O código ordena e remove os dois menores, B e N, e cria um pai de peso 3. Agora sobram A 3 e o novo nó 3. Eles se unem na raiz, de peso 6.
 
 > Percorrendo a árvore: A recebe 0, B recebe 10 e N recebe 11. BANANA vira 10, 0, 11, 0, 11, 0: nove bits.
+
+> Passagem: "Temos o código de cada letra. Agora, como isso vira um arquivo de verdade, e como volta?"
+
+---
+
+## Pessoa 3 (slides 8 e 9)
 
 **Slide 8: Empacotar** (avance 2 vezes)
 
@@ -149,7 +156,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ---
 
-## Pessoa 3 (slides 14 a 17)
+## Pessoa 4 (slides 14 a 17)
 
 **Slide 14: Arquitetura**
 
@@ -179,7 +186,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ---
 
-## Pessoa 4 (slides 18 a 20)
+## Pessoa 5 (slides 18 a 20)
 
 **Slide 18: Demonstração ao vivo**
 
