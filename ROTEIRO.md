@@ -118,7 +118,11 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > Olhem este texto: ABCABCABC. (avance) Para o Huffman, A, B e C aparecem três vezes cada. Ele dá códigos 0, 10 e 11 e cai para 15 bits, mas continua pagando letra por letra, nove vezes.
 
-> (avance) Só que qualquer pessoa vê que o bloco ABC está se repetindo. O Huffman não enxerga isso. É aí que entra o LZ77, aquele do ZIP que citamos no começo. Ele foi criado em 1977 por Lempel e Ziv, e é uma técnica separada: não faz parte do Huffman. A ideia é: se um trecho já apareceu, em vez de escrever de novo, aponta para trás. Grava A, B e C e depois só "volte 3, copie 6".
+> (avance) Só que qualquer pessoa vê que o bloco ABC está se repetindo. O Huffman não enxerga isso: para ele são só letras soltas. É aí que entra o LZ77, aquele do ZIP que citamos no começo. Ele foi criado em 1977 por Lempel e Ziv, e é uma técnica separada: não faz parte do Huffman.
+
+> A ideia é: quando um trecho já apareceu, em vez de escrever de novo, a gente grava uma instrução apontando para trás. Aqui, o LZ77 grava A, B e C normalmente. No lugar das seis letras que faltam, grava só: "volte 3 casas e copie 6 letras".
+
+> Quem for ler o arquivo volta 3 casas, encontra o A e vai copiando uma letra por vez: A, B, C. E continua: A, B, C de novo, porque as letras que acabou de copiar também entram na cópia. É como dizer "repita o padrão ABC por mais seis letras". Nove letras viraram três letras e uma instrução.
 
 > Ou seja: Huffman explora frequência; LZ77 explora repetição. Vamos ver o LZ77 rodando no nosso código.
 
