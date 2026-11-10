@@ -102,9 +102,15 @@
       "startTime": 72,
       "endTime": 80,
       "fragments": [
+        72.75,
         73.5,
+        74.25,
         75.0,
-        76.5
+        75.75,
+        76.5,
+        77.25,
+        78.0,
+        78.75
       ]
     },
     {
@@ -232,7 +238,7 @@ for bit in bits:
     </section>
 
     <section class="slide" data-scene-id="lz77-ideia" data-start="72" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="O limite do Huffman">
-      <div class="clip slide-inner" data-start="72" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">O limite do Huffman</p><h2>Huffman vê letras. Não vê trechos repetidos.</h2></header><div class="lz-grid wide" data-anim data-copia="3,6,3" data-copia-passo="3"><b class="ptr ler" aria-hidden="true">lê</b><b class="ptr escrever" aria-hidden="true">escreve</b><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><i class="lz-bar" data-step="2" style="grid-column: 1 / 4">primeira vez</i><i class="lz-bar ref" data-step="2" style="grid-column: 4 / 10">o mesmo bloco ABC, mais duas vezes</i></div><div class="limit-notes"><p class="lz-note" data-step="1"><code>Huffman</code> A, B e C aparecem 3 vezes cada. Códigos 0, 10 e 11: <b>15 bits</b>, pagando letra por letra.</p><p class="lz-note ref" data-step="2"><code>LZ77</code> o bloco já apareceu: grava A, B, C e depois só <b>volte 3, copie 6</b>.</p><p class="lz-note" data-step="3"><code>abrindo o arquivo</code> o ponteiro <b>lê</b> fica 3 casas atrás do <b>escreve</b>; os dois andam juntos 6 vezes</p></div><p class="bottom-claim" data-step="2">Huffman explora <strong>frequência</strong>. LZ77 explora <strong>repetição</strong>.</p></div>
+      <div class="clip slide-inner" data-start="72" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">O limite do Huffman</p><h2>Huffman vê letras. Não vê trechos repetidos.</h2></header><div class="lz-grid wide" data-anim data-copia="3,6,3" data-copia-passo="3"><b class="ptr ler" aria-hidden="true">lê</b><b class="ptr escrever" aria-hidden="true">escreve</b><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><i class="lz-bar" data-step="2" style="grid-column: 1 / 4">primeira vez</i><i class="lz-bar ref" data-step="2" style="grid-column: 4 / 10">o mesmo bloco ABC, mais duas vezes</i></div><div class="limit-notes"><p class="lz-note" data-step="1"><code>Huffman</code> A, B e C aparecem 3 vezes cada. Códigos 0, 10 e 11: <b>15 bits</b>, pagando letra por letra.</p><p class="lz-note ref" data-step="2"><code>LZ77</code> o bloco já apareceu: grava A, B, C e depois só <b>volte 3, copie 6</b>.</p><p class="lz-note" data-step="3"><code>abrindo o arquivo</code> <b>lê</b> fica 3 casas atrás de <b>escreve</b>: copia uma letra e os dois andam juntos</p></div><p class="bottom-claim" data-step="2">Huffman explora <strong>frequência</strong>. LZ77 explora <strong>repetição</strong>.</p></div>
     </section>
 
     <section class="slide" data-scene-id="lz77-tokens" data-start="80" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 executando">

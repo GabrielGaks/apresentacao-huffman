@@ -114,7 +114,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ## Gabriel Aguiar (slides 10 a 13)
 
-**Slide 10: O limite do Huffman** (avance 3 vezes)
+**Slide 10: O limite do Huffman** (avance 9 vezes: 2 para as caixas, 1 para os ponteiros aparecerem e 6 para as cópias, uma por clique)
 
 > Olhem este texto: ABCABCABC. (avance) Para o Huffman, A, B e C aparecem três vezes cada. Ele dá códigos 0, 10 e 11 e cai para 15 bits, mas continua pagando letra por letra, nove vezes.
 
@@ -122,7 +122,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > A ideia é: quando um trecho já apareceu, em vez de escrever de novo, a gente grava uma instrução apontando para trás. Aqui, o LZ77 grava A, B e C normalmente. No lugar das seis letras que faltam, grava só: "volte 3 casas e copie 6 letras".
 
-> (avance; os ponteiros mostram a cópia) Quem for ler o arquivo volta 3 casas, encontra o A e vai copiando uma letra por vez: A, B, C. E continua: A, B, C de novo, porque as letras que acabou de copiar também entram na cópia. É como dizer "repita o padrão ABC por mais seis letras". Nove letras viraram três letras e uma instrução.
+> (avance: aparecem os ponteiros; depois, um clique para cada letra copiada) Quem for ler o arquivo volta 3 casas, encontra o A e vai copiando uma letra por vez: A, B, C. E continua: A, B, C de novo, porque as letras que acabou de copiar também entram na cópia. É como dizer "repita o padrão ABC por mais seis letras". Nove letras viraram três letras e uma instrução.
 
 > Ou seja: Huffman explora frequência; LZ77 explora repetição. Vamos ver o LZ77 rodando no nosso código.
 
