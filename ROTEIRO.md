@@ -7,13 +7,12 @@ Tempo: 26 a 29 minutos (o professor pede de 20 a 30), mais perguntas. Em cada sl
 | Quem | Slides | Parte | Tempo |
 |---|---|---|---|
 | Pessoa 1 | 1 a 5 | O problema, onde é usado, a ideia e os quatro passos | 5 min |
-| Gabriel Aguiar | 6 a 9 | Huffman em ação: o código com BANANA | 6 min |
-| Pessoa 2 | 10 e 11 | O limite do Huffman e o LZ77 compactando | 3 a 4 min |
-| Pessoa 3 | 12 e 13 | O LZ77 descompactando e os dois juntos | 3 min |
+| Pessoa 2 | 6 a 9 | Huffman em ação: o código com BANANA | 6 min |
+| Pessoa 3 | 10 a 13 | O limite do Huffman, o LZ77 em ação e os dois juntos | 6 min |
 | Pessoa 4 | 14 a 17 | O programa e os resultados | 4 a 5 min |
 | Pessoa 5 | 18 a 20 | Demonstração ao vivo, conclusão e perguntas | 5 a 7 min |
 
-Gabriel Aguiar mantém o nome; os demais aparecem como Pessoa 1 a 5, na ordem em que falam.
+As falas estão como Pessoa 1 a 5, na ordem em que cada um fala.
 
 Atalhos: → / Espaço avança, ← volta, **F** tela cheia.
 
@@ -76,7 +75,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ---
 
-## Pessoa 2(slides 6 a 9)
+## Pessoa 2 (slides 6 a 9)
 
 **Slide 6: Contar** (avance 4 vezes)
 
@@ -106,7 +105,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ---
 
-## Pessoa 2 (slides 10 e 11)
+## Pessoa 3 (slides 10 a 13)
 
 **Slide 10: O limite do Huffman** (avance 2 vezes)
 
@@ -126,11 +125,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > 4. Como o tamanho é pelo menos 3, vira referência: distância é i menos a posição achada, 3, e tamanho 6. O i pula 6 casas de uma vez. Nove letras viraram 3 literais e 1 referência. O código ainda testa até 8 candidatos por posição e fica com o maior.
 
-> Passagem: "O texto virou literais e referências. Mas, na volta, como o programa sabe o que é cada peça?"
-
----
-
-## Pessoa 3 (slides 12 e 13)
+> Ponte para o slide 12: "O texto virou literais e referências. Mas, na volta, como o programa sabe o que é cada peça?"
 
 **Slide 12: LZ77 de volta** (avance 4 vezes; código de `lz77_descompactar`)
 
@@ -146,7 +141,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 **Slide 13: Primeiro repetição, depois frequência**
 
-> E como aplicamos as duas juntas? A função `compactar_com_lz77` tem três linhas. Primeiro roda o LZ77. Depois entrega os tokens para o mesmo `compactar` do Huffman que o Gabriel mostrou, porque os tokens também são bytes, e alguns aparecem mais que outros. Por fim, grava a assinatura HUF2 com o tamanho original. Na volta, a ordem se inverte: primeiro Huffman, depois LZ77.
+> E como aplicamos as duas juntas? A função `compactar_com_lz77` tem três linhas. Primeiro roda o LZ77. Depois entrega os tokens para o mesmo `compactar` do Huffman que vimos na BANANA, porque os tokens também são bytes, e alguns aparecem mais que outros. Por fim, grava a assinatura HUF2 com o tamanho original. Na volta, a ordem se inverte: primeiro Huffman, depois LZ77.
 
 > Por isso, nesse modo, a árvore que o programa mostra é dos bytes dos tokens, não das letras. E combinar nem sempre ganha: em texto curto, as marcações extras podem até aumentar o arquivo.
 
@@ -162,7 +157,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 **Slide 15: Python monta, JSON leva, SVG desenha**
 
-> E a árvore que o Gabriel montou com a BANANA aparece na tela assim. Ela nasce como objetos `No` no Python, mas o navegador não entende objetos Python. Por isso a função `arvore_para_dicionario` converte a árvore de forma recursiva: se o nó é folha, devolve o símbolo e a frequência; se não, chama a si mesma para o filho esquerdo e para o direito. É a mesma lógica da árvore: cada nó resolve os seus dois filhos.
+> E a árvore que montamos com a BANANA aparece na tela assim. Ela nasce como objetos `No` no Python, mas o navegador não entende objetos Python. Por isso a função `arvore_para_dicionario` converte a árvore de forma recursiva: se o nó é folha, devolve o símbolo e a frequência; se não, chama a si mesma para o filho esquerdo e para o direito. É a mesma lógica da árvore: cada nó resolve os seus dois filhos.
 
 > O resultado vira JSON, o servidor envia, e o JavaScript desenha em SVG. A esquerda continua sendo 0 e a direita, 1: na tela, o A fica à esquerda com código 0, e B e N embaixo do nó de peso 3, exatamente como na BANANA.
 
@@ -176,7 +171,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > A taxa de compactação é: tamanho original menos compactado, dividido pelo original, vezes cem. Positivo é economia.
 
-> Lembram da BANANA? 6 bytes viraram 24: menos 300%. Cresceu por causa do cabeçalho com a árvore, que o Gabriel mostrou.
+> Lembram da BANANA? 6 bytes viraram 24: menos 300%. Cresceu por causa do cabeçalho com a árvore, que vimos no empacotamento.
 
 > Agora um texto onde trechos inteiros se repetem, como o ABCABCABC: ABRACADABRA repetido 200 vezes. São 2.400 bytes, que viram 731 com Huffman e 133 com LZ77 mais Huffman: 94,46% de economia.
 
