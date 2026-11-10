@@ -16,6 +16,19 @@ Gabriel Aguiar mantém o nome; os demais aparecem como Pessoa 1 a 4, na ordem em
 
 Atalhos: → / Espaço avança, ← volta, **F** tela cheia.
 
+## O fio da história
+
+A apresentação é uma história só, não cinco partes. Cada pessoa termina com uma pergunta e a próxima começa respondendo:
+
+1. **O problema:** todo caractere custa 8 bits, até os repetidos. *E se o que aparece mais custasse menos?*
+2. **A ideia:** frequente ganha código curto. *Mas como o algoritmo acha esses códigos?*
+3. **Huffman em ação:** BANANA vira árvore, bits, arquivo e volta inteira. *Mas o Huffman olha letra por letra. E se o texto repete trechos inteiros?*
+4. **LZ77 em ação:** trecho repetido vira "volte e copie"; os dois juntos, como no ZIP. *Onde tudo isso roda?*
+5. **O programa:** a mesma árvore da BANANA aparece na tela. *Quanto isso economiza de verdade?*
+6. **O resultado:** a BANANA de volta, o texto repetitivo, o arquivo do professor e a resposta à pergunta do início.
+
+As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho em vez de "agora o fulano vai falar".
+
 ## Antes de começar
 
 - Rode `python app.py` dentro de `projeto_huffman_web/projeto_huffman_web` e deixe `http://127.0.0.1:8000` aberto em outra aba.
@@ -36,11 +49,13 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia.
 
 > Só que as letras não aparecem na mesma quantidade. O A aparece três vezes; o B, uma. Mesmo assim, os dois custam o mesmo. Esse desperdício é o que a compactação ataca.
 
+> E esse problema não é só nosso.
+
 **Slide 3: Onde Huffman aparece** (avance 1 vez no final)
 
-> Isso não é só exercício de sala. Huffman está dentro do ZIP, do gzip, que comprime páginas na web, do PNG e do PDF. Todos usam um formato chamado DEFLATE. JPEG e MP3 usam Huffman na etapa final da compressão, e o HTTP/2 compacta cabeçalhos com um código Huffman fixo.
+> Ele já foi resolvido, e vocês usam a solução todo dia sem perceber. Huffman está dentro do ZIP, do gzip, que comprime páginas na web, do PNG e do PDF. Todos usam um formato chamado DEFLATE. JPEG e MP3 usam Huffman na etapa final da compressão, e o HTTP/2 compacta cabeçalhos com um código Huffman fixo.
 
-> E o DEFLATE é justamente LZ77 seguido de Huffman, a mesma combinação que implementamos.
+> E o DEFLATE é justamente LZ77 seguido de Huffman, a mesma combinação que implementamos. Guardem esse nome, LZ77, que ele volta na história. Mas primeiro: qual é a ideia do Huffman?
 
 **Slide 4: A ideia em uma frase** (avance 2 vezes)
 
@@ -50,11 +65,13 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia.
 
 > Um detalhe importante: nenhum código é o começo de outro. Por isso dá para ler os bits em sequência, sem separador, e nunca há ambiguidade.
 
+> Falta saber como o algoritmo descobre esses códigos sozinho.
+
 **Slide 5: Quatro passos** (avance 4 vezes, um passo por vez)
 
 > Como o algoritmo chega nesses códigos? Em quatro passos. Primeiro, conta quantas vezes cada byte aparece. Segundo, coloca todos numa fila, do menos ao mais frequente. Terceiro, junta os dois menores num nó pai, devolve à fila e repete até sobrar um só nó, a raiz. Esse é o ponto que liga o trabalho à disciplina: o resultado é uma árvore binária. Quarto, percorre a árvore: esquerda vale 0, direita vale 1.
 
-> Passagem: "O Gabriel vai mostrar isso executando no nosso código, com BANANA."
+> Passagem: "Agora vamos ver esses quatro passos acontecendo de verdade, no nosso código, com a mesma BANANA."
 
 ---
 
@@ -62,41 +79,41 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia.
 
 **Slide 6: Contar** (avance 4 vezes)
 
-> A linha destacada à esquerda é a que está executando no nosso huffman.py. A função cria 256 contadores zerados, um para cada byte possível. BANANA entra como 42, 41, 4E, 41, 4E, 41 em hexadecimal.
+> Vamos seguir a BANANA por dentro do programa, passo a passo. A linha destacada à esquerda é a que está executando no nosso huffman.py. A função cria 256 contadores zerados, um para cada byte possível. BANANA entra como 42, 41, 4E, 41, 4E, 41 em hexadecimal.
 
 > O laço percorre os seis bytes e incrementa cada contador. No fim: A três vezes, B uma, N duas. O programa conta bytes, não letras; por isso acentos e quebras de linha funcionam.
 
 **Slide 7: Combinar** (avance 4 vezes)
 
-> A fila começa com B 1, N 2 e A 3. O código ordena e remove os dois menores, B e N, e cria um pai de peso 3. Agora sobram A 3 e o novo nó 3. Eles se unem na raiz, de peso 6.
+> Com as frequências contadas, o segundo passo é montar a árvore. A fila começa com B 1, N 2 e A 3. O código ordena e remove os dois menores, B e N, e cria um pai de peso 3. Agora sobram A 3 e o novo nó 3. Eles se unem na raiz, de peso 6.
 
 > Percorrendo a árvore: A recebe 0, B recebe 10 e N recebe 11. BANANA vira 10, 0, 11, 0, 11, 0: nove bits.
 
 **Slide 8: Empacotar** (avance 2 vezes)
 
-> O computador grava bytes, não bits soltos. Os 9 bits viram dois bytes, 9B e 00, com 7 bits de preenchimento.
+> Temos os códigos, mas o computador grava bytes, não bits soltos. Os 9 bits viram dois bytes, 9B e 00, com 7 bits de preenchimento.
 
 > O arquivo também precisa levar a árvore, senão ninguém consegue descompactar. Com a assinatura HUF1, o tamanho original e a árvore, BANANA fica com 24 bytes. Em textos tão pequenos, o cabeçalho pesa mais que a economia; em textos reais, ele se dilui.
 
 **Slide 9: Decodificar** (avance 4 vezes)
 
-> Para voltar, o código lê a árvore do arquivo e percorre os bits: 0 desce para a esquerda, 1 para a direita. Chegou numa folha, escreve a letra e volta para a raiz. 10 vira B, 0 vira A, 11 vira N, até formar BANANA.
+> Falta provar que dá para voltar sem perder nada. Para isso, o código lê a árvore do arquivo e percorre os bits: 0 desce para a esquerda, 1 para a direita. Chegou numa folha, escreve a letra e volta para a raiz. 10 vira B, 0 vira A, 11 vira N, até formar BANANA.
 
 > O tamanho guardado no cabeçalho diz quando parar, e os bits de preenchimento são ignorados. Antes de confiar no arquivo, o programa valida assinatura, árvore e tamanho.
 
-> Passagem: "O Huffman aproveita a frequência. A Pessoa 2 vai mostrar uma técnica que aproveita repetições."
+> Passagem: "A BANANA voltou inteira. Mas repare: o Huffman olha letra por letra. E se o texto repetir trechos inteiros?"
 
 ---
 
 ## Pessoa 2 (slides 10 a 13)
 
-**Slide 10: Repetiu? Aponte para trás**
+**Slide 10: O limite do Huffman** (avance 2 vezes)
 
-> Até aqui vimos o Huffman sozinho. Agora um ponto importante: o Huffman não depende do LZ77. São duas técnicas diferentes, e o nosso projeto escolheu combinar as duas, como o enunciado sugeria e como o ZIP faz.
+> Olhem este texto: ABCABCABC. (avance) Para o Huffman, A, B e C aparecem três vezes cada. Ele dá códigos 0, 10 e 11 e cai para 15 bits, mas continua pagando letra por letra, nove vezes.
 
-> O LZ77 foi criado em 1977 por Lempel e Ziv. A ideia é: se um trecho já apareceu antes, em vez de escrever de novo, a gente aponta para trás. Em ABCABCABC, gravamos A, B e C normalmente, e o resto vira "volte 3 posições e copie 6".
+> (avance) Só que qualquer pessoa vê que o bloco ABC está se repetindo. O Huffman não enxerga isso. É aí que entra o LZ77, aquele do ZIP que citamos no começo. Ele foi criado em 1977 por Lempel e Ziv, e é uma técnica separada: não faz parte do Huffman. A ideia é: se um trecho já apareceu, em vez de escrever de novo, aponta para trás. Grava A, B e C e depois só "volte 3, copie 6".
 
-> Repare na diferença embaixo do slide: o Huffman aproveita letras que aparecem muito; o LZ77 aproveita sequências que se repetem.
+> Ou seja: Huffman explora frequência; LZ77 explora repetição. Vamos ver o LZ77 rodando no nosso código.
 
 **Slide 11: LZ77 executando** (avance 4 vezes; a linha destacada é a que está rodando em `lz77_compactar`)
 
@@ -126,7 +143,7 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia.
 
 > Por isso, nesse modo, a árvore que o programa mostra é dos bytes dos tokens, não das letras. E combinar nem sempre ganha: em texto curto, as marcações extras podem até aumentar o arquivo.
 
-> Passagem: "A Pessoa 3 vai mostrar como isso virou um programa."
+> Passagem: "Vimos as duas técnicas com exemplos pequenos, a BANANA e o ABCABCABC. Agora, onde tudo isso roda?"
 
 ---
 
@@ -134,17 +151,17 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia.
 
 **Slide 14: Arquitetura**
 
-> O programa tem três partes. A interface, em HTML, CSS e JavaScript, escolhe o arquivo e mostra os resultados. O app.py é o servidor local, que valida e responde às requisições. O huffman.py tem o Huffman e o LZ77, implementados por nós, sem biblioteca pronta de compactação.
+> Tudo o que vimos até aqui roda dentro do nosso programa, que tem três partes. A interface, em HTML, CSS e JavaScript, escolhe o arquivo e mostra os resultados. O app.py é o servidor local, que valida e responde às requisições. O huffman.py tem o Huffman e o LZ77, implementados por nós, sem biblioteca pronta de compactação.
 
 **Slide 15: Python monta, JSON leva, SVG desenha**
 
-> A árvore nasce como objetos `No` no Python. A função `arvore_para_dicionario` é recursiva: se o nó é folha, devolve símbolo e frequência; se não, chama a si mesma para o filho esquerdo e para o direito. O resultado vira JSON, o servidor envia, e o JavaScript desenha em SVG. No desenho, esquerda continua sendo 0 e direita, 1: é a mesma árvore que o algoritmo usou.
+> E a árvore que vimos sendo montada com a BANANA aparece na tela assim: ela nasce como objetos `No` no Python. A função `arvore_para_dicionario` é recursiva: se o nó é folha, devolve símbolo e frequência; se não, chama a si mesma para o filho esquerdo e para o direito. O resultado vira JSON, o servidor envia, e o JavaScript desenha em SVG. No desenho, esquerda continua sendo 0 e direita, 1: é a mesma árvore que o algoritmo usou.
 
 **Slide 16: Árvore explorável**
 
 > Como uma árvore de um texto grande tem muitos nós, dá para arrastar, dar zoom sem perder nitidez, ajustar o enquadramento e exportar a árvore inteira em SVG.
 
-> Passagem: "A Pessoa 4 vai mostrar os números e o programa funcionando."
+> Passagem: "Falta a pergunta mais importante: quanto tudo isso economiza de verdade?"
 
 ---
 
@@ -154,9 +171,9 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia.
 
 > A taxa de compactação é: tamanho original menos compactado, dividido pelo original, vezes cem. Positivo é economia.
 
-> BANANA tem 6 bytes e o arquivo final, 24: menos 300%. Cresceu por causa do cabeçalho, como o Gabriel mostrou.
+> Lembram da BANANA? 6 bytes viraram 24: menos 300%. Cresceu por causa do cabeçalho com a árvore, que o Gabriel mostrou.
 
-> Em ABRACADABRA repetido 200 vezes, 2.400 bytes viram 731 com Huffman e 133 com LZ77 mais Huffman: 94,46% de economia.
+> Agora um texto onde trechos inteiros se repetem, como o ABCABCABC: ABRACADABRA repetido 200 vezes. São 2.400 bytes, que viram 731 com Huffman e 133 com LZ77 mais Huffman: 94,46% de economia.
 
 **Slide 18: Demonstração ao vivo**
 
@@ -171,11 +188,11 @@ Passos no programa:
 7. Na aba Descompactar, envie só o `.huf`.
 8. Mostre que o texto restaurado é igual ao original.
 
-> Este é o arquivo que recebemos agora. Aqui está o tamanho original e o de cada modo. Baixamos o .huf, descompactamos sem o TXT original, e o conteúdo volta idêntico.
+> O teste de verdade é com um arquivo que não preparamos. Este é o arquivo que recebemos agora. Aqui está o tamanho original e o de cada modo. Baixamos o .huf, descompactamos sem o TXT original, e o conteúdo volta idêntico.
 
 **Slide 19: Conclusão**
 
-> O Huffman reduz o custo usando a frequência. O LZ77 reduz repetições. Juntos, como no ZIP, podem ser muito eficientes, mas o cabeçalho sempre entra na conta. A economia muda conforme o arquivo; os bytes recuperados, nunca. Obrigado.
+> Começamos perguntando como guardar a mesma informação usando menos espaço. A resposta veio em duas partes: o Huffman dá códigos curtos para o que é frequente, e o LZ77 troca trechos repetidos por referências. Juntos, como no ZIP, podem ser muito eficientes, mas o cabeçalho sempre entra na conta. A economia muda conforme o arquivo; os bytes recuperados, nunca. Obrigado.
 
 **Slide 20: Perguntas** (qualquer um responde)
 
