@@ -105,7 +105,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ---
 
-## Pessoa 2 (slides 10 a 13)
+## Gabriel Aguiar(slides 10 a 13)
 
 **Slide 10: O limite do Huffman** (avance 2 vezes)
 
