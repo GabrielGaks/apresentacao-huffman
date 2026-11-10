@@ -67,7 +67,6 @@ function atualizarInterface() {
   document.querySelector("#counter").textContent = `${indice + 1} / ${slides.length}`;
   document.querySelector("#previous").disabled = indice === 0 && etapa === 0;
   document.querySelector("#next").disabled = indice === slides.length - 1 && etapa === totalEtapas(slide);
-  document.querySelector("#notes-text").value = lerNotas(slide.dataset.sceneId);
 }
 
 function mostrarSlide(novoIndice, revelarTudo = false) {
@@ -110,31 +109,14 @@ function anterior() {
   else if (indice > 0) mostrarSlide(indice - 1, true);
 }
 
-function chaveNotas(sceneId) {
-  return `huffman-apresentacao:notas:${sceneId}`;
-}
-
-function lerNotas(sceneId) {
-  const salvas = localStorage.getItem(chaveNotas(sceneId));
-  return salvas === null ? manifesto.slides.find((slide) => slide.sceneId === sceneId)?.notes || "" : salvas;
-}
-
-function alternarPainel(id) {
-  const painel = document.querySelector(id);
-  painel.hidden = !painel.hidden;
-}
-
 document.querySelector("#next").addEventListener("click", proximo);
 document.querySelector("#previous").addEventListener("click", anterior);
-document.querySelector("#notes-text").addEventListener("input", (evento) => localStorage.setItem(chaveNotas(slides[indice].dataset.sceneId), evento.target.value));
 
 window.addEventListener("keydown", (evento) => {
-  if (/^(TEXTAREA|INPUT)$/.test(evento.target.tagName)) return;
   if (["ArrowRight", "PageDown", " "].includes(evento.key)) { evento.preventDefault(); proximo(); }
   if (["ArrowLeft", "PageUp", "Backspace"].includes(evento.key)) { evento.preventDefault(); anterior(); }
   if (evento.key === "Home") mostrarSlide(0);
   if (evento.key === "End") mostrarSlide(slides.length - 1);
-  if (evento.key.toLowerCase() === "n") alternarPainel("#notes-panel");
   if (evento.key.toLowerCase() === "f") document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
 });
 

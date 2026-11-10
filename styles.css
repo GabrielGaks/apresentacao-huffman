@@ -288,10 +288,7 @@ svg .edge { fill: var(--accent); font-size: 20px; }
 #controls button:disabled { opacity: .3; cursor: default; }
 #counter { min-width: 72px; color: var(--muted); font: 600 15px var(--mono); text-align: center; }
 
-#notes-panel { position: fixed; z-index: 45; right: 28px; bottom: 100px; width: min(520px, calc(100vw - 56px)); padding: 18px; border: 1px solid var(--border); border-radius: var(--radius); background: #101512; box-shadow: 0 20px 70px rgba(0,0,0,.5); }
-#notes-panel p { margin-bottom: 12px; color: var(--accent); font: 700 14px var(--mono); text-transform: uppercase; }
-#notes-text { width: 100%; min-height: 170px; resize: vertical; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text); line-height: 1.5; }
-.embedded #controls, .embedded #notes-panel { display: none !important; }
+.embedded #controls { display: none !important; }
 
 @media (max-width: 900px) {
   .slide-inner { padding: 72px 24px 118px; overflow: auto; }

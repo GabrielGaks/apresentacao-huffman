@@ -16,14 +16,12 @@
     {
       "sceneId": "abertura",
       "startTime": 0,
-      "endTime": 8,
-      "notes": "Pessoa 1. Abra com a pergunta: como guardar a mesma informação usando menos bits e recuperar tudo depois, sem perder nada? Apresente o grupo e diga que vão mostrar a teoria, o algoritmo funcionando passo a passo e o programa ao vivo."
+      "endTime": 8
     },
     {
       "sceneId": "problema",
       "startTime": 8,
       "endTime": 16,
-      "notes": "Pessoa 1. Avance duas vezes. Um arquivo de texto comum guarda cada caractere com o mesmo tamanho: 8 bits. BANANA ocupa 48 bits. Mas as letras não aparecem com a mesma frequência: A aparece 3 vezes, B só uma. Pagar o mesmo preço por todas é desperdício. Esse é o problema que a compactação resolve.",
       "fragments": [
         9.5,
         11.0
@@ -33,7 +31,6 @@
       "sceneId": "onde-usa",
       "startTime": 16,
       "endTime": 24,
-      "notes": "Pessoa 1. Avance uma vez no final. Huffman não é só exercício de faculdade: está dentro do ZIP, do gzip que comprime páginas web, do PNG e do PDF, todos via DEFLATE. JPEG e MP3 usam Huffman na última etapa. O HTTP/2 compacta cabeçalhos com um código Huffman fixo. O DEFLATE é exatamente LZ77 mais Huffman, a mesma ideia que implementamos.",
       "fragments": [
         17.5
       ]
@@ -42,7 +39,6 @@
       "sceneId": "ideia",
       "startTime": 24,
       "endTime": 32,
-      "notes": "Pessoa 1. Avance duas vezes. David Huffman criou o método em 1952, ainda aluno do MIT, num trabalho da disciplina de Robert Fano. A ideia é a mesma do código Morse: a letra mais comum ganha o sinal mais curto. Com os códigos 0, 10 e 11, BANANA cai de 48 para 9 bits. E como nenhum código é começo de outro, dá para ler os bits em sequência sem separador.",
       "fragments": [
         25.5,
         27.0
@@ -52,7 +48,6 @@
       "sceneId": "passos",
       "startTime": 32,
       "endTime": 40,
-      "notes": "Pessoa 1. Avance quatro vezes, um passo por vez. Contar a frequência de cada byte. Colocar todos numa fila do menor para o maior. Juntar os dois menores num nó pai, devolver à fila e repetir até sobrar um só nó, a raiz. Percorrer a árvore: ir para a esquerda vale 0, para a direita vale 1. Agora vamos ver isso acontecendo no nosso código. Passe para Gabriel Aguiar.",
       "fragments": [
         33.5,
         35.0,
@@ -64,7 +59,6 @@
       "sceneId": "huffman-ideia",
       "startTime": 40,
       "endTime": 48,
-      "notes": "Gabriel Aguiar. Avance quatro vezes. Mostre os bytes de BANANA entrando no laço, o cursor percorrendo a palavra, os três contadores e o vetor final. A linha destacada é a linha executada em huffman.py. O programa conta bytes, não letras, por isso acentos e quebras de linha funcionam.",
       "fragments": [
         41.5,
         43.0,
@@ -76,7 +70,6 @@
       "sceneId": "huffman-arvore",
       "startTime": 48,
       "endTime": 56,
-      "notes": "Gabriel Aguiar. Avance quatro vezes. A fila começa em B1, N2, A3; B e N formam Σ3; A3 e Σ3 formam a raiz Σ6; a travessia atribui A=0, B=10 e N=11. Leia o fluxo final de 9 bits.",
       "fragments": [
         49.5,
         51.0,
@@ -88,7 +81,6 @@
       "sceneId": "formato-huf",
       "startTime": 56,
       "endTime": 64,
-      "notes": "Gabriel Aguiar. Avance duas vezes. Os 9 bits são agrupados em bytes: 9B e 00, com 7 bits de preenchimento. Depois mostre o arquivo completo: assinatura HUF1, tamanho original, a árvore e a carga. A árvore precisa ir junto, senão ninguém consegue descompactar. Por isso BANANA fica com 24 bytes: em textos tão pequenos, o cabeçalho pesa mais que a economia.",
       "fragments": [
         57.5,
         59.0
@@ -98,7 +90,6 @@
       "sceneId": "decodificar",
       "startTime": 64,
       "endTime": 72,
-      "notes": "Gabriel Aguiar. Avance quatro vezes. Para descompactar, o código lê a árvore do arquivo e percorre os bits: 0 desce para a esquerda, 1 para a direita. Ao chegar numa folha, escreve a letra e volta para a raiz. 10 vira B, 0 vira A, 11 vira N, e assim até BANANA. O tamanho original guardado no cabeçalho diz quando parar e os bits de preenchimento são ignorados. O programa também valida assinatura, árvore e tamanho antes de confiar no arquivo. Passe para Pessoa 2.",
       "fragments": [
         65.5,
         67.0,
@@ -109,14 +100,12 @@
     {
       "sceneId": "lz77-ideia",
       "startTime": 72,
-      "endTime": 80,
-      "notes": "Pessoa 2. O Huffman não depende do LZ77: são duas técnicas diferentes e o projeto combina as duas, como o ZIP. LZ77 (Lempel e Ziv, 1977): se um trecho já apareceu, aponta para trás. ABCABCABC vira A, B, C e \"volte 3, copie 6\". Huffman aproveita letras frequentes; LZ77 aproveita sequências repetidas."
+      "endTime": 80
     },
     {
       "sceneId": "lz77-tokens",
       "startTime": 80,
       "endTime": 88,
-      "notes": "Pessoa 2. Avance quatro vezes. Linha destacada = linha executando em lz77_compactar. Para A, B e C o rfind não acha nada antes: vão como literais. Em i = 3, rfind acha ABC na posição 0. O while compara letra por letra e estende até 6 (máximo 18). Como 6 ≥ 3, vira referência: distância 3, tamanho 6, e i pula 6 posições.",
       "fragments": [
         81.5,
         83.0,
@@ -128,7 +117,6 @@
       "sceneId": "lz77-bytes",
       "startTime": 88,
       "endTime": 96,
-      "notes": "Pessoa 2. Avance quatro vezes. A cada 8 peças o código grava um byte de controle: bit 0 = literal, bit 1 = referência. Aqui 10 = 0001 0000, só a quarta é referência. Literais saem direto. A referência ocupa 2 bytes, 00 33: 12 bits de distância (até 4095) e 4 bits de tamanho menos 3 (3 a 18). Na volta, o for copia saida[-distancia] seis vezes: a cópia lê o que acabou de escrever.",
       "fragments": [
         89.5,
         91.0,
@@ -139,32 +127,27 @@
     {
       "sceneId": "combinacao",
       "startTime": 96,
-      "endTime": 104,
-      "notes": "Pessoa 2. A função compactar_com_lz77 tem três linhas: roda o LZ77, entrega os tokens para o mesmo compactar do Huffman e grava a assinatura HUF2 com o tamanho original. Na volta, ordem contrária. A árvore desse modo é dos bytes dos tokens. Nem sempre vence: texto curto pode crescer. Passe para Pessoa 3."
+      "endTime": 104
     },
     {
       "sceneId": "arquitetura",
       "startTime": 104,
-      "endTime": 112,
-      "notes": "Pessoa 3. Agora o nosso programa. O navegador envia o arquivo, app.py controla as rotas e huffman.py implementa os algoritmos sem biblioteca pronta de compactação."
+      "endTime": 112
     },
     {
       "sceneId": "codigo-svg",
       "startTime": 112,
-      "endTime": 120,
-      "notes": "Pessoa 3. A árvore nasce como objetos No no Python. arvore_para_dicionario percorre recursivamente: folha envia símbolo e frequência, nó interno envia os filhos. O servidor manda isso em JSON e o JavaScript desenha o SVG, mantendo esquerda = 0 e direita = 1."
+      "endTime": 120
     },
     {
       "sceneId": "interacao-svg",
       "startTime": 120,
-      "endTime": 128,
-      "notes": "Pessoa 3. Explique arrastar, zoom, ajustar e exportar. SVG é vetorial e mantém nitidez. Passe para Pessoa 4."
+      "endTime": 128
     },
     {
       "sceneId": "resultados",
       "startTime": 128,
       "endTime": 136,
-      "notes": "Pessoa 4. Avance duas vezes. Taxa = (original menos compactado) dividido pelo original, vezes 100. BANANA cresce por causa do cabeçalho. No texto repetitivo, LZ77 mais Huffman economiza 94,46%.",
       "fragments": [
         129.5,
         131.0
@@ -173,20 +156,17 @@
     {
       "sceneId": "demo",
       "startTime": 136,
-      "endTime": 144,
-      "notes": "Pessoa 4. Use o arquivo fornecido pelo professor. Escolha o TXT, compare os modos, mostre árvore e binário, baixe o .huf, descompacte e compare com o original."
+      "endTime": 144
     },
     {
       "sceneId": "conclusao",
       "startTime": 144,
-      "endTime": 152,
-      "notes": "Pessoa 4. Feche com as três ideias: sem perdas, técnicas complementares e custo de metadados. Não diga que LZ77 sempre melhora."
+      "endTime": 152
     },
     {
       "sceneId": "perguntas",
       "startTime": 152,
-      "endTime": 160,
-      "notes": "Slide reserva. Respostas curtas: bytes preservam UTF-8; empates permitem árvores válidas diferentes; a árvore precisa ir no arquivo; o combinado depende da entrada; Python monta e JavaScript desenha."
+      "endTime": 160
     }
   ],
   "slideSequences": []
@@ -316,7 +296,6 @@ for bit in bits:
     </section>
   </main>
 
-  <aside id="notes-panel" aria-label="Notas do apresentador" hidden><p>Notas do apresentador</p><textarea id="notes-text" aria-label="Notas editáveis"></textarea></aside>
   <nav id="controls" aria-label="Controles da apresentação"><button id="previous" type="button" aria-label="Slide anterior">←</button><b id="counter">1 / 20</b><button id="next" type="button" aria-label="Próximo slide">→</button></nav>
   <noscript>Ative o JavaScript para navegar pela apresentação.</noscript>
   <script src="app.js"></script>

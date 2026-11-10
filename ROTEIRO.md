@@ -14,7 +14,7 @@ Tempo: 26 a 29 minutos (o professor pede de 20 a 30), mais perguntas. Em cada sl
 
 Gabriel Aguiar mantém o nome; os demais aparecem como Pessoa 1 a 4, na ordem em que falam.
 
-Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as notas de fala.
+Atalhos: → / Espaço avança, ← volta, **F** tela cheia.
 
 ## Antes de começar
 

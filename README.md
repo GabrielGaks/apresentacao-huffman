@@ -18,7 +18,7 @@ npm run site
 
 Depois acesse `http://localhost:3004`.
 
-Opção de apresentação com notas separadas:
+Opção com o HyperFrames:
 
 ```powershell
 npm run dev
@@ -31,13 +31,12 @@ No modo HyperFrames, clique em **Present** ou pressione `P` para abrir a tela da
 - `→`, `Espaço` ou `Page Down`: revelar a próxima etapa ou avançar.
 - `←`, `Backspace` ou `Page Up`: voltar.
 - `Home` / `End`: primeiro ou último slide.
-- `N`: notas do apresentador.
 - `F`: tela cheia.
 - Arrastar para os lados no celular: navegar.
 
 ## Arquivos
 
-- `index.html`: conteúdo, manifesto de slides e notas.
+- `index.html`: conteúdo e manifesto de slides.
 - `styles.css`: identidade visual e responsividade.
 - `app.js`: navegação, revelações e animações.
 - `ROTEIRO.md`: falas, tempo e passagens entre integrantes.
