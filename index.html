@@ -110,13 +110,13 @@
       "sceneId": "lz77-ideia",
       "startTime": 72,
       "endTime": 80,
-      "notes": "Gabriel Aguiar. Huffman explora frequência; LZ77 explora sequências repetidas. Mostre ABC aparecendo uma vez e as repetições virando uma referência: volte 3 posições e copie 6 bytes."
+      "notes": "Gabriel Aguiar. O Huffman não depende do LZ77: são duas técnicas diferentes e o projeto combina as duas, como o ZIP. LZ77 (Lempel e Ziv, 1977): se um trecho já apareceu, aponta para trás. ABCABCABC vira A, B, C e \"volte 3, copie 6\". Huffman aproveita letras frequentes; LZ77 aproveita sequências repetidas."
     },
     {
       "sceneId": "lz77-tokens",
       "startTime": 80,
       "endTime": 88,
-      "notes": "Gabriel Aguiar. Avance duas vezes. Explique literal e referência. Cite os limites reais: janela de 4095 bytes, repetição de 3 a 18 bytes e até 8 candidatos examinados.",
+      "notes": "Gabriel Aguiar. Avance duas vezes. O texto vira tokens: literal (byte como está) ou referência (quanto voltar, quanto copiar). Janela de 4095 bytes, repetições de 3 a 18 bytes (menos de 3 não compensa, a referência ocupa 2 bytes), até 8 candidatos por posição.",
       "fragments": [
         81.5,
         83.0
@@ -126,7 +126,7 @@
       "sceneId": "combinacao",
       "startTime": 88,
       "endTime": 96,
-      "notes": "Gabriel Aguiar. Leia o fluxo da esquerda para a direita e depois a volta. É o mesmo princípio do DEFLATE, usado no ZIP. A árvore do modo combinado representa os bytes dos tokens LZ77. Nem sempre o combinado vence. Passe para Gabriel Aguiar."
+      "notes": "Gabriel Aguiar. Em sequência: LZ77 tira as repetições; o que sobra ainda é uma sequência de bytes com frequências diferentes, então o Huffman encurta. Na volta, ordem contrária. No modo combinado a árvore é das peças do LZ77, não das letras. Nem sempre vence: texto curto pode crescer. Passe para Mateus Pastorre."
     },
     {
       "sceneId": "arquitetura",
