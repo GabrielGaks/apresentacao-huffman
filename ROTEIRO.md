@@ -2,14 +2,14 @@
 
 **Huffman por dentro** · Teoria dos Grafos, turma CC6M · Prof. Jairo Lucas · Universidade Vila Velha
 
-Tempo: 25 a 28 minutos, mais perguntas. Em cada slide, "avance N vezes" quer dizer apertar → (ou Espaço) N vezes antes de ir para o próximo slide, para revelar as animações enquanto fala.
+Tempo: 26 a 29 minutos (o professor pede de 20 a 30), mais perguntas. Em cada slide, "avance N vezes" quer dizer apertar → (ou Espaço) N vezes antes de ir para o próximo slide, para revelar as animações enquanto fala.
 
 | Quem | Slides | Parte | Tempo |
 |---|---|---|---|
 | Arthur Vieira | 1 a 5 | O problema, onde é usado, a ideia e o resumo do algoritmo | 5 min |
 | Davi Conde | 6 a 9 | Simulação completa com BANANA | 6 min |
-| Gabriel Aguiar | 10 a 12 | O que é LZ77 e como combinamos com Huffman | 4 a 5 min |
-| Mateus Pastorre | 13 a 16 | Nosso programa e a árvore em SVG | 4 min |
+| Gabriel Aguiar | 10 a 13 | O que é LZ77, o código dele executando e a combinação com Huffman | 6 min |
+| Mateus Pastorre | 14 a 16 | Nosso programa e a árvore em SVG | 3 min |
 | Thiago Gama | 17 a 20 | Resultados, demonstração, conclusão e perguntas | 6 a 8 min |
 
 Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as notas de fala.
@@ -86,47 +86,57 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as not
 
 ---
 
-## Gabriel Aguiar (slides 10 a 12)
+## Gabriel Aguiar (slides 10 a 13)
 
 **Slide 10: Repetiu? Aponte para trás**
 
 > Até aqui vimos o Huffman sozinho. Agora um ponto importante: o Huffman não depende do LZ77. São duas técnicas diferentes, e o nosso projeto escolheu combinar as duas, como o enunciado sugeria e como o ZIP faz.
 
-> O LZ77 foi criado em 1977 por Lempel e Ziv. A ideia é: se um trecho já apareceu antes, em vez de escrever de novo, a gente aponta para trás. Em ABCABCABC, gravamos A, B e C normalmente, e o resto vira "volte 3 posições e copie 6". Nove letras viram três letras e dois números.
+> O LZ77 foi criado em 1977 por Lempel e Ziv. A ideia é: se um trecho já apareceu antes, em vez de escrever de novo, a gente aponta para trás. Em ABCABCABC, gravamos A, B e C normalmente, e o resto vira "volte 3 posições e copie 6".
 
-> Repare na diferença embaixo do slide: o Huffman aproveita letras que aparecem muito; o LZ77 aproveita sequências que se repetem. Um não substitui o outro.
+> Repare na diferença embaixo do slide: o Huffman aproveita letras que aparecem muito; o LZ77 aproveita sequências que se repetem.
 
-**Slide 11: Literais e referências** (avance 2 vezes)
+**Slide 11: LZ77 executando** (avance 4 vezes; a linha destacada é a que está rodando em `lz77_compactar`)
 
-> Depois do LZ77, o texto vira uma lista de peças, que chamamos de tokens. Existem dois tipos. O literal é o byte do jeito que está, usado quando não há repetição. A referência é o par "quanto voltar, quanto copiar".
+> 1. O laço anda pelo texto com um índice i. Em cada posição, ele pega os próximos 3 bytes e procura esse trecho antes, com `rfind`. Para A, B e C não existe nada antes, então cai no else: `saida.append(dados[i])` grava o byte como está, um literal, e i anda uma casa.
 
-> No nosso código, a busca olha até 4.095 bytes para trás e aceita repetições de 3 a 18 bytes. Menos de 3 não compensa, porque a referência já ocupa 2 bytes. E examinamos no máximo 8 candidatos por posição, para a busca não ficar lenta.
+> 2. Em i igual a 3, o trecho é ABC. O `rfind` procura da direita para a esquerda, só dentro da janela de 4.095 bytes, e encontra ABC na posição 0.
 
-**Slide 12: Primeiro repetição, depois frequência**
+> 3. Achar 3 letras é o mínimo. O while compara as próximas letras uma por uma, enquanto forem iguais e até no máximo 18, e aumenta o tamanho. Aqui as 6 letras restantes batem com as de 3 posições antes. Repare que a cópia pode passar por cima de onde ela mesma começou: é isso que permite 3 letras virarem 6.
 
-> E como aplicamos as duas juntas? Em sequência. Primeiro o LZ77 tira as repetições do texto. O que sobra, os literais e as referências, ainda é uma sequência de bytes, e alguns aparecem bem mais que outros. Aí entra o Huffman, dando códigos curtos para os mais frequentes. Na descompactação, desfazemos na ordem contrária: primeiro o Huffman, depois o LZ77.
+> 4. Como o tamanho é pelo menos 3, vira referência: distância é i menos a posição achada, 3, e tamanho 6. O i pula 6 casas de uma vez. Nove letras viraram 3 literais e 1 referência. O código ainda testa até 8 candidatos por posição e fica com o maior.
 
-> Por isso, no modo combinado, a árvore que o programa mostra é das peças do LZ77, não das letras originais.
+**Slide 12: LZ77 de volta** (avance 4 vezes; código de `lz77_descompactar`)
 
-> E combinar nem sempre ganha. Em texto com muita repetição, a economia sobe muito, como o Thiago vai mostrar. Em texto curto, as marcações extras podem até aumentar o arquivo.
+> Essas peças viram bytes assim: 10, 41, 42, 43, 00, 33.
+
+> 1. O primeiro byte é de controle. Cada bit diz o que é cada uma das próximas 8 peças: 0 é literal, 1 é referência. 10 em hexadecimal é 0001 0000: só a quarta peça é referência. O código testa isso com `flags & (1 << (7 - bit))`.
+
+> 2. Bit 0: `saida.append(tokens[i])`, copia o byte direto. Saem A, B e C.
+
+> 3. Bit 1: a referência ocupa 2 bytes, 00 e 33. Os 12 primeiros bits são a distância, até 4.095, e os 4 últimos são o tamanho menos 3, por isso o tamanho vai de 3 a 18. Aqui: distância 3, tamanho 3 mais 3, igual a 6. Menos de 3 não compensa, porque a referência já gasta 2 bytes.
+
+> 4. O for copia `saida[-distancia]` seis vezes: sempre a letra 3 posições atrás, inclusive as que acabou de escrever. Volta ABCABCABC. Seis bytes viraram nove.
+
+**Slide 13: Primeiro repetição, depois frequência**
+
+> E como aplicamos as duas juntas? A função `compactar_com_lz77` tem três linhas. Primeiro roda o LZ77. Depois entrega os tokens para o mesmo `compactar` do Huffman que o Davi mostrou, porque os tokens também são bytes, e alguns aparecem mais que outros. Por fim, grava a assinatura HUF2 com o tamanho original. Na volta, a ordem se inverte: primeiro Huffman, depois LZ77.
+
+> Por isso, nesse modo, a árvore que o programa mostra é dos bytes dos tokens, não das letras. E combinar nem sempre ganha: em texto curto, as marcações extras podem até aumentar o arquivo.
 
 > Passagem: "O Mateus vai mostrar como isso virou um programa."
 
 ---
 
-## Mateus Pastorre (slides 13 a 16)
+## Mateus Pastorre (slides 14 a 16)
 
-**Slide 13: Arquitetura**
+**Slide 14: Arquitetura**
 
 > O programa tem três partes. A interface, em HTML, CSS e JavaScript, escolhe o arquivo e mostra os resultados. O app.py é o servidor local, que valida e responde às requisições. O huffman.py tem o Huffman e o LZ77, implementados por nós, sem biblioteca pronta de compactação.
 
-**Slide 14: A árvore vira dados antes de virar desenho**
+**Slide 15: Python monta, JSON leva, SVG desenha**
 
-> A árvore existe primeiro como objetos no Python. Ela é convertida em dicionário, o servidor envia como JSON, e o JavaScript calcula as posições e desenha em SVG.
-
-**Slide 15: A recursão desenhada**
-
-> A conversão é recursiva: uma folha envia símbolo e frequência; um nó interno envia os dois filhos. No desenho, a relação se mantém: esquerda continua sendo 0 e direita, 1. A imagem é a mesma árvore que o algoritmo usou.
+> A árvore nasce como objetos `No` no Python. A função `arvore_para_dicionario` é recursiva: se o nó é folha, devolve símbolo e frequência; se não, chama a si mesma para o filho esquerdo e para o direito. O resultado vira JSON, o servidor envia, e o JavaScript desenha em SVG. No desenho, esquerda continua sendo 0 e direita, 1: é a mesma árvore que o algoritmo usou.
 
 **Slide 16: Árvore explorável**
 
@@ -178,4 +188,4 @@ Passos no programa:
 - Se o programa falhar ao vivo, use os números do slide 17 e os slides 6 a 9 como demonstração.
 - Se o arquivo do professor for pequeno e crescer, explique como efeito esperado do cabeçalho.
 - Se os códigos diferirem do exemplo, verifique empate de frequências antes de afirmar erro.
-- Com pouco tempo, reduza os slides 14 a 16 a uma frase cada; não corte a demonstração.
+- Com pouco tempo, reduza os slides 14 e 16 a uma frase cada; não corte a demonstração.

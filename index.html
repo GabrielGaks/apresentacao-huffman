@@ -116,35 +116,43 @@
       "sceneId": "lz77-tokens",
       "startTime": 80,
       "endTime": 88,
-      "notes": "Gabriel Aguiar. Avance duas vezes. O texto vira tokens: literal (byte como está) ou referência (quanto voltar, quanto copiar). Janela de 4095 bytes, repetições de 3 a 18 bytes (menos de 3 não compensa, a referência ocupa 2 bytes), até 8 candidatos por posição.",
+      "notes": "Gabriel Aguiar. Avance quatro vezes. Linha destacada = linha executando em lz77_compactar. Para A, B e C o rfind não acha nada antes: vão como literais. Em i = 3, rfind acha ABC na posição 0. O while compara letra por letra e estende até 6 (máximo 18). Como 6 ≥ 3, vira referência: distância 3, tamanho 6, e i pula 6 posições.",
       "fragments": [
         81.5,
-        83.0
+        83.0,
+        84.5,
+        86.0
+      ]
+    },
+    {
+      "sceneId": "lz77-bytes",
+      "startTime": 88,
+      "endTime": 96,
+      "notes": "Gabriel Aguiar. Avance quatro vezes. A cada 8 peças o código grava um byte de controle: bit 0 = literal, bit 1 = referência. Aqui 10 = 0001 0000, só a quarta é referência. Literais saem direto. A referência ocupa 2 bytes, 00 33: 12 bits de distância (até 4095) e 4 bits de tamanho menos 3 (3 a 18). Na volta, o for copia saida[-distancia] seis vezes: a cópia lê o que acabou de escrever.",
+      "fragments": [
+        89.5,
+        91.0,
+        92.5,
+        94.0
       ]
     },
     {
       "sceneId": "combinacao",
-      "startTime": 88,
-      "endTime": 96,
-      "notes": "Gabriel Aguiar. Em sequência: LZ77 tira as repetições; o que sobra ainda é uma sequência de bytes com frequências diferentes, então o Huffman encurta. Na volta, ordem contrária. No modo combinado a árvore é das peças do LZ77, não das letras. Nem sempre vence: texto curto pode crescer. Passe para Mateus Pastorre."
+      "startTime": 96,
+      "endTime": 104,
+      "notes": "Gabriel Aguiar. A função compactar_com_lz77 tem três linhas: roda o LZ77, entrega os tokens para o mesmo compactar do Huffman e grava a assinatura HUF2 com o tamanho original. Na volta, ordem contrária. A árvore desse modo é dos bytes dos tokens. Nem sempre vence: texto curto pode crescer. Passe para Mateus Pastorre."
     },
     {
       "sceneId": "arquitetura",
-      "startTime": 96,
-      "endTime": 104,
-      "notes": "Mateus Pastorre. Agora o nosso programa. O navegador envia o arquivo, app.py controla as rotas e huffman.py implementa os algoritmos sem biblioteca pronta de compactação."
-    },
-    {
-      "sceneId": "dados-svg",
       "startTime": 104,
       "endTime": 112,
-      "notes": "Mateus Pastorre. Python não vira imagem diretamente. Ele converte a árvore em dicionário, o servidor envia JSON e o JavaScript desenha o SVG."
+      "notes": "Mateus Pastorre. Agora o nosso programa. O navegador envia o arquivo, app.py controla as rotas e huffman.py implementa os algoritmos sem biblioteca pronta de compactação."
     },
     {
       "sceneId": "codigo-svg",
       "startTime": 112,
       "endTime": 120,
-      "notes": "Mateus Pastorre. Mostre a recursão de arvore_para_dicionario e, ao lado, como esquerda e direita continuam sendo 0 e 1 no desenho."
+      "notes": "Mateus Pastorre. A árvore nasce como objetos No no Python. arvore_para_dicionario percorre recursivamente: folha envia símbolo e frequência, nó interno envia os filhos. O servidor manda isso em JSON e o JavaScript desenha o SVG, mantendo esquerda = 0 e direita = 1."
     },
     {
       "sceneId": "interacao-svg",
@@ -241,30 +249,50 @@ for bit in bits:
       <div class="clip slide-inner" data-start="72" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">LZ77</p><h2>Repetiu? Aponte para trás.</h2></header><div class="repeat-demo" data-anim><div class="sequence"><span>A</span><span>B</span><span>C</span><span class="repeat">A</span><span class="repeat">B</span><span class="repeat">C</span><span class="repeat">A</span><span class="repeat">B</span><span class="repeat">C</span></div><div class="reference-line"><b>distância 3</b><i></i><b>comprimento 6</b></div></div><div class="contrast-pair" data-anim><p><strong>Huffman</strong><span>frequência de bytes</span></p><p><strong>LZ77</strong><span>sequências repetidas</span></p></div></div>
     </section>
 
-    <section class="slide" data-scene-id="lz77-tokens" data-start="80" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="Literais e referências">
-      <div class="clip slide-inner" data-start="80" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Tokens reais</p><h2>O fluxo alterna dados e referências.</h2></header><div class="token-stage" data-anim><div class="token literal"><small>literal</small><b>A</b></div><div class="token literal"><small>literal</small><b>B</b></div><div class="token literal"><small>literal</small><b>C</b></div><div class="token reference" data-step="1"><small>referência</small><b>−3 × 6</b></div></div><div class="limits" data-step="2"><p><b>4.095</b><span>bytes de janela</span></p><p><b>3-18</b><span>bytes por referência</span></p><p><b>8</b><span>candidatos examinados</span></p></div></div>
+    <section class="slide" data-scene-id="lz77-tokens" data-start="80" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 executando">
+      <div class="clip slide-inner" data-start="80" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Execução 05 · LZ77</p><h2>Achou o trecho antes? Vira referência.</h2></header><div class="execution-lab"><pre class="code-panel execution-code tree-code" data-anim><code>trecho = dados[i:i + 3]
+<span data-code-step="2">candidato = dados.rfind(trecho, inicio, i)</span><span data-code-step="3">while (tamanho &lt; 18 and
+       dados[candidato + tamanho]
+       == dados[i + tamanho]):
+    tamanho += 1</span>if melhor_tamanho &gt;= 3:
+<span data-code-step="4">    distancia = i - melhor_pos
+    i += melhor_tamanho</span>else:
+<span data-code-step="1">    saida.append(dados[i])
+    i += 1</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>lz77_compactar</code><span>entrada ABCABCABC</span></div><div class="lz-grid"><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><i class="lz-bar" data-step="1" style="grid-column: 1 / 4">3 literais</i><i class="lz-bar ref" data-step="3" style="grid-column: 4 / 10">6 letras iguais às de 3 posições antes</i></div><p class="lz-note" data-step="2"><code>i = 3</code> rfind("ABC") encontra o trecho na posição <b>0</b></p><div class="lz-tokens"><b data-step="1" data-pop>A</b><b data-step="1" data-pop>B</b><b data-step="1" data-pop>C</b><b class="ref" data-step="4" data-pop>volte 3 · copie 6</b></div><p class="state-output" data-step="4"><span>tokens</span><code>9 letras → 3 literais + 1 referência</code></p></div></div></div>
     </section>
 
-    <section class="slide" data-scene-id="combinacao" data-start="88" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 mais Huffman">
-      <div class="clip slide-inner" data-start="88" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Duas redundâncias</p><h2>Primeiro repetição. Depois frequência.</h2></header><div class="pipeline" data-anim><div><b>Texto</b><span>bytes originais</span></div><i>→</i><div><b>LZ77</b><span>tokens</span></div><i>→</i><div><b>Huffman</b><span>bits</span></div><i>→</i><div class="accent-box"><b>.huf</b><span>HUF2</span></div></div><div class="pipeline reverse" data-anim><div class="accent-box"><b>.huf</b></div><i>→</i><div><b>Huffman⁻¹</b></div><i>→</i><div><b>LZ77⁻¹</b></div><i>→</i><div><b>Texto</b></div></div><p class="bottom-claim" data-anim>A árvore do modo combinado descreve os <strong>bytes dos tokens</strong>.</p></div>
+    <section class="slide" data-scene-id="lz77-bytes" data-start="88" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 de volta">
+      <div class="clip slide-inner" data-start="88" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Execução 06 · LZ77 de volta</p><h2>Um byte de controle diz o que é cada peça.</h2></header><div class="execution-lab"><pre class="code-panel execution-code tree-code" data-anim><code><span data-code-step="1">flags = tokens[i]</span><span data-code-step="3">if flags &amp; (1 &lt;&lt; (7 - bit)):
+    distancia = ((tokens[i] &lt;&lt; 4)
+                 | (tokens[i + 1] &gt;&gt; 4))
+    tamanho = (tokens[i + 1] &amp; 15) + 3</span><span data-code-step="4">    for _ in range(tamanho):
+        saida.append(saida[-distancia])</span>else:
+<span data-code-step="2">    saida.append(tokens[i])</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>lz77_descompactar</code><span>6 bytes</span></div><div class="lz-bytes"><p class="ctrl"><b>10</b><small>controle</small></p><p><b>41</b><small>A</small></p><p><b>42</b><small>B</small></p><p><b>43</b><small>C</small></p><p class="ref"><b>00 33</b><small>referência</small></p></div><p class="lz-note" data-step="1"><code>10</code> = 0001 0000: só a <b>4ª peça</b> é referência</p><p class="lz-note" data-step="3"><code>00 33</code> → distância <b>3</b>, tamanho 3 + 3 = <b>6</b></p><div class="lz-grid out"><span data-step="2" data-pop>A</span><span data-step="2" data-pop>B</span><span data-step="2" data-pop>C</span><span data-step="4" data-pop>A</span><span data-step="4" data-pop>B</span><span data-step="4" data-pop>C</span><span data-step="4" data-pop>A</span><span data-step="4" data-pop>B</span><span data-step="4" data-pop>C</span></div><p class="state-output" data-step="4"><span>saída</span><code>ABCABCABC ✓ 6 bytes viraram 9</code></p></div></div></div>
     </section>
 
-    <section class="slide" data-scene-id="arquitetura" data-start="96" data-duration="8" data-width="1920" data-height="1080" data-person="Mateus Pastorre" data-title="Arquitetura do projeto">
-      <div class="clip slide-inner" data-start="96" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Arquitetura</p><h2>Cada camada tem uma responsabilidade.</h2></header><div class="architecture" data-anim><article><code>index.html<br>app.js</code><h3>Interface</h3><p>Escolhe, envia e apresenta.</p></article><span>HTTP<br>bytes</span><article class="primary"><code>app.py</code><h3>Servidor local</h3><p>Valida, roteia e entrega.</p></article><span>funções</span><article><code>huffman.py</code><h3>Algoritmos</h3><p>Compacta e recupera.</p></article></div><p class="bottom-claim" data-anim>Huffman e LZ77 foram implementados <strong>sem biblioteca pronta</strong>.</p></div>
+    <section class="slide" data-scene-id="combinacao" data-start="96" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 mais Huffman">
+      <div class="clip slide-inner" data-start="96" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Duas técnicas em sequência</p><h2>Primeiro repetição. Depois frequência.</h2></header><div class="pipeline compact-pipe" data-anim><div><b>Texto</b><span>bytes originais</span></div><i>→</i><div><b>LZ77</b><span>tokens</span></div><i>→</i><div><b>Huffman</b><span>bits</span></div><i>→</i><div class="accent-box"><b>.huf</b><span>HUF2</span></div></div><pre class="code-panel combo-code" data-anim><code>def compactar_com_lz77(dados):
+    tokens, literais, referencias = lz77_compactar(dados)
+    huf_interno, raiz, frequencias, cabecalho = compactar(tokens)
+    arquivo = ASSINATURA_LZ77 + len(dados).to_bytes(8, "big") + huf_interno</code></pre><p class="bottom-claim" data-anim>Na volta, a ordem se inverte: <strong>Huffman primeiro, LZ77 depois</strong>.</p></div>
     </section>
 
-    <section class="slide" data-scene-id="dados-svg" data-start="104" data-duration="8" data-width="1920" data-height="1080" data-person="Mateus Pastorre" data-title="Do Python ao SVG">
-      <div class="clip slide-inner" data-start="104" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Visualização</p><h2>A árvore vira dados antes de virar desenho.</h2></header><div class="pipeline three" data-anim><div><b>Objeto <code>No</code></b><span>Python</span></div><i>→</i><div><b>Dicionário</b><span>JSON</span></div><i>→</i><div class="accent-box"><b>SVG</b><span>linhas, círculos e textos</span></div></div><p class="bottom-claim" data-anim>Python monta a estrutura. JavaScript calcula posições e desenha.</p></div>
+    <section class="slide" data-scene-id="arquitetura" data-start="104" data-duration="8" data-width="1920" data-height="1080" data-person="Mateus Pastorre" data-title="Arquitetura do projeto">
+      <div class="clip slide-inner" data-start="104" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Arquitetura</p><h2>Cada camada tem uma responsabilidade.</h2></header><div class="architecture" data-anim><article><code>index.html<br>app.js</code><h3>Interface</h3><p>Escolhe, envia e apresenta.</p></article><span>HTTP<br>bytes</span><article class="primary"><code>app.py</code><h3>Servidor local</h3><p>Valida, roteia e entrega.</p></article><span>funções</span><article><code>huffman.py</code><h3>Algoritmos</h3><p>Compacta e recupera.</p></article></div><p class="bottom-claim" data-anim>Huffman e LZ77 foram implementados <strong>sem biblioteca pronta</strong>.</p></div>
     </section>
+
 
     <section class="slide" data-scene-id="codigo-svg" data-start="112" data-duration="8" data-width="1920" data-height="1080" data-person="Mateus Pastorre" data-title="A recursão desenhada">
-      <div class="clip slide-inner" data-start="112" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Código real</p><h2>Os filhos no JSON são os ramos no SVG.</h2></header><div class="code-visual compact"><pre class="code-panel" data-anim><code>def arvore_para_dicionario(no):
+      <div class="clip slide-inner" data-start="112" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">Código real</p><h2>Python monta. JSON leva. SVG desenha.</h2></header><div class="code-visual compact"><pre class="code-panel tree-code" data-anim><code>def arvore_para_dicionario(no):
     if no.eh_folha():
-        return {"simbolo": ..., "frequencia": ...}
+        return {"simbolo": ...,
+                "frequencia": ...}
     return {
-        "esquerdo": arvore_para_dicionario(no.esquerdo),
-        "direito": arvore_para_dicionario(no.direito),
-    }</code></pre><svg class="json-tree" viewBox="0 0 620 430" role="img" aria-label="Relação entre JSON e árvore SVG" data-anim><line x1="310" y1="85" x2="170" y2="230"/><line x1="310" y1="85" x2="450" y2="230"/><text class="edge" x="220" y="160">esquerdo = 0</text><text class="edge" x="390" y="160">direito = 1</text><circle class="node-root" cx="310" cy="70" r="48"/><text x="310" y="78">Σ6</text><circle cx="170" cy="250" r="48"/><text x="170" y="258">Σ3</text><circle cx="450" cy="250" r="48"/><text x="450" y="258">A:3</text></svg></div></div>
+        "esquerdo":
+            arvore_para_dicionario(no.esquerdo),
+        "direito":
+            arvore_para_dicionario(no.direito),
+    }</code></pre><svg class="json-tree" viewBox="0 0 620 430" role="img" aria-label="Relação entre JSON e árvore SVG" data-anim><line x1="310" y1="85" x2="170" y2="230"/><line x1="310" y1="85" x2="450" y2="230"/><text class="edge" x="150" y="150">esquerdo = 0</text><text class="edge" x="470" y="150">direito = 1</text><circle class="node-root" cx="310" cy="70" r="48"/><text x="310" y="78">Σ6</text><circle cx="170" cy="250" r="48"/><text x="170" y="258">A:3</text><circle class="node-internal" cx="450" cy="250" r="48"/><text x="450" y="258">Σ3</text></svg></div></div>
     </section>
 
     <section class="slide" data-scene-id="interacao-svg" data-start="120" data-duration="8" data-width="1920" data-height="1080" data-person="Mateus Pastorre" data-title="Interação com a árvore">
