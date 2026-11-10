@@ -6,13 +6,14 @@ Tempo: 26 a 29 minutos (o professor pede de 20 a 30), mais perguntas. Em cada sl
 
 | Quem | Slides | Parte | Tempo |
 |---|---|---|---|
-| Pessoa 1 | 1 a 5 | O problema, onde é usado, a ideia e o resumo do algoritmo | 5 min |
-| Gabriel Aguiar | 6 a 9 | Simulação completa com BANANA | 6 min |
-| Pessoa 2 | 10 a 13 | O que é LZ77, o código dele executando e a combinação com Huffman | 6 min |
-| Pessoa 3 | 14 a 16 | Nosso programa e a árvore em SVG | 3 min |
-| Pessoa 4 | 17 a 20 | Resultados, demonstração, conclusão e perguntas | 6 a 8 min |
+| Pessoa 1 | 1 a 5 | O problema, onde é usado, a ideia e os quatro passos | 5 min |
+| Gabriel Aguiar | 6 a 9 | Huffman em ação: o código com BANANA | 6 min |
+| Pessoa 2 | 10 e 11 | O limite do Huffman e o LZ77 compactando | 3 a 4 min |
+| Pessoa 3 | 12 e 13 | O LZ77 descompactando e os dois juntos | 3 min |
+| Pessoa 4 | 14 a 17 | O programa e os resultados | 4 a 5 min |
+| Pessoa 5 | 18 a 20 | Demonstração ao vivo, conclusão e perguntas | 5 a 7 min |
 
-Gabriel Aguiar mantém o nome; os demais aparecem como Pessoa 1 a 4, na ordem em que falam.
+Gabriel Aguiar mantém o nome; os demais aparecem como Pessoa 1 a 5, na ordem em que falam.
 
 Atalhos: → / Espaço avança, ← volta, **F** tela cheia.
 
@@ -105,7 +106,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ---
 
-## Pessoa 2 (slides 10 a 13)
+## Pessoa 2 (slides 10 e 11)
 
 **Slide 10: O limite do Huffman** (avance 2 vezes)
 
@@ -125,9 +126,15 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > 4. Como o tamanho é pelo menos 3, vira referência: distância é i menos a posição achada, 3, e tamanho 6. O i pula 6 casas de uma vez. Nove letras viraram 3 literais e 1 referência. O código ainda testa até 8 candidatos por posição e fica com o maior.
 
+> Passagem: "O texto virou literais e referências. Mas, na volta, como o programa sabe o que é cada peça?"
+
+---
+
+## Pessoa 3 (slides 12 e 13)
+
 **Slide 12: LZ77 de volta** (avance 4 vezes; código de `lz77_descompactar`)
 
-> Essas peças viram bytes assim: 10, 41, 42, 43, 00, 33.
+> Cada peça precisa de uma etiqueta. As peças do ABCABCABC viram estes bytes: 10, 41, 42, 43, 00, 33.
 
 > 1. O primeiro byte é de controle. Cada bit diz o que é cada uma das próximas 8 peças: 0 é literal, 1 é referência. 10 em hexadecimal é 0001 0000: só a quarta peça é referência. O código testa isso com `flags & (1 << (7 - bit))`.
 
@@ -147,7 +154,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ---
 
-## Pessoa 3 (slides 14 a 16)
+## Pessoa 4 (slides 14 a 17)
 
 **Slide 14: Arquitetura**
 
@@ -163,11 +170,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > Na BANANA a árvore tem 5 nós, mas um texto de verdade gera centenas. Por isso ela é explorável: dá para arrastar, dar zoom sem perder nitidez, porque SVG é vetorial, reenquadrar com o Ajustar e exportar a árvore inteira. O programa também mostra o passo a passo da construção, com a mesma fila que vimos na BANANA.
 
-> Passagem: "Falta a pergunta mais importante: quanto tudo isso economiza de verdade?"
-
----
-
-## Pessoa 4 (slides 17 a 20)
+> Ponte para o slide 17: "Falta a pergunta mais importante: quanto tudo isso economiza de verdade?"
 
 **Slide 17: Resultados reais** (avance 2 vezes)
 
@@ -176,6 +179,12 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 > Lembram da BANANA? 6 bytes viraram 24: menos 300%. Cresceu por causa do cabeçalho com a árvore, que o Gabriel mostrou.
 
 > Agora um texto onde trechos inteiros se repetem, como o ABCABCABC: ABRACADABRA repetido 200 vezes. São 2.400 bytes, que viram 731 com Huffman e 133 com LZ77 mais Huffman: 94,46% de economia.
+
+> Passagem: "Esses números são de exemplos que nós escolhemos. O teste de verdade é com um arquivo que não preparamos."
+
+---
+
+## Pessoa 5 (slides 18 a 20)
 
 **Slide 18: Demonstração ao vivo**
 
@@ -190,7 +199,7 @@ Passos no programa:
 7. Na aba Descompactar, envie só o `.huf`.
 8. Mostre que o texto restaurado é igual ao original.
 
-> O teste de verdade é com um arquivo que não preparamos. Este é o arquivo que recebemos agora. Aqui está o tamanho original e o de cada modo. Baixamos o .huf, descompactamos sem o TXT original, e o conteúdo volta idêntico.
+> Este é o arquivo que o professor nos entregou agora. Aqui está o tamanho original e o de cada modo. Baixamos o .huf, descompactamos sem o TXT original, e o conteúdo volta idêntico.
 
 **Slide 19: Conclusão**
 
@@ -203,6 +212,7 @@ Passos no programa:
 - **LZ77 sempre melhora?** Não. Depende de quanta repetição o arquivo tem.
 - **Por que salvar a árvore no arquivo?** Sem ela, não dá para transformar os bits de volta em letras.
 - **Quem desenha o SVG?** O Python monta a estrutura; o JavaScript desenha.
+
 
 ## Plano de contingência
 
