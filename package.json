@@ -1,0 +1,11 @@
+{
+  "name": "apresentacao_huffman",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.9.30 present .",
+    "site": "python -m http.server 3004",
+    "check": "npx --yes hyperframes@0.9.30 check",
+    "preview": "npx --yes hyperframes@0.9.30 preview --background"
+  }
+}

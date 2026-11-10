@@ -1,0 +1,45 @@
+# Apresentação Huffman
+
+Apresentação web navegável do projeto de compactação Huffman e LZ77 + Huffman, com execução visual de código, árvore progressiva e inspeção do arquivo binário.
+
+## Abrir
+
+Online: https://gabrielgaks.github.io/apresentacao-huffman/
+
+Falas de cada integrante: [ROTEIRO.md](ROTEIRO.md).
+
+Local: abra `index.html` no navegador.
+
+Opção com servidor local:
+
+```powershell
+npm run site
+```
+
+Depois acesse `http://localhost:3004`.
+
+Opção de apresentação com notas separadas:
+
+```powershell
+npm run dev
+```
+
+No modo HyperFrames, clique em **Present** ou pressione `P` para abrir a tela da plateia.
+
+## Controles
+
+- `→`, `Espaço` ou `Page Down`: revelar a próxima etapa ou avançar.
+- `←`, `Backspace` ou `Page Up`: voltar.
+- `Home` / `End`: primeiro ou último slide.
+- `N`: notas do apresentador.
+- `F`: tela cheia.
+- Arrastar para os lados no celular: navegar.
+
+## Arquivos
+
+- `index.html`: conteúdo, manifesto de slides e notas.
+- `styles.css`: identidade visual e responsividade.
+- `app.js`: navegação, revelações e animações.
+- `ROTEIRO.md`: falas, tempo e passagens entre integrantes.
+
+O programa original em `../projeto_huffman_web/` não foi alterado.
