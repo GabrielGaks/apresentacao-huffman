@@ -86,7 +86,7 @@ code, pre { font-family: var(--mono); }
 .queue-history { position: absolute; top: 20px; left: 24px; right: 24px; z-index: 3; display: flex; gap: 9px; }
 .queue-history span { padding: 8px 12px; border: 1px solid var(--border); border-radius: 10px; color: var(--accent); font: 18px var(--mono); background: #101512; }
 .queue-history small { display: block; margin-bottom: 3px; color: var(--muted); font-size: 12px; text-transform: uppercase; }
-.banana-tree { width: 100%; height: calc(100% - 66px); margin-top: 62px; }
+.banana-tree { width: 100%; height: calc(100% - 140px); margin-top: 62px; }
 svg line { stroke: #718077; stroke-width: 4; }
 svg circle { fill: var(--raised); stroke: var(--accent); stroke-width: 4; }
 svg .node-internal { fill: var(--surface); stroke: var(--muted); }
