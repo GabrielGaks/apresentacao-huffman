@@ -44,7 +44,7 @@ Atalhos: → / Espaço avança, ← volta, **F** tela cheia, **N** mostra as not
 
 **Slide 4: A ideia em uma frase** (avance 2 vezes)
 
-> Gabrield Huffman criou o método em 1952, ainda aluno no MIT, num trabalho da disciplina de Robert Fano. A ideia lembra o código Morse: a letra mais usada ganha o sinal mais curto.
+> David Huffman criou o método em 1952, ainda aluno no MIT, num trabalho da disciplina de Robert Fano. A ideia lembra o código Morse: a letra mais usada ganha o sinal mais curto.
 
 > Com tamanho fixo, BANANA gasta 48 bits. Dando 0 para o A, 10 para o B e 11 para o N, cai para 9 bits.
 
