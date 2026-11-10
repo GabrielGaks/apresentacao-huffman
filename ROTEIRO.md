@@ -75,7 +75,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ---
 
-## Gabriel Aguiar (slides 6 a 9)
+## Pessoa 2(slides 6 a 9)
 
 **Slide 6: Contar** (avance 4 vezes)
 
