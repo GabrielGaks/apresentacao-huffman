@@ -259,9 +259,8 @@ for bit in bits:
 <span data-code-step="1 5">    inicio = max(0, i - 4095)
     trecho = dados[i:i + 3]
     candidato = dados.rfind(
-        trecho, inicio, i)</span><span data-code-step="5">    tamanho = 0
-    if candidato &gt;= 0:
-        tamanho = 3</span><span data-code-step="6 7 8 9">        while (tamanho &lt; 18 and
+        trecho, inicio, i)</span><span data-code-step="1 5">    tamanho = 0
+    if candidato &gt;= 0:</span><span data-code-step="5">        tamanho = 3</span><span data-code-step="6 7 8 9">        while (tamanho &lt; 18 and
                dados[candidato + tamanho]
                == dados[i + tamanho]):
             tamanho += 1</span>    if tamanho &gt;= 3:

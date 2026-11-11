@@ -148,9 +148,9 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > Agora a mesma execução, só que dentro do nosso código. É uma versão simplificada: o código real testa até 8 lugares onde o trecho apareceu e fica com a cópia mais longa, mas a lógica é esta. Reparem nas variáveis mudando. O `i` é a casa que está sendo analisada.
 
-> (1) Com i igual a 0, `inicio` diz até onde ele pode olhar para trás: no máximo 4.095 casas, e aqui é 0. `trecho` pega as 3 letras a partir de i, ABC, e o `rfind` procura esse trecho entre `inicio` e i. Não acha: `candidato` vale −1.
+> (1) Com i igual a 0, `inicio` diz até onde ele pode olhar para trás: no máximo 4.095 casas, e aqui é 0. `trecho` pega as 3 letras a partir de i, ABC, e o `rfind` procura esse trecho entre `inicio` e i. Não acha: `candidato` vale −1. Então `tamanho` recebe 0 e o `if candidato >= 0` é falso.
 
-> (2) Como não achou, o `tamanho` fica 0 e cai no `else`: o A vai para a `saida` como literal, e i anda uma casa.
+> (2) Como `tamanho` é 0, menor que 3, cai no `else`: o A vai para a `saida` como literal, e i anda uma casa.
 
 > (3) Com i igual a 1, o trecho é BCA, que não aparece antes: B vira literal. (4) Com i igual a 2, o trecho é CAB, que também não aparece: C vira literal. A saída está em A, B, C.
 

@@ -93,8 +93,8 @@ const PASSOS_CODIGO = (() => {
   let variaveis = { i: "0", inicio: "0", trecho: "", candidato: "", tamanho: "", distancia: "", saida: "[ ]" };
   return [
     ["..........", null, "Versão simplificada de lz77_compactar (o código real testa até 8 lugares e guarda a cópia mais longa). Começa com i = 0.", {}],
-    ["..........", null, "i = 0: inicio = 0, porque não dá para voltar antes da casa 0. Procura ABC antes da casa 0: não acha, <b>−1</b>.", { trecho: '"ABC"', candidato: "−1" }],
-    ["g.........", null, "candidato = −1, então tamanho fica 0. Cai no else: A vira literal e i += 1.", { tamanho: "0", saida: "[A]" }],
+    ["..........", null, "i = 0: inicio = 0. Procura ABC antes da casa 0: não acha, <b>−1</b>. tamanho = 0 e o if é falso.", { trecho: '"ABC"', candidato: "−1", tamanho: "0" }],
+    ["g.........", null, "tamanho é 0, menor que 3: cai no else. A vira literal e i += 1.", { saida: "[A]" }],
     ["gg........", null, "i = 1: trecho BCA não aparece antes. B vira literal.", { i: "1", trecho: '"BCA"', saida: "[A, B]" }],
     ["ggg.......", null, "i = 2: trecho CAB não aparece antes. C vira literal.", { i: "2", trecho: '"CAB"', saida: "[A, B, C]" }],
     ["oooiii....", null, "i = 3: trecho ABC. Agora acha na casa <b>0</b>. O tamanho começa em 3.", { i: "3", trecho: '"ABC"', candidato: "0", tamanho: "3" }],
