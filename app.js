@@ -123,9 +123,9 @@ function mostrarLz(slide) {
   const abrindo = demo === "limite" && etapa >= 9;
   const rotulo = demo === "codigo" ? `passo ${etapa}` : etapa < 2 ? "exemplo" : abrindo ? "abrindo o arquivo" : "LZ77 compactando";
   slide.querySelector(".lz-status").innerHTML = `<code>${rotulo}</code> ${texto}`;
-  for (const [nome, valor] of Object.entries(variaveis || {})) {
-    const campo = slide.querySelector(`[data-var="${nome}"]`);
-    campo.textContent = valor || "–";
+  for (const campo of slide.querySelectorAll("[data-var]")) {
+    const nome = campo.dataset.var;
+    campo.textContent = variaveis[nome] || "–";
     campo.classList.toggle("mudou", mudou.includes(nome));
   }
   const [anterior, atual] = grade.querySelectorAll(".ptr");
