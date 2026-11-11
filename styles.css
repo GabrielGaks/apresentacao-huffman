@@ -234,6 +234,13 @@ svg .edge { fill: var(--accent); font-size: 20px; }
 .lz-vars dt { color: var(--muted); font: 13px var(--mono); }
 .lz-vars dd { margin: 4px 0 0; font: 700 22px var(--mono); transition: color .2s; }
 .lz-vars dd.mudou { color: var(--warning); }
+.lz-vars dd:has(.peca) { display: flex; flex-wrap: wrap; gap: 6px; }
+.peca { display: grid; justify-items: center; min-width: 54px; padding: 4px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--raised); }
+.peca b { font: 700 20px var(--mono); }
+.peca small { color: var(--muted); font: 600 12px var(--font); white-space: nowrap; }
+.lz-vars dd.mudou .peca:last-child { border-color: var(--warning); }
+.lz-vars dd.mudou .peca b { color: var(--text); }
+.lz-vars dd.mudou .peca:last-child b { color: var(--warning); }
 .lz-vars.cinco { grid-template-columns: repeat(5, 1fr); }
 .lz-bytes-demo { margin: 18px 0 0; }
 .lz-bytes-demo p { transition: border-color .2s, background .2s; }

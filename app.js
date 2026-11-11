@@ -70,20 +70,22 @@ const CLASSE_CASA = { g: "guardada", o: "origem", i: "copiada", x: "diferente", 
 
 // Slide 11: a mesma compactação do slide 10, com as variáveis do código. Cada passo só lista o que mudou.
 const PASSOS_CODIGO = (() => {
-  let variaveis = { i: "0", inicio: "0", trecho: "", candidato: "", tamanho: "", distancia: "", saida: "[ ]" };
+  // Cada peça da saída: [bytes de verdade, como um leigo leria].
+  const P = { reservado: ["??", "controle"], A: ["41", "A"], B: ["42", "B"], C: ["43", "C"], ref: ["00 33", "volte 3, copie 6"], X: ["58", "X"], controle: ["10", "controle"] };
+  let variaveis = { i: "0", inicio: "0", trecho: "", candidato: "", tamanho: "", distancia: "", saida: [P.reservado] };
   return [
-    ["..........", null, "Versão simplificada de lz77_compactar (o código real testa até 8 lugares e guarda a cópia mais longa). Começa com i = 0.", {}],
+    ["..........", null, "Versão simplificada de lz77_compactar. A saída é de bytes e começa com 1 byte reservado (??) para o controle, preenchido no fim.", {}],
     ["..........", null, "i = 0: inicio = 0. Procura ABC antes da casa 0: não acha, <b>−1</b>. tamanho = 0 e o if é falso.", { trecho: '"ABC"', candidato: "−1", tamanho: "0" }],
-    ["g.........", null, "tamanho é 0, menor que 3: cai no else. A vira literal e i += 1.", { saida: "[A]" }],
-    ["gg........", null, "i = 1: trecho BCA não aparece antes. B vira literal.", { i: "1", trecho: '"BCA"', saida: "[A, B]" }],
-    ["ggg.......", null, "i = 2: trecho CAB não aparece antes. C vira literal.", { i: "2", trecho: '"CAB"', saida: "[A, B, C]" }],
+    ["g.........", null, "tamanho é 0, menor que 3: cai no else. A entra na saída como o byte <b>41</b> e i += 1.", { saida: [P.reservado, P.A] }],
+    ["gg........", null, "i = 1: trecho BCA não aparece antes. B entra como <b>42</b>.", { i: "1", trecho: '"BCA"', saida: [P.reservado, P.A, P.B] }],
+    ["ggg.......", null, "i = 2: trecho CAB não aparece antes. C entra como <b>43</b>.", { i: "2", trecho: '"CAB"', saida: [P.reservado, P.A, P.B, P.C] }],
     ["oooiii....", null, "i = 3: trecho ABC. Agora acha na casa <b>0</b>. O tamanho começa em 3.", { i: "3", trecho: '"ABC"', candidato: "0", tamanho: "3" }],
     ["oooiiii...", [3, 6], "while: dados[3] == dados[6]? A = A. <b>tamanho = 4</b>.", { tamanho: "4" }],
     ["oooiiiii..", [4, 7], "dados[4] == dados[7]? B = B. <b>tamanho = 5</b>.", { tamanho: "5" }],
     ["oooiiiiii.", [5, 8], "dados[5] == dados[8]? C = C. <b>tamanho = 6</b>.", { tamanho: "6" }],
     ["oooiiiiiix", [6, 9], "dados[6] == dados[9]? A ≠ X: sai do while com <b>tamanho = 6</b>.", {}],
-    ["gggiiiiii.", null, "tamanho ≥ 3: distancia = i − candidato = 3 − 0 = <b>3</b>. Grava (volte 3, copie 6). Depois, i += 6.", { distancia: "3", saida: "[A, B, C, (3, 6)]" }],
-    ["gggiiiiiig", null, "i = 9: o trecho é só X e não aparece antes. Cai no else: X vira literal. i vai para 10: fim.", { i: "9", trecho: '"X"', candidato: "−1", tamanho: "0", distancia: "", saida: "[A, B, C, (3, 6), X]" }],
+    ["gggiiiiii.", null, "tamanho ≥ 3: distancia = i − candidato = 3 − 0 = <b>3</b>. Grava (volte 3, copie 6) em 2 bytes: <b>00 33</b>. Depois, i += 6.", { distancia: "3", saida: [P.reservado, P.A, P.B, P.C, P.ref] }],
+    ["gggiiiiiig", null, "i = 9: X entra como <b>58</b>. Fim: o controle vira <b>10</b> = 0001 0000 (só a 4ª peça é instrução). São os 7 bytes do próximo slide.", { i: "9", trecho: '"X"', candidato: "−1", tamanho: "0", distancia: "", saida: [P.controle, P.A, P.B, P.C, P.ref, P.X] }],
   ].map(([casas, ponteiros, texto, mudou]) => {
     variaveis = { ...variaveis, ...mudou };
     return [casas, ponteiros, texto, variaveis, Object.keys(mudou)];
@@ -128,7 +130,9 @@ function mostrarLz(slide) {
   slide.querySelectorAll(".lz-bytes-demo p").forEach((byte, i) => byte.classList.toggle("atual", acesos.includes(i)));
   for (const campo of slide.querySelectorAll("[data-var]")) {
     const nome = campo.dataset.var;
-    campo.textContent = variaveis[nome] || "–";
+    const valor = variaveis[nome];
+    if (Array.isArray(valor)) campo.innerHTML = valor.map(([bytes, leigo]) => `<span class="peca"><b>${bytes}</b><small>${leigo}</small></span>`).join("");
+    else campo.textContent = valor || "–";
     campo.classList.toggle("mudou", mudou.includes(nome));
   }
   const [anterior, atual] = grade.querySelectorAll(".ptr");

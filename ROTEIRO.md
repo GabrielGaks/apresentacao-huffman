@@ -128,7 +128,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > O exemplo é ABC repetido três vezes e um X no fim. Reparem no `i`: é a casa que o programa está olhando agora.
 
-> (1 a 4) Em cada casa, ele pega as 3 letras a partir dali e procura esse pedaço para trás. Em A, B e C não acha nada, porque não existe nada antes: o `candidato` vale −1 e a letra vai para a saída como está.
+> (1 a 4) Em cada casa, ele pega as 3 letras a partir dali e procura esse pedaço para trás. Em A, B e C não acha nada, porque não existe nada antes: o `candidato` vale −1 e a letra vai para a saída como está. Reparem que a saída mostra duas linhas: em cima, o byte que o programa grava de verdade (A é 41, B é 42, C é 43); embaixo, o que ele significa. O primeiro lugar fica reservado, com ??, para o byte de controle.
 
 > (5) Na casa 3, as 3 letras são ABC, e agora ele acha esse pedaço na casa 0. As casas amarelas são de onde vem a cópia; as verdes, o que vai ser coberto. Ele procura 3 letras de uma vez porque menos que isso não compensa: a instrução também ocupa espaço.
 
@@ -136,15 +136,15 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > (9) O X é diferente do A: a repetição quebrou e o `tamanho` para em 6.
 
-> (10) Só agora ele grava, e grava uma instrução só: `distancia` 3, `tamanho` 6, ou seja, volte 3, copie 6. O `i` pula as 6 casas de uma vez.
+> (10) Só agora ele grava, e grava uma instrução só: `distancia` 3, `tamanho` 6, ou seja, volte 3, copie 6. Na saída, a instrução vira 2 bytes, 00 e 33. O `i` pula as 6 casas de uma vez.
 
-> (11) Sobra o X, que não aparece antes: vai como está. Dez letras viraram 3 letras, uma instrução e mais uma letra. Esta é uma versão simplificada do nosso código; o real ainda testa até 8 lugares onde o trecho apareceu e fica com a cópia mais longa.
+> (11) Sobra o X, que não aparece antes: entra como 58. No fim, o lugar reservado vira 10, o byte de controle, que marca qual peça é instrução. A saída é 10, 41, 42, 43, 00, 33, 58: dez letras viraram 7 bytes, e são exatamente esses bytes que vamos abrir no próximo slide. Esta é uma versão simplificada do nosso código; o real ainda testa até 8 lugares onde o trecho apareceu e fica com a cópia mais longa.
 
 > Ponte para o slide 12: "O arquivo virou letras e instruções misturadas. Mas, na volta, como o programa sabe o que é cada peça?"
 
 **Slide 12: LZ77 abrindo o arquivo** (avance 13 vezes; em cima, os 7 bytes do arquivo, com o que está sendo lido aceso; embaixo, o texto sendo remontado)
 
-> O arquivo do ABCABCABCX tem só estes 7 bytes.
+> Estes são os mesmos 7 bytes que saíram do slide anterior.
 
 > (1) O primeiro é um byte de controle, 10 em hexadecimal, que em bits é 0001 0000. Cada bit diz o que é a próxima peça: 0 é letra, 1 é instrução. No código, é o `flags`.
 
