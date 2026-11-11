@@ -125,11 +125,16 @@
       "startTime": 80,
       "endTime": 88,
       "fragments": [
-        81.5,
-        83.0,
-        84.5,
-        86.0,
-        87.5
+        80.7,
+        81.4,
+        82.1,
+        82.8,
+        83.5,
+        84.2,
+        84.9,
+        85.6,
+        86.3,
+        87.0
       ]
     },
     {
@@ -245,19 +250,21 @@ for bit in bits:
     </section>
 
     <section class="slide" data-scene-id="lz77-ideia" data-start="72" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="O limite do Huffman">
-      <div class="clip slide-inner" data-start="72" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">O limite do Huffman</p><h2>Huffman vê letras. Não vê trechos repetidos.</h2></header><div class="lz-grid wide" style="--n: 10" data-anim data-lz-demo data-etapas="16"><b class="ptr ler" aria-hidden="true"></b><b class="ptr escrever" aria-hidden="true"></b><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><span data-hex="9">X</span></div><div class="limit-notes"><p class="lz-note lz-status ref" data-anim></p><p class="lz-note" data-step="1"><code>Huffman</code> A, B e C 3 vezes, X 1 vez: 2 bits por letra = <b>20 bits</b>, pagando letra por letra.</p></div><p class="bottom-claim" data-step="8">Huffman explora <strong>frequência</strong>. LZ77 explora <strong>repetição</strong>.</p></div>
+      <div class="clip slide-inner" data-start="72" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">O limite do Huffman</p><h2>Huffman vê letras. Não vê trechos repetidos.</h2></header><div class="lz-grid wide" style="--n: 10" data-anim data-lz-demo="limite" data-etapas="16"><b class="ptr ler" aria-hidden="true"></b><b class="ptr escrever" aria-hidden="true"></b><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><span data-hex="9">X</span></div><div class="limit-notes"><p class="lz-note lz-status ref" data-anim></p><p class="lz-note" data-step="1"><code>Huffman</code> A, B e C 3 vezes, X 1 vez: 2 bits por letra = <b>20 bits</b>, pagando letra por letra.</p></div><p class="bottom-claim" data-step="8">Huffman explora <strong>frequência</strong>. LZ77 explora <strong>repetição</strong>.</p></div>
     </section>
 
-    <section class="slide" data-scene-id="lz77-tokens" data-start="80" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 executando">
-      <div class="clip slide-inner" data-start="80" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">LZ77 em ação · compactar</p><h2>Achou o trecho antes? Vira referência.</h2></header><div class="execution-lab"><pre class="code-panel execution-code tree-code" data-anim><code><span data-code-step="1 3">trecho = dados[i:i + 3]
-candidato = dados.rfind(trecho, inicio, i)</span><span data-code-step="4">while (tamanho &lt; 18 and
-       dados[candidato + tamanho]
-       == dados[i + tamanho]):
-    tamanho += 1</span>if melhor_tamanho &gt;= 3:
-<span data-code-step="5">    distancia = i - melhor_pos
-    i += melhor_tamanho</span>else:
-<span data-code-step="2">    saida.append(dados[i])
-    i += 1</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>lz77_compactar</code><span>entrada ABCABCABCX</span></div><div class="lz-grid" style="--n: 10"><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><span data-hex="9">X</span><i class="lz-bar" data-step="2" style="grid-column: 1 / 4">3 literais</i><i class="lz-bar ref" data-step="4" style="grid-column: 4 / 10">6 iguais às de 3 casas antes</i><i class="lz-bar" data-step="5" style="grid-column: 10 / 11">literal</i></div><p class="lz-note" data-step="1"><code>i = 0</code> rfind("ABC") procura antes da posição 0 e não acha nada: <b>−1</b></p><p class="lz-note" data-step="3"><code>i = 3</code> rfind("ABC") encontra o trecho na posição <b>0</b></p><p class="lz-note" data-step="4"><code>casa 9</code> X ≠ A: o while para com tamanho <b>6</b></p><div class="lz-tokens"><b data-step="2" data-pop>A</b><b data-step="2" data-pop>B</b><b data-step="2" data-pop>C</b><b class="ref" data-step="5" data-pop>volte 3 · copie 6</b><b data-step="5" data-pop>X</b></div></div></div></div>
+    <section class="slide" data-scene-id="lz77-tokens" data-start="80" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 no código">
+      <div class="clip slide-inner" data-start="80" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">LZ77 em ação · o código</p><h2>A mesma execução, linha por linha.</h2></header><div class="execution-lab"><pre class="code-panel execution-code tree-code codigo-lz" data-anim><code>while i &lt; len(dados):
+<span data-code-step="1 4">    trecho = dados[i:i + 3]
+    candidato = dados.rfind(
+        trecho, inicio, i)</span><span data-code-step="5 6 7 8">    while (tamanho &lt; 18 and
+           dados[candidato + tamanho]
+           == dados[i + tamanho]):
+        tamanho += 1</span>    if melhor_tamanho &gt;= 3:
+<span data-code-step="9">        distancia = i - melhor_pos
+        i += melhor_tamanho</span>    else:
+<span data-code-step="2 3 10">        saida.append(dados[i])
+        i += 1</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>lz77_compactar</code><span>entrada ABCABCABCX</span></div><div class="lz-grid codigo" style="--n: 10" data-lz-demo="codigo" data-etapas="10"><b class="ptr ler" aria-hidden="true"></b><b class="ptr escrever" aria-hidden="true"></b><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><span data-hex="9">X</span></div><dl class="lz-vars"><div><dt>i</dt><dd data-var="i"></dd></div><div><dt>trecho</dt><dd data-var="trecho"></dd></div><div><dt>candidato</dt><dd data-var="candidato"></dd></div><div><dt>tamanho</dt><dd data-var="tamanho"></dd></div><div><dt>distancia</dt><dd data-var="distancia"></dd></div><div class="largo"><dt>saida</dt><dd data-var="saida"></dd></div></dl><p class="lz-note lz-status ref"></p></div></div></div>
     </section>
 
     <section class="slide" data-scene-id="lz77-bytes" data-start="88" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 de volta">

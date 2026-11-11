@@ -88,16 +88,46 @@ const PASSOS_LZ = [
 ];
 const CLASSE_CASA = { g: "guardada", o: "origem", i: "copiada", x: "diferente", v: "vazio" };
 
+// Slide 11: a mesma compactação do slide 10, com as variáveis do código. Cada passo só lista o que mudou.
+const PASSOS_CODIGO = (() => {
+  let variaveis = { i: "0", trecho: "", candidato: "", tamanho: "", distancia: "", saida: "[ ]" };
+  return [
+    ["..........", null, "Começa com i = 0 e a saída vazia.", {}],
+    ["..........", null, "i = 0: pega as 3 letras, ABC, e procura antes da casa 0. Não acha: <b>−1</b>.", { trecho: '"ABC"', candidato: "−1" }],
+    ["g.........", null, "Não achou: cai no else. A vira literal e i anda 1.", { i: "1", saida: "[A]" }],
+    ["ggg.......", null, "i = 1 e i = 2: BCA e CAB também não aparecem antes. B e C viram literais.", { i: "3", trecho: '"CAB"', saida: "[A, B, C]" }],
+    ["oooiii....", null, "i = 3: procura ABC e acha na casa <b>0</b>. O tamanho começa em 3.", { trecho: '"ABC"', candidato: "0", tamanho: "3" }],
+    ["oooiiii...", [3, 6], "while: dados[3] == dados[6]? A = A. <b>tamanho = 4</b>.", { tamanho: "4" }],
+    ["oooiiiii..", [4, 7], "dados[4] == dados[7]? B = B. <b>tamanho = 5</b>.", { tamanho: "5" }],
+    ["oooiiiiii.", [5, 8], "dados[5] == dados[8]? C = C. <b>tamanho = 6</b>.", { tamanho: "6" }],
+    ["oooiiiiiix", [6, 9], "dados[6] == dados[9]? A ≠ X: sai do while com <b>tamanho = 6</b>.", {}],
+    ["gggiiiiii.", null, "tamanho ≥ 3: distancia = 3 − 0 = <b>3</b>. Grava (volte 3, copie 6) e i pula para 9.", { distancia: "3", i: "9", saida: "[A, B, C, (3, 6)]" }],
+    ["gggiiiiiig", null, "i = 9: sobra só o X, menos de 3 letras. Cai no else: X vira literal. Fim.", { i: "10", saida: "[A, B, C, (3, 6), X]" }],
+  ].map(([casas, ponteiros, texto, mudou]) => {
+    variaveis = { ...variaveis, ...mudou };
+    return [casas, ponteiros, texto, variaveis, Object.keys(mudou)];
+  });
+})();
+const DEMOS_LZ = { limite: PASSOS_LZ, codigo: PASSOS_CODIGO };
+
 function mostrarLz(slide) {
   const grade = slide.querySelector("[data-lz-demo]");
   if (!grade) return;
-  const [casas, ponteiros, texto] = PASSOS_LZ[Math.min(etapa, PASSOS_LZ.length - 1)];
+  const demo = grade.dataset.lzDemo;
+  const passos = DEMOS_LZ[demo];
+  const [casas, ponteiros, texto, variaveis, mudou] = passos[Math.min(etapa, passos.length - 1)];
   const celulas = [...grade.querySelectorAll("span")];
   celulas.forEach((celula, i) => {
     for (const classe of Object.values(CLASSE_CASA)) celula.classList.toggle(classe, CLASSE_CASA[casas[i]] === classe);
   });
-  const abrindo = etapa >= 9;
-  slide.querySelector(".lz-status").innerHTML = `<code>${etapa < 2 ? "exemplo" : abrindo ? "abrindo o arquivo" : "LZ77 compactando"}</code> ${texto}`;
+  const abrindo = demo === "limite" && etapa >= 9;
+  const rotulo = demo === "codigo" ? `passo ${etapa}` : etapa < 2 ? "exemplo" : abrindo ? "abrindo o arquivo" : "LZ77 compactando";
+  slide.querySelector(".lz-status").innerHTML = `<code>${rotulo}</code> ${texto}`;
+  for (const [nome, valor] of Object.entries(variaveis || {})) {
+    const campo = slide.querySelector(`[data-var="${nome}"]`);
+    campo.textContent = valor || "–";
+    campo.classList.toggle("mudou", mudou.includes(nome));
+  }
   const [anterior, atual] = grade.querySelectorAll(".ptr");
   anterior.textContent = abrindo ? "lê" : "anterior";
   atual.textContent = abrindo ? "escreve" : "atual";

@@ -144,19 +144,23 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > Num texto tão pequeno, a instrução ainda custa espaço. A vantagem aparece em texto grande e repetitivo, como vamos ver nos resultados. Ou seja: o Huffman explora frequência; o LZ77 explora repetição. Agora vamos ver isso no código.
 
-**Slide 11: LZ77 executando** (avance 5 vezes; a linha destacada é a que está rodando em `lz77_compactar`)
+**Slide 11: LZ77 no código** (avance 10 vezes; à esquerda, a linha que está rodando em `lz77_compactar`; à direita, a mesma execução do slide 10 e as variáveis, com a que mudou em amarelo)
 
-> É o mesmo ABCABCABCX, agora com o código.
+> Agora a mesma execução, só que dentro do nosso código. Reparem nas variáveis mudando.
 
-> 1. O laço anda pelo texto com um índice i. Em cada posição, pega os próximos 3 bytes e procura esse trecho antes, com `rfind`. Em i igual a 0 não existe nada antes: o `rfind` devolve −1, ou seja, não achou.
+> (1) O laço começa com i igual a 0. `trecho` pega as 3 letras a partir de i, ABC, e o `rfind` procura esse trecho antes da casa 0. Não acha: `candidato` vale −1.
 
-> 2. Como não achou, cai no else: `saida.append(dados[i])` grava o byte como está, um literal, e i anda uma casa. O mesmo acontece com B e C.
+> (2) Como não achou, cai no `else`: o A vai para a `saida` como literal e i anda 1. (3) O mesmo acontece em i igual a 1 e 2: BCA e CAB não aparecem antes, então B e C também viram literais. A saída está em A, B, C e i vale 3.
 
-> 3. Em i igual a 3, o trecho é ABC. Agora o `rfind`, que procura da direita para a esquerda dentro da janela de 4.095 bytes, encontra ABC na posição 0.
+> (4) Em i igual a 3, `trecho` é ABC de novo, e agora o `rfind` acha na casa 0: `candidato` vale 0. O `tamanho` começa em 3, o mínimo.
 
-> 4. Achar 3 letras é o mínimo. O while compara as próximas letras uma por uma, enquanto forem iguais e até no máximo 18, e vai aumentando o tamanho. Na casa 9, X é diferente de A, e o while para com tamanho 6. São exatamente os ponteiros "anterior" e "atual" do slide anterior.
+> (5) O `while` estica: compara `dados[candidato + tamanho]` com `dados[i + tamanho]`, ou seja, casa 3 com casa 6. A igual a A: `tamanho` vira 4. (6) Casa 4 com 7: vira 5. (7) Casa 5 com 8: vira 6.
 
-> 5. Como o tamanho é pelo menos 3, vira referência: distância é i menos a posição achada, 3, e tamanho 6. O i pula 6 casas de uma vez. Sobra o X, que vira literal. Dez letras viraram 4 literais e 1 referência. O código ainda testa até 8 candidatos por posição e fica com o maior.
+> (8) Casa 6 com casa 9: A com X. Diferente, então sai do `while` com `tamanho` 6.
+
+> (9) Como o tamanho é pelo menos 3, vira referência: `distancia` é i menos `candidato`, 3 menos 0, igual a 3. A saída ganha a instrução (3, 6), e i pula 6 casas, para 9.
+
+> (10) Em i igual a 9 sobra só o X, menos de 3 letras, então ele nem procura: cai no `else` e o X vira literal. Fim: 10 letras viraram 4 literais e 1 instrução. No código real ele ainda testa até 8 lugares diferentes onde o trecho apareceu e fica com a cópia mais longa.
 
 > Ponte para o slide 12: "O texto virou literais e referências. Mas, na volta, como o programa sabe o que é cada peça?"
 
