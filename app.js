@@ -93,16 +93,17 @@ const PASSOS_CODIGO = (() => {
   let variaveis = { i: "0", trecho: "", candidato: "", tamanho: "", distancia: "", saida: "[ ]" };
   return [
     ["..........", null, "Começa com i = 0 e a saída vazia.", {}],
-    ["..........", null, "i = 0: pega as 3 letras, ABC, e procura antes da casa 0. Não acha: <b>−1</b>.", { trecho: '"ABC"', candidato: "−1" }],
-    ["g.........", null, "Não achou: cai no else. A vira literal e i anda 1.", { i: "1", saida: "[A]" }],
-    ["ggg.......", null, "i = 1 e i = 2: BCA e CAB também não aparecem antes. B e C viram literais.", { i: "3", trecho: '"CAB"', saida: "[A, B, C]" }],
-    ["oooiii....", null, "i = 3: procura ABC e acha na casa <b>0</b>. O tamanho começa em 3.", { trecho: '"ABC"', candidato: "0", tamanho: "3" }],
+    ["..........", null, "i = 0: pega as 3 letras a partir da casa 0, ABC, e procura antes. Não acha: <b>−1</b>.", { trecho: '"ABC"', candidato: "−1" }],
+    ["g.........", null, "Não achou: cai no else. A vira literal. Depois, i += 1.", { saida: "[A]" }],
+    ["gg........", null, "i = 1: trecho BCA não aparece antes. B vira literal.", { i: "1", trecho: '"BCA"', saida: "[A, B]" }],
+    ["ggg.......", null, "i = 2: trecho CAB não aparece antes. C vira literal.", { i: "2", trecho: '"CAB"', saida: "[A, B, C]" }],
+    ["oooiii....", null, "i = 3: trecho ABC. Agora acha na casa <b>0</b>. O tamanho começa em 3.", { i: "3", trecho: '"ABC"', candidato: "0", tamanho: "3" }],
     ["oooiiii...", [3, 6], "while: dados[3] == dados[6]? A = A. <b>tamanho = 4</b>.", { tamanho: "4" }],
     ["oooiiiii..", [4, 7], "dados[4] == dados[7]? B = B. <b>tamanho = 5</b>.", { tamanho: "5" }],
     ["oooiiiiii.", [5, 8], "dados[5] == dados[8]? C = C. <b>tamanho = 6</b>.", { tamanho: "6" }],
     ["oooiiiiiix", [6, 9], "dados[6] == dados[9]? A ≠ X: sai do while com <b>tamanho = 6</b>.", {}],
-    ["gggiiiiii.", null, "tamanho ≥ 3: distancia = 3 − 0 = <b>3</b>. Grava (volte 3, copie 6) e i pula para 9.", { distancia: "3", i: "9", saida: "[A, B, C, (3, 6)]" }],
-    ["gggiiiiiig", null, "i = 9: sobra só o X, menos de 3 letras. Cai no else: X vira literal. Fim.", { i: "10", saida: "[A, B, C, (3, 6), X]" }],
+    ["gggiiiiii.", null, "tamanho ≥ 3: distancia = 3 − 0 = <b>3</b>. Grava (volte 3, copie 6). Depois, i += 6.", { distancia: "3", saida: "[A, B, C, (3, 6)]" }],
+    ["gggiiiiiig", null, "i = 9: sobra só o X, menos de 3 letras, então nem procura. X vira literal. i vai para 10: fim.", { i: "9", trecho: "", candidato: "", tamanho: "", distancia: "", saida: "[A, B, C, (3, 6), X]" }],
   ].map(([casas, ponteiros, texto, mudou]) => {
     variaveis = { ...variaveis, ...mudou };
     return [casas, ponteiros, texto, variaveis, Object.keys(mudou)];

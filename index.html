@@ -125,16 +125,17 @@
       "startTime": 80,
       "endTime": 88,
       "fragments": [
-        80.7,
-        81.4,
-        82.1,
-        82.8,
-        83.5,
-        84.2,
-        84.9,
-        85.6,
-        86.3,
-        87.0
+        80.65,
+        81.3,
+        81.95,
+        82.6,
+        83.25,
+        83.9,
+        84.55,
+        85.2,
+        85.85,
+        86.5,
+        87.15
       ]
     },
     {
@@ -255,16 +256,16 @@ for bit in bits:
 
     <section class="slide" data-scene-id="lz77-tokens" data-start="80" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 no código">
       <div class="clip slide-inner" data-start="80" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">LZ77 em ação · o código</p><h2>A mesma execução, linha por linha.</h2></header><div class="execution-lab"><pre class="code-panel execution-code tree-code codigo-lz" data-anim><code>while i &lt; len(dados):
-<span data-code-step="1 4">    trecho = dados[i:i + 3]
+<span data-code-step="1 5">    trecho = dados[i:i + 3]
     candidato = dados.rfind(
-        trecho, inicio, i)</span><span data-code-step="5 6 7 8">    while (tamanho &lt; 18 and
+        trecho, inicio, i)</span><span data-code-step="6 7 8 9">    while (tamanho &lt; 18 and
            dados[candidato + tamanho]
            == dados[i + tamanho]):
         tamanho += 1</span>    if melhor_tamanho &gt;= 3:
-<span data-code-step="9">        distancia = i - melhor_pos
+<span data-code-step="10">        distancia = i - melhor_pos
         i += melhor_tamanho</span>    else:
-<span data-code-step="2 3 10">        saida.append(dados[i])
-        i += 1</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>lz77_compactar</code><span>entrada ABCABCABCX</span></div><div class="lz-grid codigo" style="--n: 10" data-lz-demo="codigo" data-etapas="10"><b class="ptr ler" aria-hidden="true"></b><b class="ptr escrever" aria-hidden="true"></b><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><span data-hex="9">X</span></div><dl class="lz-vars"><div><dt>i</dt><dd data-var="i"></dd></div><div><dt>trecho</dt><dd data-var="trecho"></dd></div><div><dt>candidato</dt><dd data-var="candidato"></dd></div><div><dt>tamanho</dt><dd data-var="tamanho"></dd></div><div><dt>distancia</dt><dd data-var="distancia"></dd></div><div class="largo"><dt>saida</dt><dd data-var="saida"></dd></div></dl><p class="lz-note lz-status ref"></p></div></div></div>
+<span data-code-step="2 3 4 11">        saida.append(dados[i])
+        i += 1</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>lz77_compactar</code><span>entrada ABCABCABCX</span></div><div class="lz-grid codigo" style="--n: 10" data-lz-demo="codigo" data-etapas="11"><b class="ptr ler" aria-hidden="true"></b><b class="ptr escrever" aria-hidden="true"></b><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><span data-hex="9">X</span></div><dl class="lz-vars"><div><dt>i</dt><dd data-var="i"></dd></div><div><dt>trecho</dt><dd data-var="trecho"></dd></div><div><dt>candidato</dt><dd data-var="candidato"></dd></div><div><dt>tamanho</dt><dd data-var="tamanho"></dd></div><div><dt>distancia</dt><dd data-var="distancia"></dd></div><div class="largo"><dt>saida</dt><dd data-var="saida"></dd></div></dl><p class="lz-note lz-status ref"></p></div></div></div>
     </section>
 
     <section class="slide" data-scene-id="lz77-bytes" data-start="88" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 de volta">
