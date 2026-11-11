@@ -146,15 +146,15 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 **Slide 11: LZ77 no código** (avance 11 vezes, uma volta do laço por clique; à esquerda, a linha que está rodando em `lz77_compactar`; à direita, a mesma execução do slide 10 e as variáveis, com a que mudou em amarelo)
 
-> Agora a mesma execução, só que dentro do nosso código. Reparem nas variáveis mudando. O `i` é a casa que está sendo analisada.
+> Agora a mesma execução, só que dentro do nosso código. É uma versão simplificada: o código real testa até 8 lugares onde o trecho apareceu e fica com a cópia mais longa, mas a lógica é esta. Reparem nas variáveis mudando. O `i` é a casa que está sendo analisada.
 
-> (1) Com i igual a 0, `trecho` pega as 3 letras a partir dali, ABC, e o `rfind` procura esse trecho antes da casa 0. Não acha: `candidato` vale −1.
+> (1) Com i igual a 0, `inicio` diz até onde ele pode olhar para trás: no máximo 4.095 casas, e aqui é 0. `trecho` pega as 3 letras a partir de i, ABC, e o `rfind` procura esse trecho entre `inicio` e i. Não acha: `candidato` vale −1.
 
-> (2) Como não achou, cai no `else`: o A vai para a `saida` como literal, e i anda uma casa.
+> (2) Como não achou, o `tamanho` fica 0 e cai no `else`: o A vai para a `saida` como literal, e i anda uma casa.
 
 > (3) Com i igual a 1, o trecho é BCA, que não aparece antes: B vira literal. (4) Com i igual a 2, o trecho é CAB, que também não aparece: C vira literal. A saída está em A, B, C.
 
-> (5) Com i igual a 3, o trecho é ABC de novo, e agora o `rfind` acha na casa 0: `candidato` vale 0. O `tamanho` começa em 3, o mínimo.
+> (5) Com i igual a 3, o trecho é ABC de novo, e agora o `rfind` acha na casa 0: `candidato` vale 0. Como achou, o `tamanho` começa em 3, o mínimo.
 
 > (6) O `while` estica: compara `dados[candidato + tamanho]` com `dados[i + tamanho]`, ou seja, casa 3 com casa 6. A igual a A: `tamanho` vira 4. (7) Casa 4 com 7: vira 5. (8) Casa 5 com 8: vira 6.
 
@@ -162,7 +162,7 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > (10) Como o tamanho é pelo menos 3, vira referência: `distancia` é i menos `candidato`, 3 menos 0, igual a 3. A saída ganha a instrução (3, 6), e i pula 6 casas.
 
-> (11) Com i igual a 9 sobra só o X, menos de 3 letras, então ele nem procura: cai no `else` e o X vira literal. i vai para 10 e o laço acaba. Dez letras viraram 4 literais e 1 instrução. No código real ele ainda testa até 8 lugares diferentes onde o trecho apareceu e fica com a cópia mais longa.
+> (11) Com i igual a 9 o trecho é só o X, que não aparece antes: cai no `else` e o X vira literal. i vai para 10 e o laço acaba. Dez letras viraram 4 literais e 1 instrução.
 
 > Ponte para o slide 12: "O texto virou literais e referências. Mas, na volta, como o programa sabe o que é cada peça?"
 

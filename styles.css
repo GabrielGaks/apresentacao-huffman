@@ -223,10 +223,12 @@ svg .edge { fill: var(--accent); font-size: 20px; }
 .ptr.ler { background: var(--warning); color: var(--bg); border-color: var(--warning); }
 .ptr.escrever { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 .copiando .ptr { opacity: 1; }
-.codigo-lz { font-size: 18px; line-height: 1.4; }
+.codigo-lz { padding: 26px 30px; font-size: 16px; line-height: 1.35; }
+.codigo-lz span { margin: 4px -14px; }
+.lz-vars { grid-template-columns: repeat(6, 1fr); }
 .lz-grid.codigo { position: relative; margin-top: 56px; }
 .lz-grid.codigo span { height: 80px; font-size: 34px; transition: color .2s, border-color .2s, background .2s; }
-.lz-vars { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 18px 0 12px; }
+.lz-vars { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 18px 0 12px; }
 .lz-vars div { padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: #101512; }
 .lz-vars .largo { grid-column: 1 / -1; }
 .lz-vars dt { color: var(--muted); font: 13px var(--mono); }
