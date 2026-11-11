@@ -301,7 +301,6 @@ svg .edge { fill: var(--accent); font-size: 20px; }
 .demo-steps b { font-size: 28px; }
 .demo-steps span { margin-top: 10px; color: var(--muted); font-size: 19px; }
 .demo-address { align-self: center; display: flex; align-items: center; gap: 16px; margin-bottom: 12px; color: var(--accent); font-size: 25px; }
-.demo-address b { padding-left: 16px; border-left: 1px solid var(--border); color: var(--muted); font-size: 16px; font-weight: 400; }
 .live-dot { animation: livePulse 1.6s ease-out infinite; }
 
 @keyframes bitDrift { to { translate: 22px 0; } }
@@ -317,8 +316,6 @@ svg .edge { fill: var(--accent); font-size: 20px; }
 .takeaways span { margin-top: 8px; color: var(--muted); font-size: 21px; }
 .questions { justify-content: center; align-items: flex-start; }
 .questions h2 { font-size: clamp(110px, 11cqw, 210px); }
-.question-cloud { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 60px; max-width: 1250px; }
-.question-cloud span { padding: 16px 22px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: 22px; }
 
 #controls { position: fixed; z-index: 30; left: 50%; bottom: 24px; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; padding: 6px; border: 1px solid var(--border); border-radius: 999px; background: rgba(21, 27, 24, .9); }
 #controls button { width: 48px; height: 48px; border: 0; border-radius: 50%; background: transparent; font-size: 22px; cursor: pointer; }
