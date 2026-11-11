@@ -124,13 +124,15 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 > (2) A, B e C nunca apareceram antes, então ele guarda como estão.
 
-> (3) Na casa 3, ele pega as próximas 3 letras, ABC, e procura para trás. Achou, 3 casas antes. Já daria para dizer "volte 3, copie 3".
+> (3) Agora ele está na casa 3. Ele pega as 3 letras a partir dali, as casas 3, 4 e 5, que formam ABC, e procura esse pedaço para trás. Achou nas casas 0, 1 e 2, exatamente 3 casas antes. Então existe repetição, e já daria para dizer "volte 3, copie 3". Ele procura 3 letras de uma vez porque menos que isso não compensa: a instrução também ocupa espaço.
 
-> (4) Mas ele ainda não grava. Continua comparando, uma letra por vez: o ponteiro "atual" olha a casa 6 e o "anterior" olha a casa 3. A é igual a A? É. Copie 4.
+> (4) Mas ele ainda não grava, porque não sabe até onde a repetição vai. Então ele estica, uma letra por vez, sempre comparando com a letra 3 casas atrás. A casa 6 é comparada com a casa 3: A igual a A. Copie 4.
 
-> (5) B igual a B: copie 5. (6) C igual a C: copie 6.
+> (5) Casa 7 com a casa 4: B igual a B. Copie 5. (6) Casa 8 com a casa 5: C igual a C. Copie 6.
 
-> (7) X é igual a A? Não. A repetição quebrou. Só agora ele grava, e grava uma instrução só: volte 3, copie 6.
+> Por que de uma em uma, e não de 3 em 3? Porque a repetição pode acabar no meio de um bloco. Se ele comparasse de 3 em 3, perderia as letras iguais antes da diferença.
+
+> (7) Casa 9 com a casa 6: X é igual a A? Não. A repetição quebrou. Só agora ele grava, e grava uma instrução só: volte 3, copie 6.
 
 > (8) O X não se repete, então é guardado como está. O arquivo fica: A, B, C, a instrução e o X.
 
