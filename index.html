@@ -102,22 +102,9 @@
       "startTime": 72,
       "endTime": 80,
       "fragments": [
-        72.45,
-        72.9,
-        73.35,
-        73.8,
-        74.25,
-        74.7,
-        75.15,
-        75.6,
-        76.05,
-        76.5,
-        76.95,
-        77.4,
-        77.85,
-        78.3,
-        78.75,
-        79.2
+        73.5,
+        75.0,
+        76.5
       ]
     },
     {
@@ -143,10 +130,19 @@
       "startTime": 88,
       "endTime": 96,
       "fragments": [
-        89.5,
-        91.0,
-        92.5,
-        94.0
+        88.54,
+        89.08,
+        89.62,
+        90.15,
+        90.69,
+        91.23,
+        91.77,
+        92.31,
+        92.85,
+        93.38,
+        93.92,
+        94.46,
+        95.0
       ]
     },
     {
@@ -251,11 +247,11 @@ for bit in bits:
     </section>
 
     <section class="slide" data-scene-id="lz77-ideia" data-start="72" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="O limite do Huffman">
-      <div class="clip slide-inner" data-start="72" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">O limite do Huffman</p><h2>Huffman vê letras. Não vê trechos repetidos.</h2></header><div class="lz-grid wide" style="--n: 10" data-anim data-lz-demo="limite" data-etapas="16"><b class="ptr ler" aria-hidden="true"></b><b class="ptr escrever" aria-hidden="true"></b><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><span data-hex="9">X</span></div><div class="limit-notes"><p class="lz-note lz-status ref" data-anim></p><p class="lz-note" data-step="1"><code>Huffman</code> A, B e C 3 vezes, X 1 vez: 2 bits por letra = <b>20 bits</b>, pagando letra por letra.</p></div><p class="bottom-claim" data-step="8">Huffman explora <strong>frequência</strong>. LZ77 explora <strong>repetição</strong>.</p></div>
+      <div class="clip slide-inner" data-start="72" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">O limite do Huffman</p><h2>Huffman vê letras. Não vê trechos repetidos.</h2></header><div class="compare-lz"><article data-step="1"><small>Huffman</small><h3>Olha letra por letra</h3><p>Conta quantas vezes cada letra aparece e dá o código mais curto para a mais frequente.</p><p class="limite">Toda letra custa pelo menos 1 bit, mesmo numa frase repetida 200 vezes.</p></article><article class="lz" data-step="2"><small>LZ77 · Lempel e Ziv, 1977</small><h3>Olha trechos</h3><p>Se um pedaço já apareceu antes, não escreve de novo: grava uma instrução <b>volte X, copie Y</b>.</p><p class="limite">Até 18 letras viram uma instrução de 2 bytes.</p></article></div><p class="bottom-claim" data-step="3">Huffman explora <strong>frequência</strong>. LZ77 explora <strong>repetição</strong>. O ZIP usa os dois juntos.</p></div>
     </section>
 
-    <section class="slide" data-scene-id="lz77-tokens" data-start="80" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 no código">
-      <div class="clip slide-inner" data-start="80" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">LZ77 em ação · o código</p><h2>A mesma execução, linha por linha.</h2></header><div class="execution-lab"><pre class="code-panel execution-code tree-code codigo-lz" data-anim><code>while i &lt; len(dados):
+    <section class="slide" data-scene-id="lz77-tokens" data-start="80" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 compactando">
+      <div class="clip slide-inner" data-start="80" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">LZ77 em ação · compactando</p><h2>Achou o trecho antes? Vira instrução.</h2></header><div class="execution-lab"><pre class="code-panel execution-code tree-code codigo-lz" data-anim><code>while i &lt; len(dados):
 <span data-code-step="1 5">    inicio = max(0, i - 4095)
     trecho = dados[i:i + 3]
     candidato = dados.rfind(
@@ -270,13 +266,17 @@ for bit in bits:
         i += 1</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>lz77_compactar</code><span>entrada ABCABCABCX</span></div><div class="lz-grid codigo" style="--n: 10" data-lz-demo="codigo" data-etapas="11"><b class="ptr ler" aria-hidden="true"></b><b class="ptr escrever" aria-hidden="true"></b><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><span data-hex="9">X</span></div><dl class="lz-vars"><div><dt>i</dt><dd data-var="i"></dd></div><div><dt>inicio</dt><dd data-var="inicio"></dd></div><div><dt>trecho</dt><dd data-var="trecho"></dd></div><div><dt>candidato</dt><dd data-var="candidato"></dd></div><div><dt>tamanho</dt><dd data-var="tamanho"></dd></div><div><dt>distancia</dt><dd data-var="distancia"></dd></div><div class="largo"><dt>saida</dt><dd data-var="saida"></dd></div></dl><p class="lz-note lz-status ref"></p></div></div></div>
     </section>
 
-    <section class="slide" data-scene-id="lz77-bytes" data-start="88" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 de volta">
-      <div class="clip slide-inner" data-start="88" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">LZ77 em ação · descompactar</p><h2>Um byte de controle diz o que é cada peça.</h2></header><div class="execution-lab"><pre class="code-panel execution-code tree-code" data-anim><code><span data-code-step="1">flags = tokens[i]</span><span data-code-step="3">if flags &amp; (1 &lt;&lt; (7 - bit)):
-    distancia = ((tokens[i] &lt;&lt; 4)
-                 | (tokens[i + 1] &gt;&gt; 4))
-    tamanho = (tokens[i + 1] &amp; 15) + 3</span><span data-code-step="4">    for _ in range(tamanho):
-        saida.append(saida[-distancia])</span>else:
-<span data-code-step="2">    saida.append(tokens[i])</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>lz77_descompactar</code><span>7 bytes</span></div><div class="lz-bytes"><p class="ctrl"><b>10</b><small>controle</small></p><p><b>41</b><small>A</small></p><p><b>42</b><small>B</small></p><p><b>43</b><small>C</small></p><p class="ref"><b>00 33</b><small>referência</small></p><p><b>58</b><small>X</small></p></div><p class="lz-note" data-step="1"><code>10</code> = 0001 0000: só a <b>4ª peça</b> é referência; o X é literal</p><p class="lz-note" data-step="3"><code>00 33</code> → distância <b>3</b>, tamanho 3 + 3 = <b>6</b></p><div class="lz-grid out" style="--n: 10"><span data-step="2" data-pop>A</span><span data-step="2" data-pop>B</span><span data-step="2" data-pop>C</span><span data-step="4" data-pop>A</span><span data-step="4" data-pop>B</span><span data-step="4" data-pop>C</span><span data-step="4" data-pop>A</span><span data-step="4" data-pop>B</span><span data-step="4" data-pop>C</span><span data-step="4" data-pop>X</span></div><p class="state-output" data-step="4"><span>saída</span><code>ABCABCABCX ✓ 7 bytes viraram 10</code></p></div></div></div>
+    <section class="slide" data-scene-id="lz77-bytes" data-start="88" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 abrindo o arquivo">
+      <div class="clip slide-inner" data-start="88" data-duration="8" data-track-index="1"><header data-anim><p class="kicker">LZ77 em ação · abrindo o arquivo</p><h2>Um byte de controle diz o que é cada peça.</h2></header><div class="execution-lab"><pre class="code-panel execution-code tree-code codigo-lz" data-anim><code><span data-code-step="13">while i &lt; len(tokens):</span><span data-code-step="1">    flags = tokens[i]
+    i += 1</span>    for bit in range(8):
+<span data-code-step="5">        if flags &amp; (1 &lt;&lt; (7 - bit)):
+            distancia = ((tokens[i] &lt;&lt; 4)
+                         | (tokens[i + 1] &gt;&gt; 4))
+            tamanho = (tokens[i + 1] &amp; 15) + 3
+            i += 2</span><span data-code-step="6 7 8 9 10 11">            for _ in range(tamanho):
+                saida.append(saida[-distancia])</span>        else:
+<span data-code-step="2 3 4 12">            saida.append(tokens[i])
+            i += 1</span></code></pre><div class="scan-stage" data-anim><div class="runtime-label"><i></i><code>lz77_descompactar</code><span>7 bytes</span></div><div class="lz-bytes lz-bytes-demo"><p class="ctrl"><b>10</b><small>controle</small></p><p><b>41</b><small>A</small></p><p><b>42</b><small>B</small></p><p><b>43</b><small>C</small></p><p class="ref"><b>00 33</b><small>referência</small></p><p><b>58</b><small>X</small></p></div><div class="lz-grid codigo" style="--n: 10" data-lz-demo="volta" data-etapas="13"><b class="ptr ler" aria-hidden="true"></b><b class="ptr escrever" aria-hidden="true"></b><span data-hex="0">A</span><span data-hex="1">B</span><span data-hex="2">C</span><span data-hex="3">A</span><span data-hex="4">B</span><span data-hex="5">C</span><span data-hex="6">A</span><span data-hex="7">B</span><span data-hex="8">C</span><span data-hex="9">X</span></div><dl class="lz-vars cinco"><div><dt>i</dt><dd data-var="i"></dd></div><div><dt>flags</dt><dd data-var="flags"></dd></div><div><dt>bit</dt><dd data-var="bit"></dd></div><div><dt>distancia</dt><dd data-var="distancia"></dd></div><div><dt>tamanho</dt><dd data-var="tamanho"></dd></div></dl><p class="lz-note lz-status ref"></p></div></div></div>
     </section>
 
     <section class="slide" data-scene-id="combinacao" data-start="96" data-duration="8" data-width="1920" data-height="1080" data-person="Gabriel Aguiar" data-title="LZ77 mais Huffman">

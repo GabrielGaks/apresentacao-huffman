@@ -65,27 +65,7 @@ function atualizarEtapas(slide) {
   mostrarLz(slide);
 }
 
-// Slide 10: o LZ77 compactando (compara) e abrindo o arquivo (copia), um passo por clique.
-// Cada passo: [estado das 10 casas, ponteiros [anterior, atual] ou null, texto].
-// g = guardada como está, o = trecho que já tinha aparecido, i = coberta pela instrução, x = diferente, v = ainda vazia.
-const PASSOS_LZ = [
-  ["..........", null, "ABCABCABCX: o bloco ABC se repete e o X, no fim, quebra a repetição."],
-  ["..........", null, "ABCABCABCX: o bloco ABC se repete e o X, no fim, quebra a repetição."],
-  ["ggg.......", null, "Lê da esquerda para a direita. A, B e C ainda não tinham aparecido: guarda como estão."],
-  ["oooiii....", null, "Casa 3: as próximas 3 letras, ABC, já apareceram 3 casas antes. <b>Volte 3, copie 3</b>."],
-  ["oooiiii...", [3, 6], "Ainda não grava. Compara a próxima: A = A. <b>Volte 3, copie 4</b>."],
-  ["oooiiiii..", [4, 7], "B = B. <b>Volte 3, copie 5</b>."],
-  ["oooiiiiii.", [5, 8], "C = C. <b>Volte 3, copie 6</b>."],
-  ["oooiiiiiix", [6, 9], "X ≠ A: a repetição quebrou. Só agora grava uma instrução: <b>volte 3, copie 6</b>."],
-  ["gggiiiiiig", null, "O X não se repete: guarda como está. Arquivo: A, B, C, <b>volte 3, copie 6</b>, X."],
-  ["gggvvvvvvv", [0, 3], "A, B e C já estão lá. Para a instrução, <b>lê</b> fica 3 casas atrás de <b>escreve</b>."],
-  ...[1, 2, 3, 4, 5, 6].map((k) => [
-    "ggg" + "i".repeat(k) + "v".repeat(7 - k),
-    k < 6 ? [k, 3 + k] : null,
-    k < 6 ? `Copiou ${"ABCABC"[k - 1]} (${k} de 6). Os dois andam uma casa.` : "Copiou 6 de 6: instrução cumprida.",
-  ]),
-  ["gggiiiiiig", null, "Depois da instrução vem o X, guardado como está. <b>ABCABCABCX</b> de volta ✓"],
-];
+// Estados das casas: g = guardada como está, o = trecho que já tinha aparecido, i = coberta pela instrução, x = diferente, v = ainda vazia.
 const CLASSE_CASA = { g: "guardada", o: "origem", i: "copiada", x: "diferente", v: "vazio" };
 
 // Slide 11: a mesma compactação do slide 10, com as variáveis do código. Cada passo só lista o que mudou.
@@ -109,29 +89,51 @@ const PASSOS_CODIGO = (() => {
     return [casas, ponteiros, texto, variaveis, Object.keys(mudou)];
   });
 })();
-const DEMOS_LZ = { limite: PASSOS_LZ, codigo: PASSOS_CODIGO };
+// Slide 12: abrindo o arquivo. Cada passo: [casas, ponteiros [lê, escreve], texto, o que mudou, bytes acesos].
+const PASSOS_VOLTA = (() => {
+  let variaveis = { i: "0", flags: "", bit: "", distancia: "", tamanho: "" };
+  const copias = [1, 2, 3, 4, 5, 6].map((k) => [
+    "ggg" + "i".repeat(k) + "v".repeat(7 - k), k < 6 ? [k, 3 + k] : null,
+    k < 6 ? `Copia saida[-3], a letra 3 casas atrás: ${"ABCABC"[k - 1]} (${k} de 6). Os dois ponteiros andam.` : "Copiou 6 de 6: instrução cumprida.",
+    {}, [4],
+  ]);
+  return [
+    ["vvvvvvvvvv", null, "Versão simplificada de lz77_descompactar. A saída começa vazia.", {}, []],
+    ["vvvvvvvvvv", null, "Lê o byte de controle: <b>10 = 0001 0000</b>. Cada bit diz o que é a próxima peça: 0 = letra, 1 = instrução.", { flags: "0001 0000" }, [0]],
+    ["gvvvvvvvvv", null, "bit 0 vale 0: é letra. Copia o byte 41 direto: <b>A</b>.", { i: "1", bit: "0" }, [1]],
+    ["ggvvvvvvvv", null, "bit 1 vale 0: letra <b>B</b>.", { i: "2", bit: "1" }, [2]],
+    ["gggvvvvvvv", null, "bit 2 vale 0: letra <b>C</b>.", { i: "3", bit: "2" }, [3]],
+    ["gggvvvvvvv", [0, 3], "bit 3 vale 1: é instrução. Lê 00 33: <b>distancia 3, tamanho 3 + 3 = 6</b>.", { i: "4", bit: "3", distancia: "3", tamanho: "6" }, [4]],
+    ...copias,
+    ["gggiiiiiig", null, "bit 4 vale 0: letra <b>X</b> (byte 58).", { i: "6", bit: "4" }, [5]],
+    ["gggiiiiiig", null, "Acabaram os bytes: fim. <b>ABCABCABCX</b> de volta ✓ 7 bytes viraram 10.", { i: "7" }, []],
+  ].map(([casas, ponteiros, texto, mudou, acesos]) => {
+    variaveis = { ...variaveis, ...mudou };
+    return [casas, ponteiros, texto, variaveis, Object.keys(mudou), acesos];
+  });
+})();
+const DEMOS_LZ = { codigo: PASSOS_CODIGO, volta: PASSOS_VOLTA };
 
 function mostrarLz(slide) {
   const grade = slide.querySelector("[data-lz-demo]");
   if (!grade) return;
   const demo = grade.dataset.lzDemo;
   const passos = DEMOS_LZ[demo];
-  const [casas, ponteiros, texto, variaveis, mudou] = passos[Math.min(etapa, passos.length - 1)];
+  const [casas, ponteiros, texto, variaveis, mudou, acesos = []] = passos[Math.min(etapa, passos.length - 1)];
   const celulas = [...grade.querySelectorAll("span")];
   celulas.forEach((celula, i) => {
     for (const classe of Object.values(CLASSE_CASA)) celula.classList.toggle(classe, CLASSE_CASA[casas[i]] === classe);
   });
-  const abrindo = demo === "limite" && etapa >= 9;
-  const rotulo = demo === "codigo" ? `passo ${etapa}` : etapa < 2 ? "exemplo" : abrindo ? "abrindo o arquivo" : "LZ77 compactando";
-  slide.querySelector(".lz-status").innerHTML = `<code>${rotulo}</code> ${texto}`;
+  slide.querySelector(".lz-status").innerHTML = `<code>passo ${etapa}</code> ${texto}`;
+  slide.querySelectorAll(".lz-bytes-demo p").forEach((byte, i) => byte.classList.toggle("atual", acesos.includes(i)));
   for (const campo of slide.querySelectorAll("[data-var]")) {
     const nome = campo.dataset.var;
     campo.textContent = variaveis[nome] || "–";
     campo.classList.toggle("mudou", mudou.includes(nome));
   }
   const [anterior, atual] = grade.querySelectorAll(".ptr");
-  anterior.textContent = abrindo ? "lê" : "anterior";
-  atual.textContent = abrindo ? "escreve" : "atual";
+  anterior.textContent = demo === "volta" ? "lê" : "anterior";
+  atual.textContent = demo === "volta" ? "escreve" : "atual";
   grade.classList.toggle("copiando", Boolean(ponteiros));
   if (!ponteiros) return;
   const apontar = (ponteiro, celula) => { ponteiro.style.translate = `${celula.offsetLeft + celula.offsetWidth / 2}px 0`; };

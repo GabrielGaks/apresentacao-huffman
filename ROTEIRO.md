@@ -9,7 +9,7 @@ Tempo: 26 a 29 minutos (o professor pede de 20 a 30), mais perguntas. Em cada sl
 | Pessoa 1 | 1 a 5 | O problema, onde é usado, a ideia e os quatro passos | 5 min |
 | Pessoa 2 | 6 e 7 | Huffman em ação: contar e montar a árvore | 3 min |
 | Pessoa 3 | 8 e 9 | Huffman em ação: empacotar e decodificar | 3 min |
-| Gabriel Aguiar | 10 a 13 | O limite do Huffman, o LZ77 em ação e os dois juntos | 6 min |
+| Gabriel Aguiar | 10 a 13 | O limite do Huffman, o LZ77 compactando e abrindo, e os dois juntos | 7 min |
 | Pessoa 4 | 14 a 17 | O programa e os resultados | 4 a 5 min |
 | Pessoa 5 | 18 a 20 | Demonstração ao vivo, conclusão e perguntas | 5 a 7 min |
 
@@ -114,69 +114,49 @@ As falas de passagem abaixo já carregam essas perguntas. Usem a frase de gancho
 
 ## Gabriel Aguiar (slides 10 a 13)
 
-**Slide 10: O limite do Huffman** (avance 16 vezes, um passo por clique; a caixa verde embaixo das letras acompanha cada passo)
+**Slide 10: O limite do Huffman** (avance 3 vezes)
 
-> Olhem este texto: ABC repetido três vezes e um X no final.
+> Esse é o limite do Huffman. Repare em como ele pensa.
 
-> (1) O Huffman conta: A, B e C aparecem 3 vezes, X uma vez. Cada letra ganha um código de 2 bits, e o texto cai para 20 bits. Mas ele paga letra por letra, as 10. Ele não percebe que o ABC se repete: para ele são só letras soltas.
+> (1) Ele olha letra por letra: conta quantas vezes cada uma aparece e dá o código mais curto para a mais frequente. Funciona muito bem, mas tem um limite: toda letra custa pelo menos 1 bit. Se o texto for a mesma frase repetida 200 vezes, ele vai pagar as 200 vezes, letra por letra. Ele não percebe que a frase se repete.
 
-> É aí que entra o LZ77, aquele do ZIP que citamos no começo. Ele foi criado em 1977 por Lempel e Ziv e é uma técnica separada do Huffman. Ele lê o texto da esquerda para a direita procurando pedaços que já apareceram.
+> (2) É aí que entra o LZ77, aquele do ZIP que citamos no começo. Ele foi criado em 1977 por Lempel e Ziv e é uma técnica separada do Huffman. Ele olha trechos: se um pedaço já apareceu antes, não escreve de novo. Grava uma instrução: "volte X casas e copie Y letras". Uma instrução ocupa 2 bytes e pode substituir até 18 letras de uma vez.
 
-> (2) A, B e C nunca apareceram antes, então ele guarda como estão.
+> (3) Ou seja: o Huffman explora frequência e o LZ77 explora repetição. Um não substitui o outro, e por isso o ZIP usa os dois juntos. Agora vamos ver o LZ77 funcionando, com o nosso código rodando ao lado.
 
-> (3) Agora ele está na casa 3. Ele pega as 3 letras a partir dali, as casas 3, 4 e 5, que formam ABC, e procura esse pedaço para trás. Achou nas casas 0, 1 e 2, exatamente 3 casas antes. Então existe repetição, e já daria para dizer "volte 3, copie 3". Ele procura 3 letras de uma vez porque menos que isso não compensa: a instrução também ocupa espaço.
+**Slide 11: LZ77 compactando** (avance 11 vezes; acompanhe pelo desenho: as casas, os ponteiros e as variáveis; a linha do código que está rodando fica destacada à esquerda)
 
-> (4) Mas ele ainda não grava, porque não sabe até onde a repetição vai. Então ele estica, uma letra por vez, sempre comparando com a letra 3 casas atrás. A casa 6 é comparada com a casa 3: A igual a A. Copie 4.
+> O exemplo é ABC repetido três vezes e um X no fim. Reparem no `i`: é a casa que o programa está olhando agora.
 
-> (5) Casa 7 com a casa 4: B igual a B. Copie 5. (6) Casa 8 com a casa 5: C igual a C. Copie 6.
+> (1 a 4) Em cada casa, ele pega as 3 letras a partir dali e procura esse pedaço para trás. Em A, B e C não acha nada, porque não existe nada antes: o `candidato` vale −1 e a letra vai para a saída como está.
 
-> Por que de uma em uma, e não de 3 em 3? Porque a repetição pode acabar no meio de um bloco. Se ele comparasse de 3 em 3, perderia as letras iguais antes da diferença.
+> (5) Na casa 3, as 3 letras são ABC, e agora ele acha esse pedaço na casa 0. As casas amarelas são de onde vem a cópia; as verdes, o que vai ser coberto. Ele procura 3 letras de uma vez porque menos que isso não compensa: a instrução também ocupa espaço.
 
-> (7) Casa 9 com a casa 6: X é igual a A? Não. A repetição quebrou. Só agora ele grava, e grava uma instrução só: volte 3, copie 6.
+> (6 a 8) Mas ele ainda não grava, porque não sabe até onde a repetição vai. Então estica, uma letra por vez. Olhem os ponteiros: o "atual" compara com o "anterior", que está sempre 3 casas atrás. A igual a A, B igual a B, C igual a C, e o `tamanho` sobe para 4, 5 e 6. Ele vai de uma em uma porque a repetição pode acabar no meio de um bloco.
 
-> (8) O X não se repete, então é guardado como está. O arquivo fica: A, B, C, a instrução e o X.
+> (9) O X é diferente do A: a repetição quebrou e o `tamanho` para em 6.
 
-> (9) E na hora de abrir o arquivo? A, B e C já estão lá. Para a instrução, o ponteiro "lê" fica 3 casas atrás do "escreve".
+> (10) Só agora ele grava, e grava uma instrução só: `distancia` 3, `tamanho` 6, ou seja, volte 3, copie 6. O `i` pula as 6 casas de uma vez.
 
-> (10 a 15) A cada clique, ele copia a letra de "lê" para "escreve" e os dois andam uma casa. Repare que a partir da quarta cópia ele está copiando letras que ele mesmo acabou de escrever. É assim que voltar 3 casas dá para copiar 6 letras.
+> (11) Sobra o X, que não aparece antes: vai como está. Dez letras viraram 3 letras, uma instrução e mais uma letra. Esta é uma versão simplificada do nosso código; o real ainda testa até 8 lugares onde o trecho apareceu e fica com a cópia mais longa.
 
-> (16) Depois da instrução vem o X. O texto voltou inteiro, e as 6 letras do meio nunca foram guardadas no arquivo, só a instrução.
+> Ponte para o slide 12: "O arquivo virou letras e instruções misturadas. Mas, na volta, como o programa sabe o que é cada peça?"
 
-> Num texto tão pequeno, a instrução ainda custa espaço. A vantagem aparece em texto grande e repetitivo, como vamos ver nos resultados. Ou seja: o Huffman explora frequência; o LZ77 explora repetição. Agora vamos ver isso no código.
+**Slide 12: LZ77 abrindo o arquivo** (avance 13 vezes; em cima, os 7 bytes do arquivo, com o que está sendo lido aceso; embaixo, o texto sendo remontado)
 
-**Slide 11: LZ77 no código** (avance 11 vezes, uma volta do laço por clique; à esquerda, a linha que está rodando em `lz77_compactar`; à direita, a mesma execução do slide 10 e as variáveis, com a que mudou em amarelo)
+> O arquivo do ABCABCABCX tem só estes 7 bytes.
 
-> Agora a mesma execução, só que dentro do nosso código. É uma versão simplificada: o código real testa até 8 lugares onde o trecho apareceu e fica com a cópia mais longa, mas a lógica é esta. Reparem nas variáveis mudando. O `i` é a casa que está sendo analisada.
+> (1) O primeiro é um byte de controle, 10 em hexadecimal, que em bits é 0001 0000. Cada bit diz o que é a próxima peça: 0 é letra, 1 é instrução. No código, é o `flags`.
 
-> (1) Com i igual a 0, `inicio` diz até onde ele pode olhar para trás: no máximo 4.095 casas, e aqui é 0. `trecho` pega as 3 letras a partir de i, ABC, e o `rfind` procura esse trecho entre `inicio` e i. Não acha: `candidato` vale −1. Então `tamanho` recebe 0 e o `if candidato >= 0` é falso.
+> (2 a 4) Bit 0, bit 1 e bit 2 valem 0: são letras. O programa copia os bytes direto: A, B e C aparecem na saída.
 
-> (2) Como `tamanho` é 0, menor que 3, cai no `else`: o A vai para a `saida` como literal, e i anda uma casa.
+> (5) O bit 3 vale 1: é instrução. Ele lê os dois bytes 00 e 33 e tira deles a `distancia`, 3, e o `tamanho`, 3 mais 3, igual a 6. É o "volte 3, copie 6".
 
-> (3) Com i igual a 1, o trecho é BCA, que não aparece antes: B vira literal. (4) Com i igual a 2, o trecho é CAB, que também não aparece: C vira literal. A saída está em A, B, C.
+> (6 a 11) Agora a cópia. Olhem os ponteiros: o "lê" fica 3 casas atrás do "escreve". A cada clique, a letra do "lê" é copiada para o "escreve" e os dois andam uma casa. Repare que a partir da quarta cópia ele está copiando letras que ele mesmo acabou de escrever: é assim que voltar 3 casas dá para copiar 6 letras. No código, é só `saida.append(saida[-distancia])`, repetido 6 vezes.
 
-> (5) Com i igual a 3, o trecho é ABC de novo, e agora o `rfind` acha na casa 0: `candidato` vale 0. Como achou, o `tamanho` começa em 3, o mínimo.
+> (12) O bit 4 vale 0: o último byte, 58, é a letra X.
 
-> (6) O `while` estica: compara `dados[candidato + tamanho]` com `dados[i + tamanho]`, ou seja, casa 3 com casa 6. A igual a A: `tamanho` vira 4. (7) Casa 4 com 7: vira 5. (8) Casa 5 com 8: vira 6.
-
-> (9) Casa 6 com casa 9: A com X. Diferente, então sai do `while` com `tamanho` 6.
-
-> (10) Como o tamanho é pelo menos 3, vira referência: `distancia` é i menos `candidato`, 3 menos 0, igual a 3. A saída ganha a instrução (3, 6), e i pula 6 casas.
-
-> (11) Com i igual a 9 o trecho é só o X, que não aparece antes: cai no `else` e o X vira literal. i vai para 10 e o laço acaba. Dez letras viraram 4 literais e 1 instrução.
-
-> Ponte para o slide 12: "O texto virou literais e referências. Mas, na volta, como o programa sabe o que é cada peça?"
-
-**Slide 12: LZ77 de volta** (avance 4 vezes; código de `lz77_descompactar`)
-
-> Cada peça precisa de uma etiqueta. As peças do ABCABCABCX viram estes bytes: 10, 41, 42, 43, 00, 33, 58.
-
-> 1. O primeiro byte é de controle. Cada bit diz o que é cada uma das próximas 8 peças: 0 é literal, 1 é referência. 10 em hexadecimal é 0001 0000: só a quarta peça é referência; a quinta, o X, é literal. O código testa isso com `flags & (1 << (7 - bit))`.
-
-> 2. Bit 0: `saida.append(tokens[i])`, copia o byte direto. Saem A, B e C (e, no fim, o X, que é o byte 58).
-
-> 3. Bit 1: a referência ocupa 2 bytes, 00 e 33. Os 12 primeiros bits são a distância, até 4.095, e os 4 últimos são o tamanho menos 3, por isso o tamanho vai de 3 a 18. Aqui: distância 3, tamanho 3 mais 3, igual a 6. Menos de 3 não compensa, porque a referência já gasta 2 bytes.
-
-> 4. O for copia `saida[-distancia]` seis vezes: sempre a letra 3 posições atrás, inclusive as que acabou de escrever. Depois vem o X. Volta ABCABCABCX: sete bytes viraram dez.
+> (13) Acabaram os bytes. O texto voltou inteiro: 7 bytes viraram 10 letras, e as 6 do meio nunca estiveram no arquivo, só a instrução.
 
 **Slide 13: Primeiro repetição, depois frequência**
 
